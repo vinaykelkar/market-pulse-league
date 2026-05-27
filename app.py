@@ -10,10 +10,16 @@ def home():
 
 @app.route("/equity")
 def equity():
-    from services.market_data import get_latest_market_data
+    from services.market_data import get_latest_market_data, get_sector_heatmap_data
 
     market_data = get_latest_market_data()
-    return render_template("equity.html", market_data=market_data)
+    sector_heatmap = get_sector_heatmap_data()
+
+    return render_template(
+        "equity.html",
+        market_data=market_data,
+        sector_heatmap=sector_heatmap
+    )
 
 
 @app.route("/mutual-funds")
