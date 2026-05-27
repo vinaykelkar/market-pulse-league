@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="equity-dashboard-section">
+
+    <div class="container">
+
+        <div class="dashboard-header mb-4">
+            <p class="section-eyebrow">EQUITY DASHBOARD</p>
+            <h1 class="dashboard-title">Market Pulse</h1>
+            <p class="dashboard-subtitle">
+                A macro-aware snapshot of Indian equity market conditions.
+            </p>
+        </div>
+
+        <!-- Market Mood Meter -->
+        <div class="market-mood-meter mb-4">
+
+            <div class="mood-left">
+                <p class="mood-small-label">MARKET MOOD</p>
+                <h2 class="compact-mood-title">Bullish with Macro Caution</h2>
+            </div>
+
+            <div class="mood-center">
+                <div class="mood-bar-wrapper">
+                    <div class="mood-bar">
+                        <div class="mood-fill"></div>
+                    </div>
+
+                    <div class="mood-indicators">
+                        <span>Bearish</span>
+                        <span>Neutral</span>
+                        <span>Bullish</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mood-right">
+                <div class="compact-score"
+                     title="Positive: Nifty, Bank Nifty, VIX, FII | Caution: Crude, USD/INR, US 10Y rising">
+                    78<span>/100</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Primary Market Cards -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-3 col-md-6">
+                <div class="pulse-card primary-card">
+                    <span class="pulse-label">NIFTY 50</span>
+                    <h2 class="pulse-value">24,850.20</h2>
+                    <p class="pulse-change positive">▲ +1.24%</p>
+                    <p class="pulse-note">Bullish momentum</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="pulse-card primary-card">
+                    <span class="pulse-label">BANK NIFTY</span>
+                    <h2 class="pulse-value">55,200.75</h2>
+                    <p class="pulse-change positive">▲ +0.84%</p>
+                    <p class="pulse-note">Banking strength intact</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="pulse-card primary-card">
+                    <span class="pulse-label">INDIA VIX</span>
+                    <h2 class="pulse-value">13.82</h2>
+                    <p class="pulse-change positive">▼ -3.20%</p>
+                    <p class="pulse-note">Fear cooling down</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="pulse-card primary-card">
+                    <span class="pulse-label">FII FLOW</span>
+                    <h2 class="pulse-value">₹ +2,430 Cr</h2>
+                    <p class="pulse-change positive">Net Buyers</p>
+                    <p class="pulse-note">Foreign sentiment supportive</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sector Heatmap -->
+        <div class="section-block mb-4">
+
+            <div class="section-block-header">
+                <div>
+                    <p class="section-eyebrow small-eyebrow">SECTOR HEATMAP</p>
+                    <h2 class="section-title">Where is money moving?</h2>
+                </div>
+                <span class="section-tag">Demo data</span>
+            </div>
+
+            <div class="heatmap-grid">
+
+                <div class="heatmap-tile strong-positive large-tile">
+                    <span>Banking</span>
+                    <strong>+2.10%</strong>
+                </div>
+
+                <div class="heatmap-tile negative">
+                    <span>IT</span>
+                    <strong>-1.20%</strong>
+                </div>
+
+                <div class="heatmap-tile positive">
+                    <span>Auto</span>
+                    <strong>+0.90%</strong>
+                </div>
+
+                <div class="heatmap-tile neutral">
+                    <span>FMCG</span>
+                    <strong>+0.15%</strong>
+                </div>
+
+                <div class="heatmap-tile positive">
+                    <span>Pharma</span>
+                    <strong>+0.62%</strong>
+                </div>
+
+                <div class="heatmap-tile negative">
+                    <span>Metals</span>
+                    <strong>-0.74%</strong>
+                </div>
+
+                <div class="heatmap-tile strong-positive">
+                    <span>Realty</span>
+                    <strong>+1.85%</strong>
+                </div>
+
+                <div class="heatmap-tile neutral">
+                    <span>Energy</span>
+                    <strong>-0.05%</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Secondary Macro Strip -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-lg-3 col-md-6">
+                <div class="macro-strip-card">
+                    <span>DII FLOW</span>
+                    <strong>₹ +1,120 Cr</strong>
+                    <small class="positive">Net Buyers</small>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="macro-strip-card">
+                    <span>BRENT CRUDE</span>
+                    <strong>$82.40</strong>
+                    <small class="negative">▲ +1.84%</small>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="macro-strip-card">
+                    <span>USD / INR</span>
+                    <strong>₹83.12</strong>
+                    <small class="negative">Rupee weakening</small>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="macro-strip-card">
+                    <span>US 10Y YIELD</span>
+                    <strong>4.32%</strong>
+                    <small class="negative">Risk pressure</small>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Market Activity Strip -->
+        <div class="section-block mb-4">
+
+            <div class="section-block-header">
+                <div>
+                    <p class="section-eyebrow small-eyebrow">MARKET ACTIVITY</p>
+                    <h2 class="section-title">Stocks in focus</h2>
+                </div>
+            </div>
+
+            <div class="activity-grid">
+
+                <div class="activity-card">
+                    <span>Top Gainer</span>
+                    <strong>HCLTECH</strong>
+                    <small class="positive">▲ +4.25%</small>
+                </div>
+
+                <div class="activity-card">
+                    <span>Top Loser</span>
+                    <strong>SBIN</strong>
+                    <small class="negative">▼ -2.14%</small>
+                </div>
+
+                <div class="activity-card">
+                    <span>Unusual Volume</span>
+                    <strong>RELIANCE</strong>
+                    <small class="neutral-text">2.4x avg volume</small>
+                </div>
+
+                <div class="activity-card">
+                    <span>Near 52W High</span>
+                    <strong>BEL</strong>
+                    <small class="positive">Strong breakout zone</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- League Teaser -->
+        <div class="league-teaser">
+
+            <div>
+                <p class="section-eyebrow small-eyebrow">INVESTING LEAGUE</p>
+                <h2 class="section-title">Compete with ₹1,00,000 virtual capital</h2>
+                <p>
+                    Create a private 10-player league, build portfolios, track risk-adjusted returns,
+                    and evaluate winners every quarter.
+                </p>
+            </div>
+
+            <button class="btn btn-primary league-button">
+                Coming Soon
+            </button>
+
+        </div>
+
+        <div class="market-update-note mt-4">
+            Last Updated: Demo data for UI development
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
