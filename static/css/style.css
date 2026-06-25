@@ -931,3 +931,33 @@ a {
 .journal-clean-table {
     width: 100%;
 }
+.trade-entry-wide {
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-section-title {
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.compact-position-panel {
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.paper-header-centered {
+    text-align: center;
+    max-width: 100%;
+}
+
+.paper-header-centered .paper-title {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -7,15 +7,8 @@
     <div class="container-fluid px-4">
 
         <div class="paper-header paper-header-centered mb-4">
-
-            <p class="paper-eyebrow">
-                NIFTY FUTURES PAPER TRADING
-            </p>
-
-			<h1 class="paper-title">
-				Livestream Trading Journal
-			</h1>
-
+            <p class="paper-eyebrow">NIFTY FUTURES PAPER TRADING</p>
+            <h1 class="paper-title">Record Trade</h1>
         </div>
 
         {% if error %}
@@ -24,11 +17,11 @@
             </div>
         {% endif %}
 
+        <!-- TOP SUMMARY STRIP -->
         <div class="paper-journal-strip mb-4">
 
             <div class="journal-cell">
                 <span>POSITION</span>
-
                 {% if summary.active_trade %}
                     <strong class="{{ 'positive' if summary.active_trade.direction == 'LONG' else 'negative' }}">
                         {{ summary.active_trade.direction }}
@@ -68,430 +61,338 @@
 
         </div>
 
-        <div class="paper-main-grid mb-4">
+        <!-- MAIN RECORD TRADE AREA -->
+        <div class="paper-panel trade-entry-wide mb-4">
 
-            <div class="paper-panel">
+            {% if not summary.active_trade %}
 
                 <div class="paper-panel-header">
-                    <p>ACTIVE TRADE</p>
-                    <h2>Current Position</h2>
+                    <p>NEW TRADE</p>
+                    <h2>Record New Trade</h2>
                 </div>
 
-                {% if summary.active_trade %}
+                <form method="POST" action="/paper-trading/open" enctype="multipart/form-data">
 
-                    <div class="active-trade-grid">
+                    <div class="form-section-title">Trade Basics</div>
 
-                        <div>
-                            <span>Instrument</span>
-                            <strong>{{ summary.active_trade.instrument }}</strong>
+                    <div class="row g-3">
+
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Instrument <span class="required-star">*</span></label>
+                            <select name="instrument" class="form-control" required>
+                                <option value="NIFTY FUT 1">NIFTY FUT 1</option>
+                                <option value="NIFTY FUT 2">NIFTY FUT 2</option>
+                            </select>
                         </div>
 
-                        <div>
-                            <span>Direction</span>
-                            <strong class="{{ 'positive' if summary.active_trade.direction == 'LONG' else 'negative' }}">
-                                {{ summary.active_trade.direction }}
-                            </strong>
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Quantity <span class="required-star">*</span></label>
+                            <input type="number" name="quantity" class="form-control" value="65" required>
                         </div>
 
-                        <div>
-                            <span>Fut Entry</span>
-                            <strong>{{ summary.active_trade.futures_entry_price }}</strong>
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Spot Entry <span class="required-star">*</span></label>
+                            <input type="number" step="0.05" name="spot_entry_price" class="form-control" required>
                         </div>
 
-                        <div>
-                            <span>Live Fut Price</span>
-                            <strong>{{ live_current_price }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Live P&L</span>
-                            <strong class="{{ 'positive' if active_display_pnl >= 0 else 'negative' }}">
-                                ₹{{ "{:,.0f}".format(active_display_pnl) }}
-                            </strong>
-                        </div>
-
-                        <div>
-                            <span>Qty</span>
-                            <strong>{{ summary.active_trade.quantity }}</strong>
-                        </div>
-
-                        <div>
-                            <span>SL</span>
-                            <strong>{{ summary.active_trade.stop_loss }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Target</span>
-                            <strong>{{ summary.active_trade.target }}</strong>
-                        </div>
-
-                        <div>
-                            <span>Score</span>
-                            <strong>{{ summary.active_trade.process_score }}/10</strong>
-                        </div>
-
-                        <div>
-                            <span>Grade</span>
-                            <strong>{{ summary.active_trade.process_grade }}</strong>
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Futures Entry <span class="required-star">*</span></label>
+                            <input type="number" step="0.05" name="futures_entry_price" class="form-control" required>
                         </div>
 
                     </div>
 
-                    <p class="paper-notes mt-3">
-                        Entry Logic: {{ summary.active_trade.entry_logic }}
-                    </p>
+                    <div class="form-section-title mt-4">Risk Plan</div>
 
-                {% else %}
+                    <div class="row g-3">
 
-                    <div class="flat-state">
-                        FLAT
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Stop Loss <span class="required-star">*</span></label>
+                            <input type="number" step="0.05" name="stop_loss" class="form-control" required>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Target <span class="required-star">*</span></label>
+                            <input type="number" step="0.05" name="target" class="form-control" required>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Stop Type <span class="required-star">*</span></label>
+                            <select name="stop_type" class="form-control" required>
+                                <option>Structural</option>
+                                <option>Fixed Points</option>
+                                <option>Unknown</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Reward <span class="required-star">*</span></label>
+                            <select name="reward_context" class="form-control" required>
+                                <option>Good</option>
+                                <option>Average</option>
+                                <option>Poor</option>
+                                <option>Unknown</option>
+                            </select>
+                        </div>
+
                     </div>
 
-                    <p class="paper-notes">
-                        Waiting for a valid setup. No open paper trade right now.
-                    </p>
+                    <div class="form-section-title mt-4">Process Checklist</div>
 
-                {% endif %}
+                    <div class="row g-3">
 
-            </div>
-
-            <div class="paper-panel">
-
-                {% if not summary.active_trade %}
-
-                    <div class="paper-panel-header">
-                        <p>NEW TRADE</p>
-                        <h2>Enter Trade</h2>
-                    </div>
-
-                    <form method="POST" action="/paper-trading/open" enctype="multipart/form-data">
-
-                        <div class="row g-2">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Instrument <span class="required-star">*</span></label>
-                                <select name="instrument" class="form-control" required>
-                                    <option value="NIFTY FUT 1">NIFTY FUT 1</option>
-                                    <option value="NIFTY FUT 2">NIFTY FUT 2</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Quantity <span class="required-star">*</span></label>
-                                <input type="number" name="quantity" class="form-control" value="65" required>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Trend Bias <span class="required-star">*</span></label>
+                            <select name="trend_bias" class="form-control" required>
+                                <option>Bullish</option>
+                                <option>Bearish</option>
+                                <option>Sideways</option>
+                            </select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Spot Entry <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="spot_entry_price" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Futures Entry <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="futures_entry_price" class="form-control" required>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Structure <span class="required-star">*</span></label>
+                            <select name="structure" class="form-control" required>
+                                <option>HHHL</option>
+                                <option>LHLL</option>
+                                <option>Mixed</option>
+                            </select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Stop Loss <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="stop_loss" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Target <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="target" class="form-control" required>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">EMA Alignment <span class="required-star">*</span></label>
+                            <select name="ema_alignment" class="form-control" required>
+                                <option>Bullish</option>
+                                <option>Bearish</option>
+                                <option>Mixed</option>
+                            </select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Trend Bias <span class="required-star">*</span></label>
-                                <select name="trend_bias" class="form-control" required>
-                                    <option>Bullish</option>
-                                    <option>Bearish</option>
-                                    <option>Sideways</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Structure <span class="required-star">*</span></label>
-                                <select name="structure" class="form-control" required>
-                                    <option>HHHL</option>
-                                    <option>LHLL</option>
-                                    <option>Mixed</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">EMA Alignment <span class="required-star">*</span></label>
-                                <select name="ema_alignment" class="form-control" required>
-                                    <option>Bullish</option>
-                                    <option>Bearish</option>
-                                    <option>Mixed</option>
-                                </select>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Key Level <span class="required-star">*</span></label>
+                            <select name="key_level_context" class="form-control" required>
+                                <option>Above Support</option>
+                                <option>Below Resistance</option>
+                                <option>At Support</option>
+                                <option>At Resistance</option>
+                                <option>Mid Range</option>
+                            </select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Key Level <span class="required-star">*</span></label>
-                                <select name="key_level_context" class="form-control" required>
-                                    <option>Above Support</option>
-                                    <option>Below Resistance</option>
-                                    <option>At Support</option>
-                                    <option>At Resistance</option>
-                                    <option>Mid Range</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Entry Type <span class="required-star">*</span></label>
-                                <select name="entry_type" class="form-control" required>
-                                    <option>Pullback</option>
-                                    <option>Breakout</option>
-                                    <option>Reversal</option>
-                                    <option>Chase</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Stop Type <span class="required-star">*</span></label>
-                                <select name="stop_type" class="form-control" required>
-                                    <option>Structural</option>
-                                    <option>Fixed Points</option>
-                                    <option>Unknown</option>
-                                </select>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Entry Type <span class="required-star">*</span></label>
+                            <select name="entry_type" class="form-control" required>
+                                <option>Pullback</option>
+                                <option>Breakout</option>
+                                <option>Reversal</option>
+                                <option>Chase</option>
+                            </select>
                         </div>
 
-                        <div class="row g-2">
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Reward <span class="required-star">*</span></label>
-                                <select name="reward_context" class="form-control" required>
-                                    <option>Good</option>
-                                    <option>Average</option>
-                                    <option>Poor</option>
-                                    <option>Unknown</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Gap Context <span class="required-star">*</span></label>
-                                <select name="gap_context" class="form-control" required>
-                                    <option>Gap Up Supports Trade</option>
-                                    <option>Gap Down Supports Trade</option>
-                                    <option>Gap Against Trade</option>
-                                    <option>No Gap</option>
-                                    <option>Not Applicable</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Direction Alignment <span class="required-star">*</span></label>
-                                <select name="trade_direction_alignment" class="form-control" required>
-                                    <option>With Trend</option>
-                                    <option>Counter Trend</option>
-                                    <option>Neutral</option>
-                                </select>
-                            </div>
-
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Gap Context <span class="required-star">*</span></label>
+                            <select name="gap_context" class="form-control" required>
+                                <option>Gap Up Supports Trade</option>
+                                <option>Gap Down Supports Trade</option>
+                                <option>Gap Against Trade</option>
+                                <option>No Gap</option>
+                                <option>Not Applicable</option>
+                            </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label">Direction Alignment <span class="required-star">*</span></label>
+                            <select name="trade_direction_alignment" class="form-control" required>
+                                <option>With Trend</option>
+                                <option>Counter Trend</option>
+                                <option>Neutral</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
                             <label class="form-label">Chart Screenshot <span class="required-star">*</span></label>
                             <input type="file" name="chart_screenshot" class="form-control" accept="image/*" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-section-title mt-4">Trade Reason</div>
+
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-lg-8">
+                            <label class="form-label">Entry Logic <span class="required-star">*</span></label>
+                            <textarea name="entry_logic" class="form-control" rows="3" required
+                                      placeholder="Why am I entering this trade?"></textarea>
                             <small class="text-muted">
-                                Prefer 5-min chart with previous day, today, entry, SL and target marked.
+                                Screenshot is for audit only. Process score comes from dropdown fields.
                             </small>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Entry Logic <span class="required-star">*</span></label>
-                            <textarea name="entry_logic" class="form-control" rows="3" required></textarea>
+                        <div class="col-lg-4">
+                            <div class="trade-button-grid">
+                                <button type="submit" name="direction" value="LONG" class="btn btn-success trade-action-button">
+                                    LONG
+                                </button>
+
+                                <button type="submit" name="direction" value="SHORT" class="btn btn-danger trade-action-button">
+                                    SHORT
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="trade-button-grid">
-                            <button type="submit" name="direction" value="LONG" class="btn btn-success trade-action-button">
-                                LONG
-                            </button>
-
-                            <button type="submit" name="direction" value="SHORT" class="btn btn-danger trade-action-button">
-                                SHORT
-                            </button>
-                        </div>
-
-                    </form>
-
-                {% else %}
-
-                    <div class="paper-panel-header">
-                        <p>MANAGE TRADE</p>
-                        <h2>Update / Close</h2>
                     </div>
 
-                    <form method="POST" action="/paper-trading/update-live-price" class="mb-3">
+                </form>
 
-                        <label class="form-label">Current Futures Price <span class="required-star">*</span></label>
+            {% else %}
 
-                        <div class="input-group">
-                            <input type="number" step="0.05" name="current_price" class="form-control" required>
-                            <button class="btn btn-primary" type="submit">Update Display</button>
-                        </div>
+                <div class="paper-panel-header">
+                    <p>MANAGE TRADE</p>
+                    <h2>Update / Close Active Trade</h2>
+                </div>
 
-                        <small class="neutral-text">
-                            Display only. This does not create a CSV row.
-                        </small>
+                <div class="active-trade-grid mb-4">
 
-                    </form>
+                    <div>
+                        <span>Instrument</span>
+                        <strong>{{ summary.active_trade.instrument }}</strong>
+                    </div>
 
-                    <form method="POST" action="/paper-trading/exit">
+                    <div>
+                        <span>Direction</span>
+                        <strong class="{{ 'positive' if summary.active_trade.direction == 'LONG' else 'negative' }}">
+                            {{ summary.active_trade.direction }}
+                        </strong>
+                    </div>
 
-                        <div class="row g-2">
+                    <div>
+                        <span>Fut Entry</span>
+                        <strong>{{ summary.active_trade.futures_entry_price }}</strong>
+                    </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Spot Exit <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="spot_exit_price" class="form-control" required>
+                    <div>
+                        <span>Live Fut Price</span>
+                        <strong>{{ live_current_price }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Live P&L</span>
+                        <strong class="{{ 'positive' if active_display_pnl >= 0 else 'negative' }}">
+                            ₹{{ "{:,.0f}".format(active_display_pnl) }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Score</span>
+                        <strong>{{ summary.active_trade.process_score }}/10</strong>
+                    </div>
+
+                    <div>
+                        <span>Grade</span>
+                        <strong>{{ summary.active_trade.process_grade }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Status</span>
+                        <strong>{{ summary.active_trade.status }}</strong>
+                    </div>
+
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-lg-5">
+                        <form method="POST" action="/paper-trading/update-live-price">
+
+                            <label class="form-label">Current Futures Price <span class="required-star">*</span></label>
+
+                            <div class="input-group">
+                                <input type="number" step="0.05" name="current_price" class="form-control" required>
+                                <button class="btn btn-primary" type="submit">Update Display</button>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Futures Exit <span class="required-star">*</span></label>
-                                <input type="number" step="0.05" name="futures_exit_price" class="form-control" required>
+                            <small class="neutral-text">
+                                Display only. This does not create a CSV row.
+                            </small>
+
+                        </form>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <form method="POST" action="/paper-trading/exit">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Spot Exit <span class="required-star">*</span></label>
+                                    <input type="number" step="0.05" name="spot_exit_price" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Futures Exit <span class="required-star">*</span></label>
+                                    <input type="number" step="0.05" name="futures_exit_price" class="form-control" required>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Exit Logic <span class="required-star">*</span></label>
+                                    <textarea name="exit_logic" class="form-control" rows="3" required
+                                              placeholder="Why am I exiting this trade?"></textarea>
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-warning w-100 trade-action-button" type="submit">
+                                        Close Trade
+                                    </button>
+                                </div>
+
                             </div>
 
-                        </div>
+                        </form>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Exit Logic <span class="required-star">*</span></label>
-                            <textarea name="exit_logic" class="form-control" rows="3" required></textarea>
-                        </div>
+                </div>
 
-                        <button class="btn btn-warning w-100 trade-action-button" type="submit">
-                            Close Trade
-                        </button>
-
-                    </form>
-
-                    <p class="paper-warning mt-3">
-                        Opposite trade is blocked until current trade is closed.
-                    </p>
-
-                {% endif %}
-
-            </div>
+            {% endif %}
 
         </div>
 
-        <div class="paper-panel">
+        <!-- COMPACT ACTIVE POSITION AT BOTTOM -->
+        <div class="paper-panel compact-position-panel">
 
             <div class="paper-panel-header">
-                <p>TRADE JOURNAL</p>
-                <h2>History</h2>
+                <p>POSITION SNAPSHOT</p>
+                <h2>Current Position</h2>
             </div>
 
-            <div class="table-responsive">
+            {% if summary.active_trade %}
 
-                <table class="table paper-table align-middle">
+                <div class="active-trade-grid">
+                    <div>
+                        <span>Direction</span>
+                        <strong>{{ summary.active_trade.direction }}</strong>
+                    </div>
+                    <div>
+                        <span>Instrument</span>
+                        <strong>{{ summary.active_trade.instrument }}</strong>
+                    </div>
+                    <div>
+                        <span>Entry Logic</span>
+                        <strong>{{ summary.active_trade.entry_logic[:45] }}...</strong>
+                    </div>
+                    <div>
+                        <span>Rule</span>
+                        <strong>One active trade only</strong>
+                    </div>
+                </div>
 
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Instrument</th>
-                            <th>Dir</th>
-                            <th>Fut Entry</th>
-                            <th>Fut Exit</th>
-                            <th>Qty</th>
-                            <th>Status</th>
-                            <th>P&L</th>
-                            <th>Trend</th>
-                            <th>Structure</th>
-                            <th>Level</th>
-                            <th>Entry</th>
-                            <th>Risk</th>
-                            <th>Reward</th>
-                            <th>Score</th>
-                            <th>Grade</th>
-                            <th>Screenshot</th>
-                        </tr>
-                    </thead>
+            {% else %}
 
-                    <tbody>
+                <p class="paper-notes mb-0">
+                    No active trade. Use the form above only when setup is valid.
+                </p>
 
-                        {% for trade in summary.trades|reverse %}
-
-                            <tr>
-                                <td>{{ trade.trade_id }}</td>
-                                <td>{{ trade.entry_date }}</td>
-                                <td>{{ trade.entry_time }}</td>
-                                <td>{{ trade.instrument }}</td>
-                                <td>{{ trade.direction }}</td>
-                                <td>{{ trade.futures_entry_price }}</td>
-                                <td>{{ trade.futures_exit_price if trade.futures_exit_price else "-" }}</td>
-                                <td>{{ trade.quantity }}</td>
-                                <td>{{ trade.status }}</td>
-
-                                <td class="{{ 'positive' if trade.pnl >= 0 else 'negative' }}">
-                                    ₹{{ "{:,.0f}".format(trade.pnl) }}
-                                </td>
-
-                                <td><span class="process-badge badge-neutral">{{ trade.trend_bias }}</span></td>
-                                <td><span class="process-badge badge-neutral">{{ trade.structure }}</span></td>
-                                <td><span class="process-badge badge-neutral">{{ trade.key_level_context }}</span></td>
-                                <td><span class="process-badge badge-neutral">{{ trade.entry_type }}</span></td>
-                                <td><span class="process-badge badge-neutral">{{ trade.stop_type }}</span></td>
-                                <td><span class="process-badge badge-neutral">{{ trade.reward_context }}</span></td>
-                                <td>{{ trade.process_score }}/10</td>
-                                <td><span class="process-badge badge-neutral">{{ trade.process_grade }}</span></td>
-
-                                <td>
-                                    {% if trade.chart_screenshot %}
-                                        <a href="{{ url_for('static', filename=trade.chart_screenshot) }}" target="_blank">
-                                            View
-                                        </a>
-                                    {% else %}
-                                        No Chart
-                                    {% endif %}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="19" class="logic-row">
-                                    <strong>Entry Logic:</strong>
-                                    {{ trade.entry_logic if trade.entry_logic else "Unknown" }}
-
-                                    <br>
-
-                                    <strong>Exit Logic:</strong>
-                                    {{ trade.exit_logic if trade.exit_logic else "Open / Not available" }}
-
-                                    {% if trade.holding_minutes %}
-                                        <br>
-                                        <strong>Hold:</strong> {{ trade.holding_minutes }} min
-                                    {% endif %}
-                                </td>
-                            </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            {% endif %}
 
         </div>
 
