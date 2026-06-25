@@ -1,0 +1,1 @@
+trade_id,event_type,event_date,event_time,instrument,direction,spot_price,futures_price,quantity,stop_loss,target,status,trend_bias,structure,ema_alignment,key_level_context,entry_type,stop_type,reward_context,gap_context,trade_direction_alignment,process_score,process_grade,chart_screenshot,entry_logic,exit_logic

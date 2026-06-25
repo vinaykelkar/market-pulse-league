@@ -1,1 +1,7 @@
 trade_id,event_type,event_date,event_time,instrument,direction,spot_price,futures_price,quantity,stop_loss,target,status,trend_bias,structure,ema_alignment,key_level_context,entry_type,stop_type,reward_context,gap_context,trade_direction_alignment,process_score,process_grade,chart_screenshot,entry_logic,exit_logic
+1,ENTRY,2026-06-23,09:32:58,NIFTY FUT 2,LONG,24091,24207,65,24065,24150,,,,,,,,,,,,,,,
+1,EXIT,2026-06-23,09:51:00,NIFTY FUT 2,LONG,24121,24237,65,,,,,,,,,,,,,,,,,
+2,ENTRY,2026-06-24,10:32:23,NIFTY FUT 1,SHORT,23955,23953,65,23970,23925,,,,,,,,,,,,,,,
+2,EXIT,2026-06-24,11:23:16,NIFTY FUT 1,SHORT,23970,23963,65,,,,,,,,,,,,,,,,,
+3,ENTRY,2026-06-25,10:45:57,NIFTY FUT 1,LONG,24185,24194,65,24170,24230,,,,,,,,,,,,,,,
+3,EXIT,2026-06-25,11:26:36,NIFTY FUT 1,LONG,24205,24214,65,,,,,,,,,,,,,,,,,

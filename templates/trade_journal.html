@@ -20,7 +20,7 @@
             </div>
 
             <div class="journal-cell">
-                <span>TOTAL P&L</span>
+                <span>NET P&L</span>
                 <strong class="{{ 'positive' if summary.total_pnl >= 0 else 'negative' }}">
                     ₹{{ "{:,.0f}".format(summary.total_pnl) }}
                 </strong>
@@ -72,11 +72,18 @@
                             <th>Time</th>
                             <th>Instrument</th>
                             <th>Dir</th>
+                            <th>Spot Entry</th>
+                            <th>Spot Exit</th>
                             <th>Fut Entry</th>
                             <th>Fut Exit</th>
                             <th>Qty</th>
+                            <th>Points</th>
+                            <th>Gross</th>
+                            <th>STT</th>
+                            <th>GST</th>
+                            <th>Charges</th>
+                            <th>Net</th>
                             <th>Status</th>
-                            <th>P&L</th>
                             <th>Trend</th>
                             <th>Structure</th>
                             <th>Level</th>
@@ -98,19 +105,30 @@
                                 <td>{{ trade.entry_date }}</td>
                                 <td>{{ trade.entry_time }}</td>
                                 <td>{{ trade.instrument }}</td>
+
                                 <td>
                                     <span class="process-badge {{ 'badge-green' if trade.direction == 'LONG' else 'badge-red' }}">
                                         {{ trade.direction }}
                                     </span>
                                 </td>
+
+                                <td>{{ trade.spot_entry_price }}</td>
+                                <td>{{ trade.spot_exit_price if trade.spot_exit_price else "-" }}</td>
                                 <td>{{ trade.futures_entry_price }}</td>
                                 <td>{{ trade.futures_exit_price if trade.futures_exit_price else "-" }}</td>
                                 <td>{{ trade.quantity }}</td>
-                                <td>{{ trade.status }}</td>
+                                <td>{{ trade.futures_points }}</td>
 
-                                <td class="{{ 'positive' if trade.pnl >= 0 else 'negative' }}">
-                                    ₹{{ "{:,.0f}".format(trade.pnl) }}
+                                <td>₹{{ "{:,.0f}".format(trade.gross_pnl) }}</td>
+                                <td>₹{{ "{:,.0f}".format(trade.stt) }}</td>
+                                <td>₹{{ "{:,.0f}".format(trade.gst) }}</td>
+                                <td>₹{{ "{:,.0f}".format(trade.estimated_charges) }}</td>
+
+                                <td class="{{ 'positive' if trade.net_pnl >= 0 else 'negative' }}">
+                                    ₹{{ "{:,.0f}".format(trade.net_pnl) }}
                                 </td>
+
+                                <td>{{ trade.status }}</td>
 
                                 <td><span class="process-badge badge-neutral">{{ trade.trend_bias }}</span></td>
                                 <td><span class="process-badge badge-neutral">{{ trade.structure }}</span></td>
@@ -119,7 +137,13 @@
                                 <td><span class="process-badge badge-neutral">{{ trade.stop_type }}</span></td>
                                 <td><span class="process-badge badge-neutral">{{ trade.reward_context }}</span></td>
 
-                                <td><strong>{{ trade.process_score }}/10</strong></td>
+                                <td>
+                                    {% if trade.process_score == "Imported" %}
+                                        Imported
+                                    {% else %}
+                                        {{ trade.process_score }}/10
+                                    {% endif %}
+                                </td>
 
                                 <td>
                                     <span class="process-badge 
@@ -149,7 +173,7 @@
                             </tr>
 
                             <tr>
-                                <td colspan="19" class="logic-row">
+                                <td colspan="26" class="logic-row">
                                     <strong>Entry Logic:</strong>
                                     {{ trade.entry_logic if trade.entry_logic else "Unknown" }}
 
