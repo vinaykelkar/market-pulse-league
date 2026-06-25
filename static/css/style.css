@@ -908,3 +908,26 @@ a {
 .paper-table .logic-row {
     white-space: normal;
 }
+
+.paper-header-centered {
+    text-align: center;
+    max-width: 100%;
+}
+
+.paper-header-centered .paper-title {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.journal-recording-panel {
+    min-height: 70vh;
+}
+
+.journal-clean-table th,
+.journal-clean-table td {
+    font-size: 13px;
+}
+
+.journal-clean-table {
+    width: 100%;
+}

@@ -163,6 +163,12 @@ def exit_paper_trade():
             error=str(error)
         )
 
+@app.route("/trade-journal")
+def trade_journal():
+    from services.paper_trading_service import get_summary
+
+    summary = get_summary()
+    return render_template("trade_journal.html", summary=summary)
 
 if __name__ == "__main__":
     app.run(debug=True)

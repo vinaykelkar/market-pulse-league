@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="paper-trading-section light-paper-page">
+
+    <div class="container-fluid px-4">
+
+        <div class="paper-header paper-header-centered mb-4">
+            <p class="paper-eyebrow">NIFTY FUTURES</p>
+            <h1 class="paper-title">Trade Journal</h1>
+        </div>
+
+        <div class="paper-journal-strip mb-4">
+
+            <div class="journal-cell">
+                <span>CAPITAL</span>
+                <strong>₹{{ "{:,.0f}".format(summary.current_capital) }}</strong>
+                <small>Start: ₹{{ "{:,.0f}".format(summary.starting_capital) }}</small>
+            </div>
+
+            <div class="journal-cell">
+                <span>TOTAL P&L</span>
+                <strong class="{{ 'positive' if summary.total_pnl >= 0 else 'negative' }}">
+                    ₹{{ "{:,.0f}".format(summary.total_pnl) }}
+                </strong>
+                <small>{{ summary.total_pnl_pct }}%</small>
+            </div>
+
+            <div class="journal-cell">
+                <span>TRADES</span>
+                <strong>{{ summary.trade_count }}</strong>
+                <small>Closed: {{ summary.closed_trade_count }}</small>
+            </div>
+
+            <div class="journal-cell">
+                <span>WIN RATE</span>
+                <strong>{{ summary.win_rate }}%</strong>
+                <small>Closed trades only</small>
+            </div>
+
+            <div class="journal-cell">
+                <span>STATUS</span>
+                {% if summary.active_trade %}
+                    <strong class="{{ 'positive' if summary.active_trade.direction == 'LONG' else 'negative' }}">
+                        {{ summary.active_trade.direction }}
+                    </strong>
+                    <small>{{ summary.active_trade.instrument }}</small>
+                {% else %}
+                    <strong>FLAT</strong>
+                    <small>No active trade</small>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="paper-panel journal-recording-panel">
+
+            <div class="paper-panel-header">
+                <p>PUBLIC JOURNAL</p>
+                <h2>Trade History</h2>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table paper-table align-middle journal-clean-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Instrument</th>
+                            <th>Dir</th>
+                            <th>Fut Entry</th>
+                            <th>Fut Exit</th>
+                            <th>Qty</th>
+                            <th>Status</th>
+                            <th>P&L</th>
+                            <th>Trend</th>
+                            <th>Structure</th>
+                            <th>Level</th>
+                            <th>Entry Type</th>
+                            <th>Risk</th>
+                            <th>Reward</th>
+                            <th>Score</th>
+                            <th>Grade</th>
+                            <th>Chart</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for trade in summary.trades|reverse %}
+
+                            <tr>
+                                <td>{{ trade.trade_id }}</td>
+                                <td>{{ trade.entry_date }}</td>
+                                <td>{{ trade.entry_time }}</td>
+                                <td>{{ trade.instrument }}</td>
+                                <td>
+                                    <span class="process-badge {{ 'badge-green' if trade.direction == 'LONG' else 'badge-red' }}">
+                                        {{ trade.direction }}
+                                    </span>
+                                </td>
+                                <td>{{ trade.futures_entry_price }}</td>
+                                <td>{{ trade.futures_exit_price if trade.futures_exit_price else "-" }}</td>
+                                <td>{{ trade.quantity }}</td>
+                                <td>{{ trade.status }}</td>
+
+                                <td class="{{ 'positive' if trade.pnl >= 0 else 'negative' }}">
+                                    ₹{{ "{:,.0f}".format(trade.pnl) }}
+                                </td>
+
+                                <td><span class="process-badge badge-neutral">{{ trade.trend_bias }}</span></td>
+                                <td><span class="process-badge badge-neutral">{{ trade.structure }}</span></td>
+                                <td><span class="process-badge badge-neutral">{{ trade.key_level_context }}</span></td>
+                                <td><span class="process-badge badge-neutral">{{ trade.entry_type }}</span></td>
+                                <td><span class="process-badge badge-neutral">{{ trade.stop_type }}</span></td>
+                                <td><span class="process-badge badge-neutral">{{ trade.reward_context }}</span></td>
+
+                                <td><strong>{{ trade.process_score }}/10</strong></td>
+
+                                <td>
+                                    <span class="process-badge 
+                                        {% if trade.process_grade in ['Elite', 'A'] %}
+                                            badge-green
+                                        {% elif trade.process_grade in ['B', 'C'] %}
+                                            badge-yellow
+                                        {% elif trade.process_grade == 'Avoid' %}
+                                            badge-red
+                                        {% else %}
+                                            badge-neutral
+                                        {% endif %}
+                                    ">
+                                        {{ trade.process_grade }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {% if trade.chart_screenshot %}
+                                        <a href="{{ url_for('static', filename=trade.chart_screenshot) }}" target="_blank">
+                                            View
+                                        </a>
+                                    {% else %}
+                                        No Chart
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="19" class="logic-row">
+                                    <strong>Entry Logic:</strong>
+                                    {{ trade.entry_logic if trade.entry_logic else "Unknown" }}
+
+                                    <br>
+
+                                    <strong>Exit Logic:</strong>
+                                    {{ trade.exit_logic if trade.exit_logic else "Open / Not available" }}
+
+                                    {% if trade.holding_minutes %}
+                                        <br>
+                                        <strong>Hold:</strong> {{ trade.holding_minutes }} min
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
