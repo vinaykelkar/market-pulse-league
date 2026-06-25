@@ -1,0 +1,7 @@
+trade_id,event_type,event_date,event_time,instrument,direction,price,quantity,stop_loss,target,setup_type,notes
+1,ENTRY,2026-06-23,09:32:58,NIFTY FUTURES PAPER,LONG,24091.0,75,24065,24150,support of 24075 taken,"as per support and resistance line drawn, did not break down below support and used as support to bounce back. Nifty Fut 2! -> Entry 24207"
+1,EXIT,2026-06-23,09:51:00,NIFTY FUTURES PAPER,LONG,24121.0,75,,,,exited because the trade gave me 30 points which is decent. exited nifty fut 2 at 24237
+2,ENTRY,2026-06-24,10:32:23,NIFTY FUTURES PAPER,SHORT,23955.0,75,23935,23994.95,Yesterday's last breakdown level,nifty fut 1! entry at 23953
+2,EXIT,2026-06-24,11:23:16,NIFTY FUTURES PAPER,SHORT,23970.0,75,,,,hit the stop loss of 15 points on spot and 10 points on futures 1! price
+3,ENTRY,2026-06-25,10:45:57,NIFTY FUTURES PAPER,LONG,24185.0,75,24170,24230,resistance acting as support buyers getting active,nifty fut 1! at 24194
+3,EXIT,2026-06-25,11:26:36,NIFTY FUTURES PAPER,LONG,24205.0,75,,,,"call sellers are active at 24200, and it is taking time, to quickly break that hurdle. An indecision candle was formed, so 20 points is still okay return and better than making this tradea loser. Nifty fut 1! exit 24214"
