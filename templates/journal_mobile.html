@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="mobile-journal-page">
+
+    <div class="mobile-journal-shell">
+
+        <div class="mobile-journal-header">
+            <p>TECH TRADE & CHAI</p>
+            <h1>Public Trading Journal</h1>
+            <span>100 Trades Challenge</span>
+        </div>
+
+        <div class="mobile-kpi-card primary">
+            <span>Current Capital</span>
+            <strong>₹{{ "{:,.0f}".format(summary.current_capital) }}</strong>
+            <small>Starting Capital: ₹{{ "{:,.0f}".format(summary.starting_capital) }}</small>
+        </div>
+
+        <div class="mobile-kpi-grid">
+
+            <div class="mobile-kpi-card">
+                <span>Net P&L</span>
+                <strong class="{{ 'positive' if summary.total_pnl >= 0 else 'negative' }}">
+                    ₹{{ "{:,.0f}".format(summary.total_pnl) }}
+                </strong>
+                <small>{{ summary.total_pnl_pct }}%</small>
+            </div>
+
+            <div class="mobile-kpi-card">
+                <span>Win Rate</span>
+                <strong>{{ summary.win_rate }}%</strong>
+                <small>{{ summary.closed_trade_count }} closed</small>
+            </div>
+
+            <div class="mobile-kpi-card">
+                <span>Trades</span>
+                <strong>{{ summary.trade_count }}</strong>
+                <small>Total trades</small>
+            </div>
+
+            <div class="mobile-kpi-card">
+                <span>Avg Process Score</span>
+                <strong>{{ summary.avg_process_score }}/10</strong>
+                <small>Scored trades only</small>
+            </div>
+
+        </div>
+
+        {% if summary.latest_trade %}
+
+            <div class="mobile-trade-card">
+
+                <div class="mobile-section-label">Latest Trade</div>
+
+                <div class="mobile-trade-row">
+                    <span>Direction</span>
+                    <strong class="{{ 'positive' if summary.latest_trade.direction == 'LONG' else 'negative' }}">
+                        {{ summary.latest_trade.direction }}
+                    </strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Instrument</span>
+                    <strong>{{ summary.latest_trade.instrument }}</strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Futures Points</span>
+                    <strong>{{ summary.latest_trade.futures_points }}</strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Gross P&L</span>
+                    <strong>₹{{ "{:,.0f}".format(summary.latest_trade.gross_pnl) }}</strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Charges</span>
+                    <strong>₹{{ "{:,.0f}".format(summary.latest_trade.estimated_charges) }}</strong>
+                </div>
+
+                <div class="mobile-trade-row highlight">
+                    <span>Net P&L</span>
+                    <strong class="{{ 'positive' if summary.latest_trade.net_pnl >= 0 else 'negative' }}">
+                        ₹{{ "{:,.0f}".format(summary.latest_trade.net_pnl) }}
+                    </strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Process Score</span>
+                    <strong>
+                        {% if summary.latest_trade.process_score == "Imported" %}
+                            Imported
+                        {% else %}
+                            {{ summary.latest_trade.process_score }}/10
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="mobile-trade-row">
+                    <span>Grade</span>
+                    <strong>{{ summary.latest_trade.process_grade }}</strong>
+                </div>
+
+            </div>
+
+            <div class="mobile-lesson-card">
+                <span>Entry Logic</span>
+                <p>{{ summary.latest_trade.entry_logic }}</p>
+            </div>
+
+        {% else %}
+
+            <div class="mobile-trade-card">
+                <div class="mobile-section-label">Latest Trade</div>
+                <p>No trades recorded yet.</p>
+            </div>
+
+        {% endif %}
+
+        <div class="mobile-footer-line">
+            Every Trade. Every Mistake. Nothing Hidden.
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

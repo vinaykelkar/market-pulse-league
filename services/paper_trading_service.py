@@ -504,6 +504,19 @@ def get_summary():
 
     win_rate = (len(wins) / len(closed_trades) * 100) if closed_trades else 0
 
+    scored_trades = [
+        trade for trade in trades
+        if isinstance(trade.get("process_score"), (int, float))
+        and safe_float(trade.get("process_score")) > 0
+    ]
+
+    avg_process_score = (
+        sum(safe_float(trade["process_score"]) for trade in scored_trades) / len(scored_trades)
+        if scored_trades else 0
+    )
+
+    latest_trade = trades[-1] if trades else None
+
     return {
         "starting_capital": STARTING_CAPITAL,
         "current_capital": round(STARTING_CAPITAL + total_net_pnl, 2),
@@ -513,5 +526,7 @@ def get_summary():
         "closed_trade_count": len(closed_trades),
         "win_rate": round(win_rate, 2),
         "active_trade": open_trades[0] if open_trades else None,
+        "latest_trade": latest_trade,
+        "avg_process_score": round(avg_process_score, 2),
         "trades": trades,
     }

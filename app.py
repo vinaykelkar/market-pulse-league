@@ -170,5 +170,13 @@ def trade_journal():
     summary = get_summary()
     return render_template("trade_journal.html", summary=summary)
 
+
+@app.route("/journal-mobile")
+def journal_mobile():
+    from services.paper_trading_service import get_summary
+
+    summary = get_summary()
+    return render_template("journal_mobile.html", summary=summary)
+
 if __name__ == "__main__":
     app.run(debug=True)
