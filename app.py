@@ -4,6 +4,13 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 
+from services.strategy_lab_service import (
+    get_strategy_summary,
+    create_strategy,
+    update_strategy_prices,
+    close_strategy,
+)
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "market-pulse-league-dev-key")
 
@@ -177,6 +184,29 @@ def journal_mobile():
 
     summary = get_summary()
     return render_template("journal_mobile.html", summary=summary)
+    
+@app.route("/strategy-lab")
+def strategy_lab():
+    summary = get_strategy_summary()
+    return render_template("strategy_lab.html", summary=summary)
+
+
+@app.route("/strategy-lab/create", methods=["POST"])
+def strategy_lab_create():
+    create_strategy(request.form)
+    return redirect(url_for("strategy_lab"))
+
+
+@app.route("/strategy-lab/update/<int:strategy_id>", methods=["POST"])
+def strategy_lab_update(strategy_id):
+    update_strategy_prices(strategy_id, request.form)
+    return redirect(url_for("strategy_lab"))
+
+
+@app.route("/strategy-lab/close/<int:strategy_id>", methods=["POST"])
+def strategy_lab_close(strategy_id):
+    close_strategy(strategy_id)
+    return redirect(url_for("strategy_lab"))
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -6,4 +6,6 @@ trade_id,event_type,event_date,event_time,instrument,direction,spot_price,future
 3,ENTRY,2026-06-25,10:45:57,NIFTY FUT 1,LONG,24185.0,24194.0,65,24170.0,24230.0,,,,,,,,,,,0.0,,,,
 3,EXIT,2026-06-25,11:26:36,NIFTY FUT 1,LONG,24205.0,24214.0,65,0.0,0.0,,,,,,,,,,,0.0,,,,
 4,ENTRY,2026-06-29,12:09:08,NIFTY FUT 1,SHORT,24049.0,24055.0,65,24069.0,24000.0,OPEN,Bearish,LHLL,Bearish,Mid Range,Reversal,Fixed Points,Good,Not Applicable,With Trend,7.75,B,uploads/chart_screenshots/20260629_120908_trade_29_june_2026.png,"Support acted as resistance and then when the price action showed bearish signs confirmation, i entered",
-4,EXIT,2026-06-29,12:17:06,NIFTY FUT 1,SHORT,23985.0,24002.0,65,,,CLOSED,,,,,,,,,,,,,,hit the target and near the major support of 24000. Could breakdown or take support and rise. Not interested to take that chance
+4,EXIT,2026-06-29,12:17:06,NIFTY FUT 1,SHORT,23985.0,24002.0,65,0.0,0.0,CLOSED,,,,,,,,,,0.0,,,,hit the target and near the major support of 24000. Could breakdown or take support and rise. Not interested to take that chance
+5,ENTRY,2026-06-30,11:22:41,NIFTY FUT 1,LONG,23934.0,23943.0,65,23894.0,24004.0,OPEN,Bullish,HHHL,Bullish,Above Support,Pullback,Structural,Good,Gap Up Supports Trade,With Trend,10.0,Elite,uploads/chart_screenshots/20260630_112241_trade_30_june_2026.png,taken support and buyers getting active and holding the support levels,
+5,EXIT,2026-06-30,11:25:40,NIFTY FUT 1,LONG,23996.0,24014.0,65,,,CLOSED,,,,,,,,,,,,,,bullish bias proved right and reward was good. Hence exited
