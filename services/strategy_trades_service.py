@@ -6,47 +6,21 @@ DATA_FILE = Path("data/strategy_trades.csv")
 DEFAULT_QTY = 65
 
 FIELDNAMES = [
-    "strategy_id",
-    "strategy_type",
-    "status",
-    "created_date",
-    "created_time",
-    "closed_date",
-    "closed_time",
-
-    "futures_margin_used",
-    "options_margin_used",
-    "total_margin_used",
-
-    "futures_direction",
-    "futures_entry",
-    "futures_current",
-
-    "option_1_type",
-    "option_1_side",
-    "option_1_strike",
-    "option_1_entry",
-    "option_1_current",
-
-    "option_2_type",
-    "option_2_side",
-    "option_2_strike",
-    "option_2_entry",
-    "option_2_current",
-
-    "quantity",
-    "entry_reason",
-    "exit_reason",
-    "notes",
+    "strategy_id", "strategy_type", "status",
+    "created_date", "created_time", "closed_date", "closed_time",
+    "futures_margin_used", "options_margin_used", "total_margin_used",
+    "futures_direction", "futures_entry", "futures_current",
+    "option_1_type", "option_1_side", "option_1_strike", "option_1_entry", "option_1_current",
+    "option_2_type", "option_2_side", "option_2_strike", "option_2_entry", "option_2_current",
+    "quantity", "entry_reason", "exit_reason", "notes",
 ]
 
 
 def ensure_csv_exists():
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     if not DATA_FILE.exists():
-        with DATA_FILE.open("w", newline="", encoding="utf-8") as file:
-            writer = csv.DictWriter(file, fieldnames=FIELDNAMES)
-            writer.writeheader()
+        with DATA_FILE.open("w", newline="", encoding="utf-8") as f:
+            csv.DictWriter(f, fieldnames=FIELDNAMES).writeheader()
 
 
 def safe_float(value, default=0.0):
@@ -71,29 +45,23 @@ def read_rows():
     ensure_csv_exists()
     rows = []
 
-    with DATA_FILE.open("r", newline="", encoding="utf-8") as file:
-        reader = csv.DictReader(file)
-
+    with DATA_FILE.open("r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
         for row in reader:
             clean = {field: row.get(field, "") for field in FIELDNAMES}
 
-            clean["strategy_id"] = safe_int(clean["strategy_id"])
-            clean["futures_margin_used"] = safe_float(clean["futures_margin_used"])
-            clean["options_margin_used"] = safe_float(clean["options_margin_used"])
-            clean["total_margin_used"] = safe_float(clean["total_margin_used"])
+            for field in [
+                "strategy_id", "quantity"
+            ]:
+                clean[field] = safe_int(clean[field], DEFAULT_QTY if field == "quantity" else 0)
 
-            clean["futures_entry"] = safe_float(clean["futures_entry"])
-            clean["futures_current"] = safe_float(clean["futures_current"])
-
-            clean["option_1_strike"] = safe_float(clean["option_1_strike"])
-            clean["option_1_entry"] = safe_float(clean["option_1_entry"])
-            clean["option_1_current"] = safe_float(clean["option_1_current"])
-
-            clean["option_2_strike"] = safe_float(clean["option_2_strike"])
-            clean["option_2_entry"] = safe_float(clean["option_2_entry"])
-            clean["option_2_current"] = safe_float(clean["option_2_current"])
-
-            clean["quantity"] = safe_int(clean["quantity"], DEFAULT_QTY)
+            for field in [
+                "futures_margin_used", "options_margin_used", "total_margin_used",
+                "futures_entry", "futures_current",
+                "option_1_strike", "option_1_entry", "option_1_current",
+                "option_2_strike", "option_2_entry", "option_2_current",
+            ]:
+                clean[field] = safe_float(clean[field])
 
             rows.append(clean)
 
@@ -102,25 +70,19 @@ def read_rows():
 
 def write_rows(rows):
     ensure_csv_exists()
-
-    with DATA_FILE.open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=FIELDNAMES)
+    with DATA_FILE.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
-
         for row in rows:
             writer.writerow({field: row.get(field, "") for field in FIELDNAMES})
 
 
 def next_strategy_id(rows):
-    if not rows:
-        return 1
-    return max(safe_int(row["strategy_id"]) for row in rows) + 1
+    return 1 if not rows else max(safe_int(r["strategy_id"]) for r in rows) + 1
 
 
 def futures_pnl(direction, entry, current, qty):
-    direction = (direction or "").upper()
-
-    if not direction or entry == 0 or current == 0:
+    if not direction or not entry or not current:
         return 0
 
     if direction == "LONG":
@@ -133,9 +95,7 @@ def futures_pnl(direction, entry, current, qty):
 
 
 def option_pnl(side, entry, current, qty):
-    side = (side or "").upper()
-
-    if not side or entry == 0 or current == 0:
+    if not side or not entry or not current:
         return 0
 
     if side == "BUY":
@@ -156,12 +116,13 @@ def estimate_charges(row):
     stt = 0
 
     if row.get("futures_direction"):
-        futures_entry = safe_float(row.get("futures_entry"))
-        futures_current = safe_float(row.get("futures_current")) or futures_entry
-        futures_turnover = (futures_entry + futures_current) * qty
+        entry = safe_float(row.get("futures_entry"))
+        current = safe_float(row.get("futures_current")) or entry
+
+        futures_turnover = (entry + current) * qty
         brokerage_orders += 2
 
-        sell_price = futures_current if row["futures_direction"] == "LONG" else futures_entry
+        sell_price = current if row["futures_direction"] == "LONG" else entry
         stt += sell_price * qty * 0.0005
 
     for leg in ["option_1", "option_2"]:
@@ -174,10 +135,9 @@ def estimate_charges(row):
             brokerage_orders += 2
 
             if side == "SELL":
-                sell_price = entry
-                stt += sell_price * qty * 0.001
+                stt += entry * qty * 0.001
 
-    brokerage = min(brokerage_orders * 20, brokerage_orders * 20)
+    brokerage = brokerage_orders * 20
     exchange = (futures_turnover + option_turnover) * 0.0000173
     sebi = (futures_turnover + option_turnover) * 0.000001
     gst = (brokerage + exchange) * 0.18
@@ -218,30 +178,29 @@ def enrich(row):
         qty,
     )
 
-    gross_pnl = f_pnl + o1_pnl + o2_pnl
+    gross = f_pnl + o1_pnl + o2_pnl
     charges = estimate_charges(row)
-    net_pnl = gross_pnl - charges["total"]
+    net = gross - charges["total"]
 
     total_margin = safe_float(row.get("total_margin_used"))
-    roi = (net_pnl / total_margin * 100) if total_margin else 0
+    roi = (net / total_margin * 100) if total_margin else 0
 
     enriched = dict(row)
     enriched.update({
         "futures_pnl": round(f_pnl, 2),
         "option_1_pnl": round(o1_pnl, 2),
         "option_2_pnl": round(o2_pnl, 2),
-        "gross_pnl": round(gross_pnl, 2),
+        "gross_pnl": round(gross, 2),
         "charges": charges,
-        "net_pnl": round(net_pnl, 2),
+        "net_pnl": round(net, 2),
         "roi": round(roi, 2),
     })
-
     return enriched
 
 
 def get_strategy_lab_summary():
     rows = read_rows()
-    strategies = [enrich(row) for row in rows]
+    strategies = [enrich(r) for r in rows]
 
     open_strategies = [s for s in strategies if s["status"] == "OPEN"]
     closed_strategies = [s for s in strategies if s["status"] == "CLOSED"]
@@ -365,15 +324,28 @@ def update_strategy_trade_prices(strategy_id, form):
     write_rows(rows)
 
 
-def close_strategy_trade(strategy_id):
+def close_strategy_trade(strategy_id, form=None):
     rows = read_rows()
     now = datetime.now()
 
     for row in rows:
         if row["strategy_id"] == strategy_id and row["status"] == "OPEN":
+            if form:
+                if row.get("futures_direction"):
+                    row["futures_current"] = safe_float(form.get("futures_current"))
+
+                if row.get("option_1_type"):
+                    row["option_1_current"] = safe_float(form.get("option_1_current"))
+
+                if row.get("option_2_type"):
+                    row["option_2_current"] = safe_float(form.get("option_2_current"))
+
+                row["exit_reason"] = form.get("exit_reason", "Closed manually")
+            else:
+                row["exit_reason"] = "Closed manually"
+
             row["status"] = "CLOSED"
             row["closed_date"] = now.strftime("%Y-%m-%d")
             row["closed_time"] = now.strftime("%H:%M:%S")
-            row["exit_reason"] = "Closed manually"
 
     write_rows(rows)

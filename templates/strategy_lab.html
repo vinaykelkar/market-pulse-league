@@ -9,7 +9,7 @@
         <div class="strategy-lab-header">
             <p>NIFTY STRATEGY RESEARCH</p>
             <h1>Strategy Lab</h1>
-            <span>Different CSV. Different journal. Built only for strategy testing.</span>
+            <span>Enter live broker prices anytime to calculate unrealised P&L.</span>
         </div>
 
         <div class="strategy-kpi-grid">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="strategy-kpi-card">
-                <span>Unrealised Net P&L</span>
+                <span>Live MTM</span>
                 <strong class="{{ 'positive' if summary.total_unrealised >= 0 else 'negative' }}">
                     ₹{{ "{:,.0f}".format(summary.total_unrealised) }}
                 </strong>
@@ -74,7 +74,6 @@
 
                     <div id="futures_leg_box">
                         <h3>Futures Leg 1</h3>
-
                         <label>Futures Entry Price</label>
                         <input type="number" step="0.01" name="futures_entry" placeholder="Example: 24000">
                     </div>
@@ -145,6 +144,10 @@
                                 </strong>
                             </div>
 
+                            <div class="strategy-live-label">
+                                Entry values are frozen. Enter current broker prices below to calculate unrealised P&L.
+                            </div>
+
                             <div class="strategy-leg-grid">
 
                                 {% if strategy.futures_direction %}
@@ -186,12 +189,12 @@
                             </div>
 
                             <div class="strategy-result-row">
-                                <span>Gross P&L</span>
+                                <span>Gross Unrealised P&L</span>
                                 <strong>₹{{ "{:,.0f}".format(strategy.gross_pnl) }}</strong>
                             </div>
 
                             <div class="strategy-result-row">
-                                <span>Charges</span>
+                                <span>Estimated Charges If Closed Now</span>
                                 <strong>₹{{ "{:,.0f}".format(strategy.charges.total) }}</strong>
                             </div>
 
@@ -203,7 +206,7 @@
                             </div>
 
                             <div class="strategy-result-row">
-                                <span>ROI</span>
+                                <span>ROI If Closed Now</span>
                                 <strong>{{ strategy.roi }}%</strong>
                             </div>
 
@@ -223,12 +226,27 @@
 
                                 <input type="text" name="notes" value="{{ strategy.notes }}" placeholder="Notes">
 
-                                <button type="submit">Update Prices</button>
+                                <button type="submit">Calculate Unrealised P&L</button>
 
                             </form>
 
-                            <form method="POST" action="{{ url_for('strategy_lab_close', strategy_id=strategy.strategy_id) }}">
-                                <button class="danger-button" type="submit">Close Strategy</button>
+                            <form method="POST" action="{{ url_for('strategy_lab_close', strategy_id=strategy.strategy_id) }}" class="strategy-close-form">
+
+                                {% if strategy.futures_direction %}
+                                    <input type="hidden" name="futures_current" value="{{ strategy.futures_current }}">
+                                {% endif %}
+
+                                {% if strategy.option_1_type %}
+                                    <input type="hidden" name="option_1_current" value="{{ strategy.option_1_current }}">
+                                {% endif %}
+
+                                {% if strategy.option_2_type %}
+                                    <input type="hidden" name="option_2_current" value="{{ strategy.option_2_current }}">
+                                {% endif %}
+
+                                <input type="text" name="exit_reason" placeholder="Exit reason">
+
+                                <button class="danger-button" type="submit">Close Strategy At Current Prices</button>
                             </form>
 
                         </div>

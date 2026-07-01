@@ -205,7 +205,7 @@ def strategy_lab_update(strategy_id):
 
 @app.route("/strategy-lab/close/<int:strategy_id>", methods=["POST"])
 def strategy_lab_close(strategy_id):
-    close_strategy_trade(strategy_id)
+    close_strategy_trade(strategy_id, request.form)
     return redirect(url_for("strategy_lab"))
 
 
