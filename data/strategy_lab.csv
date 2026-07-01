@@ -1,0 +1,1 @@
+strategy_id,strategy_type,status,created_date,created_time,closed_date,closed_time,futures_direction,futures_entry,futures_current,option_1_type,option_1_side,option_1_strike,option_1_entry,option_1_current,option_2_type,option_2_side,option_2_strike,option_2_entry,option_2_current,quantity,margin_used,notes

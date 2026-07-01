@@ -9,7 +9,7 @@
         <div class="strategy-lab-header">
             <p>NIFTY STRATEGY RESEARCH</p>
             <h1>Strategy Lab</h1>
-            <span>Open strategies stay open until manually closed.</span>
+            <span>Different CSV. Different journal. Built only for strategy testing.</span>
         </div>
 
         <div class="strategy-kpi-grid">
@@ -49,9 +49,9 @@
                 <form method="POST" action="{{ url_for('strategy_lab_create') }}" class="strategy-form">
 
                     <label>Strategy Type</label>
-                    <select name="strategy_type" required>
-                        <option value="LONG_FUTURE_LONG_PUT">Long Future + Long ATM Put</option>
-                        <option value="SHORT_FUTURE_LONG_CALL">Short Future + Long ATM Call</option>
+                    <select name="strategy_type" id="strategy_type" required onchange="toggleStrategyFields()">
+                        <option value="LONG_FUTURE_LONG_ATM_PUT">Long Future + Long ATM Put</option>
+                        <option value="SHORT_FUTURE_LONG_ATM_CALL">Short Future + Long ATM Call</option>
                         <option value="SHORT_STRANGLE">Short Strangle: Sell CE + Sell PE</option>
                     </select>
 
@@ -61,47 +61,61 @@
                             <input type="number" name="quantity" value="65" required>
                         </div>
 
-                        <div>
-                            <label>Margin Used</label>
-                            <input type="number" step="0.01" name="margin_used" placeholder="Example: 180000">
+                        <div id="futures_margin_box">
+                            <label>Futures Margin Used</label>
+                            <input type="number" step="0.01" name="futures_margin_used" placeholder="Example: 176000">
+                        </div>
+
+                        <div id="options_margin_box">
+                            <label>Options Margin Used</label>
+                            <input type="number" step="0.01" name="options_margin_used" placeholder="Example: 80000">
                         </div>
                     </div>
 
-                    <h3>Futures Leg</h3>
+                    <div id="futures_leg_box">
+                        <h3>Futures Leg 1</h3>
 
-                    <label>Futures Entry</label>
-                    <input type="number" step="0.01" name="futures_entry" placeholder="Only for futures strategies">
+                        <label>Futures Entry Price</label>
+                        <input type="number" step="0.01" name="futures_entry" placeholder="Example: 24000">
+                    </div>
 
-                    <h3>Option Leg 1</h3>
+                    <div id="option_leg_1_box">
+                        <h3>Option Leg 1</h3>
 
-                    <div class="strategy-two-col">
-                        <div>
-                            <label>Option 1 Strike</label>
-                            <input type="number" step="0.01" name="option_1_strike">
-                        </div>
+                        <div class="strategy-two-col">
+                            <div>
+                                <label>Option 1 Strike</label>
+                                <input type="number" step="0.01" name="option_1_strike">
+                            </div>
 
-                        <div>
-                            <label>Option 1 Entry Premium</label>
-                            <input type="number" step="0.01" name="option_1_entry">
+                            <div>
+                                <label>Option 1 Entry Premium</label>
+                                <input type="number" step="0.01" name="option_1_entry">
+                            </div>
                         </div>
                     </div>
 
-                    <h3>Option Leg 2</h3>
+                    <div id="option_leg_2_box">
+                        <h3>Option Leg 2</h3>
 
-                    <div class="strategy-two-col">
-                        <div>
-                            <label>Option 2 Strike</label>
-                            <input type="number" step="0.01" name="option_2_strike" placeholder="Only for strangle">
-                        </div>
+                        <div class="strategy-two-col">
+                            <div>
+                                <label>Option 2 Strike</label>
+                                <input type="number" step="0.01" name="option_2_strike">
+                            </div>
 
-                        <div>
-                            <label>Option 2 Entry Premium</label>
-                            <input type="number" step="0.01" name="option_2_entry" placeholder="Only for strangle">
+                            <div>
+                                <label>Option 2 Entry Premium</label>
+                                <input type="number" step="0.01" name="option_2_entry">
+                            </div>
                         </div>
                     </div>
+
+                    <label>Entry Reason</label>
+                    <textarea name="entry_reason" rows="3" placeholder="Why am I testing this strategy?"></textarea>
 
                     <label>Notes</label>
-                    <textarea name="notes" rows="4" placeholder="Why this strategy was created?"></textarea>
+                    <textarea name="notes" rows="3" placeholder="Additional notes"></textarea>
 
                     <button type="submit">Create Strategy</button>
 
@@ -126,8 +140,8 @@
                                     <span>{{ strategy.created_date }} {{ strategy.created_time }}</span>
                                 </div>
 
-                                <strong class="{{ 'positive' if strategy.net_if_closed_now >= 0 else 'negative' }}">
-                                    ₹{{ "{:,.0f}".format(strategy.net_if_closed_now) }}
+                                <strong class="{{ 'positive' if strategy.net_pnl >= 0 else 'negative' }}">
+                                    ₹{{ "{:,.0f}".format(strategy.net_pnl) }}
                                 </strong>
                             </div>
 
@@ -135,7 +149,7 @@
 
                                 {% if strategy.futures_direction %}
                                     <div class="strategy-leg-card">
-                                        <span>Futures</span>
+                                        <span>Futures Leg</span>
                                         <strong>{{ strategy.futures_direction }}</strong>
                                         <small>Entry: {{ strategy.futures_entry }}</small>
                                         <small>Current: {{ strategy.futures_current }}</small>
@@ -177,14 +191,14 @@
                             </div>
 
                             <div class="strategy-result-row">
-                                <span>Estimated Charges</span>
+                                <span>Charges</span>
                                 <strong>₹{{ "{:,.0f}".format(strategy.charges.total) }}</strong>
                             </div>
 
                             <div class="strategy-result-row">
                                 <span>Net If Closed Now</span>
-                                <strong class="{{ 'positive' if strategy.net_if_closed_now >= 0 else 'negative' }}">
-                                    ₹{{ "{:,.0f}".format(strategy.net_if_closed_now) }}
+                                <strong class="{{ 'positive' if strategy.net_pnl >= 0 else 'negative' }}">
+                                    ₹{{ "{:,.0f}".format(strategy.net_pnl) }}
                                 </strong>
                             </div>
 
@@ -231,54 +245,38 @@
 
         </div>
 
-        <div class="strategy-panel mt-4">
-
-            <h2>All Strategy Records</h2>
-
-            <div class="table-responsive">
-
-                <table class="table strategy-table">
-
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Strategy</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Gross</th>
-                            <th>Charges</th>
-                            <th>Net</th>
-                            <th>ROI</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for strategy in summary.strategies|reverse %}
-                            <tr>
-                                <td>{{ strategy.strategy_id }}</td>
-                                <td>{{ strategy.strategy_type.replace("_", " ") }}</td>
-                                <td>{{ strategy.status }}</td>
-                                <td>{{ strategy.created_date }}</td>
-                                <td>₹{{ "{:,.0f}".format(strategy.gross_pnl) }}</td>
-                                <td>₹{{ "{:,.0f}".format(strategy.charges.total) }}</td>
-                                <td class="{{ 'positive' if strategy.net_if_closed_now >= 0 else 'negative' }}">
-                                    ₹{{ "{:,.0f}".format(strategy.net_if_closed_now) }}
-                                </td>
-                                <td>{{ strategy.roi }}%</td>
-                                <td>{{ strategy.notes }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
     </div>
 
 </section>
+
+<script>
+function toggleStrategyFields() {
+    const strategy = document.getElementById("strategy_type").value;
+
+    const futuresLeg = document.getElementById("futures_leg_box");
+    const optionLeg1 = document.getElementById("option_leg_1_box");
+    const optionLeg2 = document.getElementById("option_leg_2_box");
+    const futuresMargin = document.getElementById("futures_margin_box");
+    const optionsMargin = document.getElementById("options_margin_box");
+
+    if (strategy === "LONG_FUTURE_LONG_ATM_PUT" || strategy === "SHORT_FUTURE_LONG_ATM_CALL") {
+        futuresLeg.style.display = "block";
+        optionLeg1.style.display = "block";
+        optionLeg2.style.display = "none";
+        futuresMargin.style.display = "block";
+        optionsMargin.style.display = "block";
+    }
+
+    if (strategy === "SHORT_STRANGLE") {
+        futuresLeg.style.display = "none";
+        optionLeg1.style.display = "block";
+        optionLeg2.style.display = "block";
+        futuresMargin.style.display = "none";
+        optionsMargin.style.display = "block";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", toggleStrategyFields);
+</script>
 
 {% endblock %}

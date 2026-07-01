@@ -4,11 +4,11 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 
-from services.strategy_lab_service import (
-    get_strategy_summary,
-    create_strategy,
-    update_strategy_prices,
-    close_strategy,
+from services.strategy_trades_service import (
+    get_strategy_lab_summary,
+    create_strategy_trade,
+    update_strategy_trade_prices,
+    close_strategy_trade,
 )
 
 app = Flask(__name__)
@@ -187,26 +187,32 @@ def journal_mobile():
     
 @app.route("/strategy-lab")
 def strategy_lab():
-    summary = get_strategy_summary()
+    summary = get_strategy_lab_summary()
     return render_template("strategy_lab.html", summary=summary)
 
 
 @app.route("/strategy-lab/create", methods=["POST"])
 def strategy_lab_create():
-    create_strategy(request.form)
+    create_strategy_trade(request.form)
     return redirect(url_for("strategy_lab"))
 
 
 @app.route("/strategy-lab/update/<int:strategy_id>", methods=["POST"])
 def strategy_lab_update(strategy_id):
-    update_strategy_prices(strategy_id, request.form)
+    update_strategy_trade_prices(strategy_id, request.form)
     return redirect(url_for("strategy_lab"))
 
 
 @app.route("/strategy-lab/close/<int:strategy_id>", methods=["POST"])
 def strategy_lab_close(strategy_id):
-    close_strategy(strategy_id)
+    close_strategy_trade(strategy_id)
     return redirect(url_for("strategy_lab"))
+
+
+@app.route("/strategy-trades")
+def strategy_trades():
+    summary = get_strategy_lab_summary()
+    return render_template("strategy_trades.html", summary=summary)
 
 if __name__ == "__main__":
     app.run(debug=True)

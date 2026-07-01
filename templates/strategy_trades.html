@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="strategy-lab-page">
+
+    <div class="container-fluid px-4">
+
+        <div class="strategy-lab-header">
+            <p>STRATEGY TRADES VIEWER</p>
+            <h1>Strategy Trades</h1>
+            <span>Separate from intraday futures paper trading journal.</span>
+        </div>
+
+        <div class="strategy-panel">
+
+            <h2>All Strategy Trades</h2>
+
+            <div class="table-responsive">
+
+                <table class="table strategy-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Strategy</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Fut Dir</th>
+                            <th>Fut Entry</th>
+                            <th>Fut Current</th>
+                            <th>Opt 1</th>
+                            <th>Opt 1 Entry</th>
+                            <th>Opt 1 Current</th>
+                            <th>Opt 2</th>
+                            <th>Opt 2 Entry</th>
+                            <th>Opt 2 Current</th>
+                            <th>Gross</th>
+                            <th>Charges</th>
+                            <th>Net</th>
+                            <th>ROI</th>
+                            <th>Entry Reason</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for strategy in summary.strategies|reverse %}
+
+                            <tr>
+                                <td>{{ strategy.strategy_id }}</td>
+                                <td>{{ strategy.strategy_type.replace("_", " ") }}</td>
+                                <td>{{ strategy.status }}</td>
+                                <td>{{ strategy.created_date }}</td>
+
+                                <td>{{ strategy.futures_direction if strategy.futures_direction else "-" }}</td>
+                                <td>{{ strategy.futures_entry if strategy.futures_entry else "-" }}</td>
+                                <td>{{ strategy.futures_current if strategy.futures_current else "-" }}</td>
+
+                                <td>
+                                    {% if strategy.option_1_type %}
+                                        {{ strategy.option_1_type }} {{ strategy.option_1_side }} {{ strategy.option_1_strike }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ strategy.option_1_entry if strategy.option_1_entry else "-" }}</td>
+                                <td>{{ strategy.option_1_current if strategy.option_1_current else "-" }}</td>
+
+                                <td>
+                                    {% if strategy.option_2_type %}
+                                        {{ strategy.option_2_type }} {{ strategy.option_2_side }} {{ strategy.option_2_strike }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ strategy.option_2_entry if strategy.option_2_entry else "-" }}</td>
+                                <td>{{ strategy.option_2_current if strategy.option_2_current else "-" }}</td>
+
+                                <td>₹{{ "{:,.0f}".format(strategy.gross_pnl) }}</td>
+                                <td>₹{{ "{:,.0f}".format(strategy.charges.total) }}</td>
+
+                                <td class="{{ 'positive' if strategy.net_pnl >= 0 else 'negative' }}">
+                                    ₹{{ "{:,.0f}".format(strategy.net_pnl) }}
+                                </td>
+
+                                <td>{{ strategy.roi }}%</td>
+                                <td>{{ strategy.entry_reason }}</td>
+                                <td>{{ strategy.notes }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
