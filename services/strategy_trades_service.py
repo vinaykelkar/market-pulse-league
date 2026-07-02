@@ -1,8 +1,9 @@
 import csv
-from datetime import datetime
+from datetime import datetime, time
 from pathlib import Path
 
 DATA_FILE = Path("data/strategy_trades.csv")
+PRICE_UPDATES_FILE = Path("data/strategy_price_updates.csv")
 LOT_SIZE = 65
 
 FIELDNAMES = [
@@ -24,12 +25,34 @@ FIELDNAMES = [
     "entry_reason", "exit_reason", "notes",
 ]
 
+PRICE_UPDATE_FIELDNAMES = [
+    "snapshot_id",
+    "strategy_id",
+    "snapshot_type",
+    "update_date",
+    "update_time",
+    "futures_current",
+    "option_1_current",
+    "option_2_current",
+    "gross_pnl",
+    "estimated_charges",
+    "net_pnl",
+    "roi",
+    "notes",
+]
+
 
 def ensure_csv_exists():
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+
     if not DATA_FILE.exists():
         with DATA_FILE.open("w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+            writer.writeheader()
+
+    if not PRICE_UPDATES_FILE.exists():
+        with PRICE_UPDATES_FILE.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=PRICE_UPDATE_FIELDNAMES)
             writer.writeheader()
 
 
@@ -49,6 +72,47 @@ def safe_int(value, default=0):
         return int(float(value))
     except Exception:
         return default
+
+
+def is_disciplined_snapshot_time():
+    now = datetime.now().time()
+    return time(15, 0) <= now <= time(15, 30)
+
+
+def next_snapshot_id():
+    ensure_csv_exists()
+
+    with PRICE_UPDATES_FILE.open("r", newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+
+    if not rows:
+        return 1
+
+    return max(safe_int(row.get("snapshot_id")) for row in rows) + 1
+
+
+def append_price_snapshot(strategy, snapshot_type):
+    ensure_csv_exists()
+    now = datetime.now()
+
+    with PRICE_UPDATES_FILE.open("a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=PRICE_UPDATE_FIELDNAMES)
+
+        writer.writerow({
+            "snapshot_id": next_snapshot_id(),
+            "strategy_id": strategy.get("strategy_id"),
+            "snapshot_type": snapshot_type,
+            "update_date": now.strftime("%Y-%m-%d"),
+            "update_time": now.strftime("%H:%M:%S"),
+            "futures_current": strategy.get("futures_current", ""),
+            "option_1_current": strategy.get("option_1_current", ""),
+            "option_2_current": strategy.get("option_2_current", ""),
+            "gross_pnl": strategy.get("gross_pnl", 0),
+            "estimated_charges": strategy.get("charges", {}).get("total", 0),
+            "net_pnl": strategy.get("net_pnl", 0),
+            "roi": strategy.get("roi", 0),
+            "notes": strategy.get("notes", ""),
+        })
 
 
 def read_rows():
@@ -388,6 +452,7 @@ def create_strategy_trade(form):
 
 def update_strategy_trade_prices(strategy_id, form):
     rows = read_rows()
+    updated_strategy = None
 
     for row in rows:
         if row["strategy_id"] == strategy_id and row["status"] == "OPEN":
@@ -400,14 +465,18 @@ def update_strategy_trade_prices(strategy_id, form):
             if row.get("option_2_type"):
                 row["option_2_current"] = safe_float(form.get("option_2_current"))
 
-            #row["notes"] = form.get("notes", row.get("notes", ""))
+            updated_strategy = enrich(row)
 
     write_rows(rows)
+
+    if updated_strategy and is_disciplined_snapshot_time():
+        append_price_snapshot(updated_strategy, "DISCIPLINED_3PM_SNAPSHOT")
 
 
 def close_strategy_trade(strategy_id, form=None):
     rows = read_rows()
     now = datetime.now()
+    closed_strategy = None
 
     for row in rows:
         if row["strategy_id"] == strategy_id and row["status"] == "OPEN":
@@ -429,4 +498,9 @@ def close_strategy_trade(strategy_id, form=None):
             row["closed_date"] = now.strftime("%Y-%m-%d")
             row["closed_time"] = now.strftime("%H:%M:%S")
 
+            closed_strategy = enrich(row)
+
     write_rows(rows)
+
+    if closed_strategy:
+        append_price_snapshot(closed_strategy, "FINAL_CLOSE_SNAPSHOT")
