@@ -153,7 +153,9 @@ def estimate_charges(row):
         option_turnover += (entry + current) * option_1_qty
         brokerage_orders += 2
 
-        if row.get("option_1_side") == "SELL":
+        if row.get("option_1_side") == "BUY":
+            stt += current * option_1_qty * 0.001
+        elif row.get("option_1_side") == "SELL":
             stt += entry * option_1_qty * 0.001
 
     if row.get("option_2_side"):
@@ -163,7 +165,9 @@ def estimate_charges(row):
         option_turnover += (entry + current) * option_2_qty
         brokerage_orders += 2
 
-        if row.get("option_2_side") == "SELL":
+        if row.get("option_2_side") == "BUY":
+            stt += current * option_2_qty * 0.001
+        elif row.get("option_2_side") == "SELL":
             stt += entry * option_2_qty * 0.001
 
     brokerage = brokerage_orders * 20
@@ -396,7 +400,7 @@ def update_strategy_trade_prices(strategy_id, form):
             if row.get("option_2_type"):
                 row["option_2_current"] = safe_float(form.get("option_2_current"))
 
-            row["notes"] = form.get("notes", row.get("notes", ""))
+            #row["notes"] = form.get("notes", row.get("notes", ""))
 
     write_rows(rows)
 

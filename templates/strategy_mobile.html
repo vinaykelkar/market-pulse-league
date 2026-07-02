@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="mobile-journal-page">
+    <div class="mobile-journal-shell">
+
+        <div class="mobile-journal-header">
+            <p>TECH TRADE & CHAI</p>
+            <h1>Strategy Lab</h1>
+            <span>Live MTM Monitor</span>
+        </div>
+
+        <div class="mobile-kpi-card primary">
+            <span>Live MTM</span>
+            <strong class="{{ 'positive' if summary.total_unrealised >= 0 else 'negative' }}">
+                ₹{{ "{:,.0f}".format(summary.total_unrealised) }}
+            </strong>
+            <small>Open strategies: {{ summary.open_count }}</small>
+        </div>
+
+        {% if summary.open_strategies %}
+
+            {% for strategy in summary.open_strategies %}
+
+                <div class="mobile-trade-card">
+
+                    <div class="mobile-section-label">
+                        Strategy #{{ strategy.strategy_id }}
+                    </div>
+
+                    <h2 style="font-size:20px; font-weight:950; margin-bottom:12px;">
+                        {{ strategy.strategy_type.replace("_", " ") }}
+                    </h2>
+
+                    {% if strategy.futures_direction %}
+                    <div class="mobile-trade-row">
+                        <span>Futures</span>
+                        <strong>{{ strategy.futures_direction }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Fut Entry / Current</span>
+                        <strong>{{ strategy.futures_entry }} / {{ strategy.futures_current }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Futures P&L</span>
+                        <strong class="{{ 'positive' if strategy.futures_pnl >= 0 else 'negative' }}">
+                            ₹{{ "{:,.0f}".format(strategy.futures_pnl) }}
+                        </strong>
+                    </div>
+                    {% endif %}
+
+                    {% if strategy.option_1_type %}
+                    <div class="mobile-trade-row">
+                        <span>{{ strategy.option_1_type }} {{ strategy.option_1_side }}</span>
+                        <strong>{{ strategy.option_1_strike }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Opt 1 Entry / Current</span>
+                        <strong>{{ strategy.option_1_entry }} / {{ strategy.option_1_current }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Opt 1 P&L</span>
+                        <strong class="{{ 'positive' if strategy.option_1_pnl >= 0 else 'negative' }}">
+                            ₹{{ "{:,.0f}".format(strategy.option_1_pnl) }}
+                        </strong>
+                    </div>
+                    {% endif %}
+
+                    {% if strategy.option_2_type %}
+                    <div class="mobile-trade-row">
+                        <span>{{ strategy.option_2_type }} {{ strategy.option_2_side }}</span>
+                        <strong>{{ strategy.option_2_strike }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Opt 2 Entry / Current</span>
+                        <strong>{{ strategy.option_2_entry }} / {{ strategy.option_2_current }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Opt 2 P&L</span>
+                        <strong class="{{ 'positive' if strategy.option_2_pnl >= 0 else 'negative' }}">
+                            ₹{{ "{:,.0f}".format(strategy.option_2_pnl) }}
+                        </strong>
+                    </div>
+                    {% endif %}
+
+                    <div class="mobile-trade-row">
+                        <span>Gross P&L</span>
+                        <strong>₹{{ "{:,.0f}".format(strategy.gross_pnl) }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Charges</span>
+                        <strong>₹{{ "{:,.0f}".format(strategy.charges.total) }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row highlight">
+                        <span>Net If Closed Now</span>
+                        <strong class="{{ 'positive' if strategy.net_pnl >= 0 else 'negative' }}">
+                            ₹{{ "{:,.0f}".format(strategy.net_pnl) }}
+                        </strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>Capital Used</span>
+                        <strong>₹{{ "{:,.0f}".format(strategy.total_capital_used) }}</strong>
+                    </div>
+
+                    <div class="mobile-trade-row">
+                        <span>ROI</span>
+                        <strong>{{ strategy.roi }}%</strong>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="mobile-trade-card">
+                <div class="mobile-section-label">No Open Strategy</div>
+                <p>No live strategy position right now.</p>
+            </div>
+
+        {% endif %}
+
+        <div class="mobile-footer-line">
+            Strategy Lab. Real MTM. Nothing Hidden.
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
