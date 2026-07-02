@@ -3,16 +3,25 @@ from datetime import datetime
 from pathlib import Path
 
 DATA_FILE = Path("data/strategy_trades.csv")
-DEFAULT_QTY = 65
+LOT_SIZE = 65
 
 FIELDNAMES = [
     "strategy_id", "strategy_type", "status",
     "created_date", "created_time", "closed_date", "closed_time",
-    "futures_margin_used", "options_margin_used", "total_margin_used",
+
+    "futures_lots", "futures_qty", "futures_margin_used",
+    "options_lots", "option_1_qty", "option_2_qty",
+    "option_premium_paid", "options_margin_used", "total_capital_used",
+
     "futures_direction", "futures_entry", "futures_current",
-    "option_1_type", "option_1_side", "option_1_strike", "option_1_entry", "option_1_current",
-    "option_2_type", "option_2_side", "option_2_strike", "option_2_entry", "option_2_current",
-    "quantity", "entry_reason", "exit_reason", "notes",
+
+    "option_1_type", "option_1_side", "option_1_strike",
+    "option_1_entry", "option_1_current",
+
+    "option_2_type", "option_2_side", "option_2_strike",
+    "option_2_entry", "option_2_current",
+
+    "entry_reason", "exit_reason", "notes",
 ]
 
 
@@ -20,7 +29,8 @@ def ensure_csv_exists():
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     if not DATA_FILE.exists():
         with DATA_FILE.open("w", newline="", encoding="utf-8") as f:
-            csv.DictWriter(f, fieldnames=FIELDNAMES).writeheader()
+            writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+            writer.writeheader()
 
 
 def safe_float(value, default=0.0):
@@ -47,20 +57,27 @@ def read_rows():
 
     with DATA_FILE.open("r", newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
+
         for row in reader:
             clean = {field: row.get(field, "") for field in FIELDNAMES}
 
-            for field in [
-                "strategy_id", "quantity"
-            ]:
-                clean[field] = safe_int(clean[field], DEFAULT_QTY if field == "quantity" else 0)
+            int_fields = [
+                "strategy_id", "futures_lots", "futures_qty",
+                "options_lots", "option_1_qty", "option_2_qty",
+            ]
 
-            for field in [
-                "futures_margin_used", "options_margin_used", "total_margin_used",
+            float_fields = [
+                "futures_margin_used", "option_premium_paid",
+                "options_margin_used", "total_capital_used",
                 "futures_entry", "futures_current",
                 "option_1_strike", "option_1_entry", "option_1_current",
                 "option_2_strike", "option_2_entry", "option_2_current",
-            ]:
+            ]
+
+            for field in int_fields:
+                clean[field] = safe_int(clean[field])
+
+            for field in float_fields:
                 clean[field] = safe_float(clean[field])
 
             rows.append(clean)
@@ -70,9 +87,11 @@ def read_rows():
 
 def write_rows(rows):
     ensure_csv_exists()
+
     with DATA_FILE.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
+
         for row in rows:
             writer.writerow({field: row.get(field, "") for field in FIELDNAMES})
 
@@ -82,7 +101,7 @@ def next_strategy_id(rows):
 
 
 def futures_pnl(direction, entry, current, qty):
-    if not direction or not entry or not current:
+    if not direction or not entry or not current or not qty:
         return 0
 
     if direction == "LONG":
@@ -95,7 +114,7 @@ def futures_pnl(direction, entry, current, qty):
 
 
 def option_pnl(side, entry, current, qty):
-    if not side or not entry or not current:
+    if not side or not entry or not current or not qty:
         return 0
 
     if side == "BUY":
@@ -108,34 +127,44 @@ def option_pnl(side, entry, current, qty):
 
 
 def estimate_charges(row):
-    qty = safe_int(row.get("quantity"), DEFAULT_QTY)
-
     futures_turnover = 0
     option_turnover = 0
     brokerage_orders = 0
     stt = 0
 
+    futures_qty = safe_int(row.get("futures_qty"))
+    option_1_qty = safe_int(row.get("option_1_qty"))
+    option_2_qty = safe_int(row.get("option_2_qty"))
+
     if row.get("futures_direction"):
         entry = safe_float(row.get("futures_entry"))
         current = safe_float(row.get("futures_current")) or entry
 
-        futures_turnover = (entry + current) * qty
+        futures_turnover = (entry + current) * futures_qty
         brokerage_orders += 2
 
         sell_price = current if row["futures_direction"] == "LONG" else entry
-        stt += sell_price * qty * 0.0005
+        stt += sell_price * futures_qty * 0.0005
 
-    for leg in ["option_1", "option_2"]:
-        side = row.get(f"{leg}_side")
-        entry = safe_float(row.get(f"{leg}_entry"))
-        current = safe_float(row.get(f"{leg}_current")) or entry
+    if row.get("option_1_side"):
+        entry = safe_float(row.get("option_1_entry"))
+        current = safe_float(row.get("option_1_current")) or entry
 
-        if side:
-            option_turnover += (entry + current) * qty
-            brokerage_orders += 2
+        option_turnover += (entry + current) * option_1_qty
+        brokerage_orders += 2
 
-            if side == "SELL":
-                stt += entry * qty * 0.001
+        if row.get("option_1_side") == "SELL":
+            stt += entry * option_1_qty * 0.001
+
+    if row.get("option_2_side"):
+        entry = safe_float(row.get("option_2_entry"))
+        current = safe_float(row.get("option_2_current")) or entry
+
+        option_turnover += (entry + current) * option_2_qty
+        brokerage_orders += 2
+
+        if row.get("option_2_side") == "SELL":
+            stt += entry * option_2_qty * 0.001
 
     brokerage = brokerage_orders * 20
     exchange = (futures_turnover + option_turnover) * 0.0000173
@@ -155,35 +184,37 @@ def estimate_charges(row):
 
 
 def enrich(row):
-    qty = safe_int(row.get("quantity"), DEFAULT_QTY)
+    futures_qty = safe_int(row.get("futures_qty"))
+    option_1_qty = safe_int(row.get("option_1_qty"))
+    option_2_qty = safe_int(row.get("option_2_qty"))
 
     f_pnl = futures_pnl(
         row.get("futures_direction"),
         safe_float(row.get("futures_entry")),
         safe_float(row.get("futures_current")),
-        qty,
+        futures_qty,
     )
 
     o1_pnl = option_pnl(
         row.get("option_1_side"),
         safe_float(row.get("option_1_entry")),
         safe_float(row.get("option_1_current")),
-        qty,
+        option_1_qty,
     )
 
     o2_pnl = option_pnl(
         row.get("option_2_side"),
         safe_float(row.get("option_2_entry")),
         safe_float(row.get("option_2_current")),
-        qty,
+        option_2_qty,
     )
 
     gross = f_pnl + o1_pnl + o2_pnl
     charges = estimate_charges(row)
     net = gross - charges["total"]
 
-    total_margin = safe_float(row.get("total_margin_used"))
-    roi = (net / total_margin * 100) if total_margin else 0
+    total_capital = safe_float(row.get("total_capital_used"))
+    roi = (net / total_capital * 100) if total_capital else 0
 
     enriched = dict(row)
     enriched.update({
@@ -195,6 +226,7 @@ def enrich(row):
         "net_pnl": round(net, 2),
         "roi": round(roi, 2),
     })
+
     return enriched
 
 
@@ -219,11 +251,24 @@ def get_strategy_lab_summary():
 def create_strategy_trade(form):
     rows = read_rows()
     now = datetime.now()
+
     strategy_type = form.get("strategy_type")
+
+    futures_lots = safe_int(form.get("futures_lots"), 0)
+    options_lots = safe_int(form.get("options_lots"), 0)
+
+    futures_qty = futures_lots * LOT_SIZE
+    option_1_qty = options_lots * LOT_SIZE
+    option_2_qty = options_lots * LOT_SIZE
 
     futures_margin = safe_float(form.get("futures_margin_used"))
     options_margin = safe_float(form.get("options_margin_used"))
-    total_margin = futures_margin + options_margin
+
+    option_1_entry = safe_float(form.get("option_1_entry"))
+    option_2_entry = safe_float(form.get("option_2_entry"))
+
+    option_premium_paid = 0
+    total_capital_used = 0
 
     row = {
         "strategy_id": next_strategy_id(rows),
@@ -234,9 +279,17 @@ def create_strategy_trade(form):
         "closed_date": "",
         "closed_time": "",
 
+        "futures_lots": futures_lots,
+        "futures_qty": futures_qty,
         "futures_margin_used": futures_margin,
-        "options_margin_used": options_margin,
-        "total_margin_used": total_margin,
+
+        "options_lots": options_lots,
+        "option_1_qty": option_1_qty,
+        "option_2_qty": 0,
+
+        "option_premium_paid": 0,
+        "options_margin_used": 0,
+        "total_capital_used": 0,
 
         "futures_direction": "",
         "futures_entry": "",
@@ -254,14 +307,20 @@ def create_strategy_trade(form):
         "option_2_entry": "",
         "option_2_current": "",
 
-        "quantity": safe_int(form.get("quantity"), DEFAULT_QTY),
         "entry_reason": form.get("entry_reason", ""),
         "exit_reason": "",
         "notes": form.get("notes", ""),
     }
 
     if strategy_type == "LONG_FUTURE_LONG_ATM_PUT":
+        option_premium_paid = option_1_entry * option_1_qty
+        total_capital_used = futures_margin + option_premium_paid
+
         row.update({
+            "option_premium_paid": option_premium_paid,
+            "options_margin_used": 0,
+            "total_capital_used": total_capital_used,
+
             "futures_direction": "LONG",
             "futures_entry": safe_float(form.get("futures_entry")),
             "futures_current": safe_float(form.get("futures_entry")),
@@ -269,12 +328,19 @@ def create_strategy_trade(form):
             "option_1_type": "PE",
             "option_1_side": "BUY",
             "option_1_strike": safe_float(form.get("option_1_strike")),
-            "option_1_entry": safe_float(form.get("option_1_entry")),
-            "option_1_current": safe_float(form.get("option_1_entry")),
+            "option_1_entry": option_1_entry,
+            "option_1_current": option_1_entry,
         })
 
     elif strategy_type == "SHORT_FUTURE_LONG_ATM_CALL":
+        option_premium_paid = option_1_entry * option_1_qty
+        total_capital_used = futures_margin + option_premium_paid
+
         row.update({
+            "option_premium_paid": option_premium_paid,
+            "options_margin_used": 0,
+            "total_capital_used": total_capital_used,
+
             "futures_direction": "SHORT",
             "futures_entry": safe_float(form.get("futures_entry")),
             "futures_current": safe_float(form.get("futures_entry")),
@@ -282,23 +348,34 @@ def create_strategy_trade(form):
             "option_1_type": "CE",
             "option_1_side": "BUY",
             "option_1_strike": safe_float(form.get("option_1_strike")),
-            "option_1_entry": safe_float(form.get("option_1_entry")),
-            "option_1_current": safe_float(form.get("option_1_entry")),
+            "option_1_entry": option_1_entry,
+            "option_1_current": option_1_entry,
         })
 
     elif strategy_type == "SHORT_STRANGLE":
+        total_capital_used = options_margin
+
         row.update({
+            "futures_lots": 0,
+            "futures_qty": 0,
+            "futures_margin_used": 0,
+
+            "option_2_qty": option_2_qty,
+            "option_premium_paid": 0,
+            "options_margin_used": options_margin,
+            "total_capital_used": total_capital_used,
+
             "option_1_type": "CE",
             "option_1_side": "SELL",
             "option_1_strike": safe_float(form.get("option_1_strike")),
-            "option_1_entry": safe_float(form.get("option_1_entry")),
-            "option_1_current": safe_float(form.get("option_1_entry")),
+            "option_1_entry": option_1_entry,
+            "option_1_current": option_1_entry,
 
             "option_2_type": "PE",
             "option_2_side": "SELL",
             "option_2_strike": safe_float(form.get("option_2_strike")),
-            "option_2_entry": safe_float(form.get("option_2_entry")),
-            "option_2_current": safe_float(form.get("option_2_entry")),
+            "option_2_entry": option_2_entry,
+            "option_2_current": option_2_entry,
         })
 
     rows.append(row)

@@ -9,7 +9,7 @@
         <div class="strategy-lab-header">
             <p>NIFTY STRATEGY RESEARCH</p>
             <h1>Strategy Lab</h1>
-            <span>Enter live broker prices anytime to calculate unrealised P&L.</span>
+            <span>Separate strategy testing journal. Enter broker prices anytime to calculate live unrealised P&L.</span>
         </div>
 
         <div class="strategy-kpi-grid">
@@ -56,26 +56,33 @@
                     </select>
 
                     <div class="strategy-two-col">
-                        <div>
-                            <label>Quantity</label>
-                            <input type="number" name="quantity" value="65" required>
+
+                        <div id="futures_lots_box">
+                            <label>Futures Lots</label>
+                            <input type="number" name="futures_lots" value="1" min="0">
+                        </div>
+
+                        <div id="options_lots_box">
+                            <label>Options Lots</label>
+                            <input type="number" name="options_lots" value="1" min="0">
                         </div>
 
                         <div id="futures_margin_box">
                             <label>Futures Margin Used</label>
-                            <input type="number" step="0.01" name="futures_margin_used" placeholder="Example: 176000">
+                            <input type="number" step="0.01" name="futures_margin_used" placeholder="Example: 177782">
                         </div>
 
                         <div id="options_margin_box">
                             <label>Options Margin Used</label>
-                            <input type="number" step="0.01" name="options_margin_used" placeholder="Example: 80000">
+                            <input type="number" step="0.01" name="options_margin_used" placeholder="Only for option selling">
                         </div>
+
                     </div>
 
                     <div id="futures_leg_box">
                         <h3>Futures Leg 1</h3>
                         <label>Futures Entry Price</label>
-                        <input type="number" step="0.01" name="futures_entry" placeholder="Example: 24000">
+                        <input type="number" step="0.01" name="futures_entry" placeholder="Example: 24180">
                     </div>
 
                     <div id="option_leg_1_box">
@@ -84,12 +91,12 @@
                         <div class="strategy-two-col">
                             <div>
                                 <label>Option 1 Strike</label>
-                                <input type="number" step="0.01" name="option_1_strike">
+                                <input type="number" step="0.01" name="option_1_strike" placeholder="Example: 24100">
                             </div>
 
                             <div>
                                 <label>Option 1 Entry Premium</label>
-                                <input type="number" step="0.01" name="option_1_entry">
+                                <input type="number" step="0.01" name="option_1_entry" placeholder="Example: 120">
                             </div>
                         </div>
                     </div>
@@ -100,12 +107,12 @@
                         <div class="strategy-two-col">
                             <div>
                                 <label>Option 2 Strike</label>
-                                <input type="number" step="0.01" name="option_2_strike">
+                                <input type="number" step="0.01" name="option_2_strike" placeholder="Example: 23800">
                             </div>
 
                             <div>
                                 <label>Option 2 Entry Premium</label>
-                                <input type="number" step="0.01" name="option_2_entry">
+                                <input type="number" step="0.01" name="option_2_entry" placeholder="Example: 110">
                             </div>
                         </div>
                     </div>
@@ -124,7 +131,7 @@
 
             <div class="strategy-panel">
 
-                <h2>Open Strategy Positions</h2>
+                <h2>Live Strategy Monitor</h2>
 
                 {% if summary.open_strategies %}
 
@@ -145,7 +152,7 @@
                             </div>
 
                             <div class="strategy-live-label">
-                                Entry values are frozen. Enter current broker prices below to calculate unrealised P&L.
+                                Entry values are frozen. Type latest broker prices below to calculate unrealised P&L.
                             </div>
 
                             <div class="strategy-leg-grid">
@@ -154,6 +161,7 @@
                                     <div class="strategy-leg-card">
                                         <span>Futures Leg</span>
                                         <strong>{{ strategy.futures_direction }}</strong>
+                                        <small>Lots: {{ strategy.futures_lots }} | Qty: {{ strategy.futures_qty }}</small>
                                         <small>Entry: {{ strategy.futures_entry }}</small>
                                         <small>Current: {{ strategy.futures_current }}</small>
                                         <b class="{{ 'positive' if strategy.futures_pnl >= 0 else 'negative' }}">
@@ -166,6 +174,7 @@
                                     <div class="strategy-leg-card">
                                         <span>{{ strategy.option_1_type }} {{ strategy.option_1_side }}</span>
                                         <strong>{{ strategy.option_1_strike }}</strong>
+                                        <small>Lots: {{ strategy.options_lots }} | Qty: {{ strategy.option_1_qty }}</small>
                                         <small>Entry: {{ strategy.option_1_entry }}</small>
                                         <small>Current: {{ strategy.option_1_current }}</small>
                                         <b class="{{ 'positive' if strategy.option_1_pnl >= 0 else 'negative' }}">
@@ -178,6 +187,7 @@
                                     <div class="strategy-leg-card">
                                         <span>{{ strategy.option_2_type }} {{ strategy.option_2_side }}</span>
                                         <strong>{{ strategy.option_2_strike }}</strong>
+                                        <small>Lots: {{ strategy.options_lots }} | Qty: {{ strategy.option_2_qty }}</small>
                                         <small>Entry: {{ strategy.option_2_entry }}</small>
                                         <small>Current: {{ strategy.option_2_current }}</small>
                                         <b class="{{ 'positive' if strategy.option_2_pnl >= 0 else 'negative' }}">
@@ -206,6 +216,11 @@
                             </div>
 
                             <div class="strategy-result-row">
+                                <span>Total Capital Used</span>
+                                <strong>₹{{ "{:,.0f}".format(strategy.total_capital_used) }}</strong>
+                            </div>
+
+                            <div class="strategy-result-row">
                                 <span>ROI If Closed Now</span>
                                 <strong>{{ strategy.roi }}%</strong>
                             </div>
@@ -213,15 +228,15 @@
                             <form method="POST" action="{{ url_for('strategy_lab_update', strategy_id=strategy.strategy_id) }}" class="strategy-update-form">
 
                                 {% if strategy.futures_direction %}
-                                    <input type="number" step="0.01" name="futures_current" value="{{ strategy.futures_current }}" placeholder="Current Futures">
+                                    <input type="number" step="0.01" name="futures_current" value="{{ strategy.futures_current }}" placeholder="Latest Futures Price">
                                 {% endif %}
 
                                 {% if strategy.option_1_type %}
-                                    <input type="number" step="0.01" name="option_1_current" value="{{ strategy.option_1_current }}" placeholder="Current Option 1">
+                                    <input type="number" step="0.01" name="option_1_current" value="{{ strategy.option_1_current }}" placeholder="Latest Option 1 Price">
                                 {% endif %}
 
                                 {% if strategy.option_2_type %}
-                                    <input type="number" step="0.01" name="option_2_current" value="{{ strategy.option_2_current }}" placeholder="Current Option 2">
+                                    <input type="number" step="0.01" name="option_2_current" value="{{ strategy.option_2_current }}" placeholder="Latest Option 2 Price">
                                 {% endif %}
 
                                 <input type="text" name="notes" value="{{ strategy.notes }}" placeholder="Notes">
@@ -245,8 +260,8 @@
                                 {% endif %}
 
                                 <input type="text" name="exit_reason" placeholder="Exit reason">
-
                                 <button class="danger-button" type="submit">Close Strategy At Current Prices</button>
+
                             </form>
 
                         </div>
@@ -255,7 +270,7 @@
 
                 {% else %}
 
-                    <p class="empty-state">No open strategies right now.</p>
+                    <p class="empty-state">No open strategies right now. Create one on the left to start monitoring live MTM.</p>
 
                 {% endif %}
 
@@ -274,6 +289,10 @@ function toggleStrategyFields() {
     const futuresLeg = document.getElementById("futures_leg_box");
     const optionLeg1 = document.getElementById("option_leg_1_box");
     const optionLeg2 = document.getElementById("option_leg_2_box");
+
+    const futuresLots = document.getElementById("futures_lots_box");
+    const optionsLots = document.getElementById("options_lots_box");
+
     const futuresMargin = document.getElementById("futures_margin_box");
     const optionsMargin = document.getElementById("options_margin_box");
 
@@ -281,14 +300,22 @@ function toggleStrategyFields() {
         futuresLeg.style.display = "block";
         optionLeg1.style.display = "block";
         optionLeg2.style.display = "none";
+
+        futuresLots.style.display = "block";
+        optionsLots.style.display = "block";
+
         futuresMargin.style.display = "block";
-        optionsMargin.style.display = "block";
+        optionsMargin.style.display = "none";
     }
 
     if (strategy === "SHORT_STRANGLE") {
         futuresLeg.style.display = "none";
         optionLeg1.style.display = "block";
         optionLeg2.style.display = "block";
+
+        futuresLots.style.display = "none";
+        optionsLots.style.display = "block";
+
         futuresMargin.style.display = "none";
         optionsMargin.style.display = "block";
     }

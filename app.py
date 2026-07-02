@@ -213,6 +213,6 @@ def strategy_lab_close(strategy_id):
 def strategy_trades():
     summary = get_strategy_lab_summary()
     return render_template("strategy_trades.html", summary=summary)
-
+    
 if __name__ == "__main__":
     app.run(debug=True)
