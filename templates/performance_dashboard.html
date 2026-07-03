@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="performance-dashboard-section">
+
+    <div class="container">
+
+        <div class="performance-hero">
+            <p class="section-eyebrow">PERFORMANCE DASHBOARD</p>
+            <h1>Capital, Trading Discipline & Strategy Research</h1>
+            <p>
+                A clean view of long-term investments, futures trading performance and strategy lab results.
+            </p>
+        </div>
+
+        {% if performance_message %}
+            <div class="alert alert-success performance-alert">
+                {{ performance_message }}
+            </div>
+        {% endif %}
+
+        {% if performance_error %}
+            <div class="alert alert-danger performance-alert">
+                {{ performance_error }}
+            </div>
+        {% endif %}
+
+        <div class="performance-overall-card mb-4">
+            <div>
+                <span>Total Investment Book</span>
+                <strong>₹{{ "{:,.0f}".format(dashboard.overall.current_value) }}</strong>
+                <small>Invested: ₹{{ "{:,.0f}".format(dashboard.overall.invested) }}</small>
+            </div>
+
+            <div>
+                <span>Investment P&L</span>
+                <strong class="{{ 'positive' if dashboard.overall.pnl >= 0 else 'negative' }}">
+                    ₹{{ "{:,.0f}".format(dashboard.overall.pnl) }}
+                </strong>
+                <small class="{{ 'positive' if dashboard.overall.pnl_pct >= 0 else 'negative' }}">
+                    {{ dashboard.overall.pnl_pct }}%
+                </small>
+            </div>
+
+            <div>
+                <span>Futures Trading</span>
+                <strong class="{{ 'positive' if dashboard.futures.net_pnl >= 0 else 'negative' }}">
+                    ₹{{ "{:,.0f}".format(dashboard.futures.net_pnl) }}
+                </strong>
+                <small>Process: {{ dashboard.futures.avg_process_score }}/10</small>
+            </div>
+
+            <div>
+                <span>Strategy Lab</span>
+                <strong class="{{ 'positive' if dashboard.strategies.closed_net_pnl >= 0 else 'negative' }}">
+                    ₹{{ "{:,.0f}".format(dashboard.strategies.closed_net_pnl) }}
+                </strong>
+                <small>Live MTM: ₹{{ "{:,.0f}".format(dashboard.strategies.live_mtm) }}</small>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-xl-3 col-md-6">
+                <div class="performance-meter-card">
+                    <div class="meter-circle">
+                        {{ dashboard.stocks.meter }}
+                    </div>
+                    <span>Stocks Portfolio</span>
+                    <strong class="{{ 'positive' if dashboard.stocks.summary.pnl >= 0 else 'negative' }}">
+                        ₹{{ "{:,.0f}".format(dashboard.stocks.summary.pnl) }}
+                    </strong>
+                    <small>{{ dashboard.stocks.summary.pnl_pct }}% | {{ dashboard.stocks.summary.count }} holding(s)</small>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="performance-meter-card">
+                    <div class="meter-circle">
+                        {{ dashboard.mutual_funds.meter }}
+                    </div>
+                    <span>Mutual Funds</span>
+                    <strong class="{{ 'positive' if dashboard.mutual_funds.summary.pnl >= 0 else 'negative' }}">
+                        ₹{{ "{:,.0f}".format(dashboard.mutual_funds.summary.pnl) }}
+                    </strong>
+                    <small>{{ dashboard.mutual_funds.summary.pnl_pct }}% | {{ dashboard.mutual_funds.summary.count }} fund(s)</small>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="performance-meter-card">
+                    <div class="meter-circle">
+                        {{ dashboard.futures.avg_process_score }}
+                    </div>
+                    <span>Futures Process</span>
+                    <strong class="{{ 'positive' if dashboard.futures.net_pnl >= 0 else 'negative' }}">
+                        ₹{{ "{:,.0f}".format(dashboard.futures.net_pnl) }}
+                    </strong>
+                    <small>{{ dashboard.futures.trades }} trades | Win {{ dashboard.futures.win_rate }}%</small>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="performance-meter-card">
+                    <div class="meter-circle">
+                        {{ dashboard.strategies.total_strategies }}
+                    </div>
+                    <span>Strategy Research</span>
+                    <strong class="{{ 'positive' if dashboard.strategies.closed_net_pnl >= 0 else 'negative' }}">
+                        ₹{{ "{:,.0f}".format(dashboard.strategies.closed_net_pnl) }}
+                    </strong>
+                    <small>{{ dashboard.strategies.open_strategies }} open | {{ dashboard.strategies.closed_strategies }} closed</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-6">
+                <div class="performance-panel">
+                    <div class="performance-panel-header">
+                        <div>
+                            <p class="section-eyebrow small-eyebrow">INVESTMENTS</p>
+                            <h2>Stocks Portfolio</h2>
+                            <small>CSV: {{ dashboard.stocks.csv_file }}</small>
+                        </div>
+
+                        <form method="POST" action="/performance-dashboard/update-stocks">
+                            <button type="submit" class="performance-action-btn">
+                                Update Latest Prices
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="performance-kpi-grid">
+                        <div><span>Invested</span><strong>₹{{ "{:,.0f}".format(dashboard.stocks.summary.invested) }}</strong></div>
+                        <div><span>Current</span><strong>₹{{ "{:,.0f}".format(dashboard.stocks.summary.current_value) }}</strong></div>
+                        <div><span>P&L</span><strong class="{{ 'positive' if dashboard.stocks.summary.pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(dashboard.stocks.summary.pnl) }}</strong></div>
+                        <div><span>Return</span><strong>{{ dashboard.stocks.summary.pnl_pct }}%</strong></div>
+                    </div>
+
+                    {% if dashboard.stocks.rows %}
+                        <div class="table-responsive mt-3">
+                            <table class="table performance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Stock</th>
+                                        <th>Qty</th>
+                                        <th>Invested</th>
+                                        <th>Current</th>
+                                        <th>P&L</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in dashboard.stocks.rows %}
+                                        <tr>
+                                            <td><strong>{{ row.company_name or row.ticker }}</strong><br><small>{{ row.ticker }}</small></td>
+                                            <td>{{ row.quantity }}</td>
+                                            <td>₹{{ "{:,.0f}".format(row.invested_amount) }}</td>
+                                            <td>₹{{ "{:,.0f}".format(row.current_value) }}</td>
+                                            <td class="{{ 'positive' if row.unrealised_pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(row.unrealised_pnl) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="performance-empty-state">
+                            Add stock holdings manually in <strong>data/stocks_portfolio.csv</strong>.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="performance-panel">
+                    <div class="performance-panel-header">
+                        <div>
+                            <p class="section-eyebrow small-eyebrow">INVESTMENTS</p>
+                            <h2>Mutual Funds Portfolio</h2>
+                            <small>CSV: {{ dashboard.mutual_funds.csv_file }}</small>
+                        </div>
+
+                        <form method="POST" action="/performance-dashboard/update-mutual-funds">
+                            <button type="submit" class="performance-action-btn">
+                                Update Latest NAV
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="performance-kpi-grid">
+                        <div><span>Invested</span><strong>₹{{ "{:,.0f}".format(dashboard.mutual_funds.summary.invested) }}</strong></div>
+                        <div><span>Current</span><strong>₹{{ "{:,.0f}".format(dashboard.mutual_funds.summary.current_value) }}</strong></div>
+                        <div><span>P&L</span><strong class="{{ 'positive' if dashboard.mutual_funds.summary.pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(dashboard.mutual_funds.summary.pnl) }}</strong></div>
+                        <div><span>Return</span><strong>{{ dashboard.mutual_funds.summary.pnl_pct }}%</strong></div>
+                    </div>
+
+                    {% if dashboard.mutual_funds.rows %}
+                        <div class="table-responsive mt-3">
+                            <table class="table performance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Scheme</th>
+                                        <th>Units</th>
+                                        <th>Invested</th>
+                                        <th>Current</th>
+                                        <th>P&L</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in dashboard.mutual_funds.rows %}
+                                        <tr>
+                                            <td><strong>{{ row.scheme_name }}</strong><br><small>{{ row.scheme_code }}</small></td>
+                                            <td>{{ "{:,.2f}".format(row.units) }}</td>
+                                            <td>₹{{ "{:,.0f}".format(row.invested_amount) }}</td>
+                                            <td>₹{{ "{:,.0f}".format(row.current_value) }}</td>
+                                            <td class="{{ 'positive' if row.unrealised_pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(row.unrealised_pnl) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="performance-empty-state">
+                            Add mutual fund holdings manually in <strong>data/mutual_funds_portfolio.csv</strong>.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+                <div class="performance-panel trading-panel">
+                    <p class="section-eyebrow small-eyebrow">TRADING</p>
+                    <h2>Futures Trading Performance</h2>
+                    <p class="performance-muted">Pulled from your Paper Trading journal.</p>
+
+                    <div class="performance-kpi-grid mt-3">
+                        <div><span>Total Trades</span><strong>{{ dashboard.futures.trades }}</strong></div>
+                        <div><span>Closed Trades</span><strong>{{ dashboard.futures.closed_trades }}</strong></div>
+                        <div><span>Win Rate</span><strong>{{ dashboard.futures.win_rate }}%</strong></div>
+                        <div><span>Net P&L</span><strong class="{{ 'positive' if dashboard.futures.net_pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(dashboard.futures.net_pnl) }}</strong></div>
+                        <div><span>ROI</span><strong>{{ dashboard.futures.roi }}%</strong></div>
+                        <div><span>Process Score</span><strong>{{ dashboard.futures.avg_process_score }}/10</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="performance-panel trading-panel">
+                    <p class="section-eyebrow small-eyebrow">RESEARCH</p>
+                    <h2>Strategy Lab Performance</h2>
+                    <p class="performance-muted">Pulled from Strategy Lab and Strategy Mobile data.</p>
+
+                    <div class="performance-kpi-grid mt-3">
+                        <div><span>Open</span><strong>{{ dashboard.strategies.open_strategies }}</strong></div>
+                        <div><span>Closed</span><strong>{{ dashboard.strategies.closed_strategies }}</strong></div>
+                        <div><span>Total</span><strong>{{ dashboard.strategies.total_strategies }}</strong></div>
+                        <div><span>Closed Net P&L</span><strong class="{{ 'positive' if dashboard.strategies.closed_net_pnl >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(dashboard.strategies.closed_net_pnl) }}</strong></div>
+                        <div><span>Live MTM</span><strong class="{{ 'positive' if dashboard.strategies.live_mtm >= 0 else 'negative' }}">₹{{ "{:,.0f}".format(dashboard.strategies.live_mtm) }}</strong></div>
+                        <div><span>Closed ROI</span><strong>{{ dashboard.strategies.roi }}%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

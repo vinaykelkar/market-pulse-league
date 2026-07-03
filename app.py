@@ -37,6 +37,48 @@ def equity():
     )
 
 
+@app.route("/performance-dashboard")
+def performance_dashboard():
+    from services.performance_dashboard_service import get_performance_dashboard
+
+    dashboard = get_performance_dashboard()
+    performance_message = session.pop("performance_message", None)
+    performance_error = session.pop("performance_error", None)
+
+    return render_template(
+        "performance_dashboard.html",
+        dashboard=dashboard,
+        performance_message=performance_message,
+        performance_error=performance_error,
+    )
+
+
+@app.route("/performance-dashboard/update-stocks", methods=["POST"])
+def performance_dashboard_update_stocks():
+    from services.performance_dashboard_service import update_stock_prices
+
+    try:
+        updated_count = update_stock_prices()
+        session["performance_message"] = f"Updated latest prices for {updated_count} stock holding(s)."
+    except Exception as error:
+        session["performance_error"] = f"Stock price update failed: {error}"
+
+    return redirect(url_for("performance_dashboard"))
+
+
+@app.route("/performance-dashboard/update-mutual-funds", methods=["POST"])
+def performance_dashboard_update_mutual_funds():
+    from services.performance_dashboard_service import update_mutual_fund_navs
+
+    try:
+        updated_count = update_mutual_fund_navs()
+        session["performance_message"] = f"Updated latest NAV for {updated_count} mutual fund holding(s)."
+    except Exception as error:
+        session["performance_error"] = f"Mutual fund NAV update failed: {error}"
+
+    return redirect(url_for("performance_dashboard"))
+
+
 @app.route("/mutual-funds")
 def mutual_funds():
     return render_template("mutual_funds.html")
