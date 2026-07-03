@@ -217,7 +217,21 @@ def strategy_trades():
 @app.route("/strategy-mobile")
 def strategy_mobile():
     summary = get_strategy_lab_summary()
-    return render_template("strategy_mobile.html", summary=summary)
+
+    selected_strategy_id = request.args.get("strategy_id", type=int)
+    selected_strategy = None
+
+    if selected_strategy_id:
+        for strategy in summary["strategies"]:
+            if strategy["strategy_id"] == selected_strategy_id:
+                selected_strategy = strategy
+                break
+
+    return render_template(
+        "strategy_mobile.html",
+        summary=summary,
+        selected_strategy=selected_strategy
+    )
     
 if __name__ == "__main__":
     app.run(debug=True)

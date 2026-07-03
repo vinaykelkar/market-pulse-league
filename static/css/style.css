@@ -1435,3 +1435,66 @@ a {
     padding: 12px 14px;
     font-weight: 700;
 }
+
+.strategy-mobile-page {
+    background: #ffffff;
+    min-height: 100vh;
+    padding: 28px 18px;
+}
+
+.strategy-mobile-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 430px);
+    gap: 28px;
+    justify-content: center;
+    align-items: start;
+}
+
+.strategy-mobile-phone {
+    background: #f8fafc;
+    border-radius: 28px;
+    padding: 20px;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+    min-height: 820px;
+}
+
+.strategy-mobile-card-title {
+    font-size: 20px;
+    font-weight: 950;
+    margin-bottom: 12px;
+    color: #0f172a;
+    line-height: 1.15;
+}
+
+.strategy-mobile-select-form {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 14px;
+    margin-bottom: 16px;
+}
+
+.strategy-mobile-select-form select {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 12px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.strategy-mobile-select-form button {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 12px;
+    font-weight: 950;
+    color: #ffffff;
+    background: #2563eb;
+}
+
+@media (max-width: 1400px) {
+    .strategy-mobile-layout {
+        grid-template-columns: 430px;
+    }
+}
