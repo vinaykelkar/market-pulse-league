@@ -198,20 +198,28 @@ def get_process_grade(score):
     return "Avoid"
 
 
-def validate_risk(direction, futures_entry_price, stop_loss, target):
+def validate_risk(direction, spot_entry_price, stop_loss, target):
+    """
+    Validate stop loss and target using SPOT price.
+
+    Trading decisions are made on Spot, while P&L is calculated
+    using Futures prices.
+    """
     direction = direction.upper()
 
     if direction == "LONG":
-        if stop_loss >= futures_entry_price:
-            raise ValueError("For LONG trade, stop loss must be below futures entry price.")
-        if target <= futures_entry_price:
-            raise ValueError("For LONG trade, target must be above futures entry price.")
+        if stop_loss >= spot_entry_price:
+            raise ValueError("For LONG trade, Spot Stop Loss must be below Spot Entry.")
 
-    if direction == "SHORT":
-        if stop_loss <= futures_entry_price:
-            raise ValueError("For SHORT trade, stop loss must be above futures entry price.")
-        if target >= futures_entry_price:
-            raise ValueError("For SHORT trade, target must be below futures entry price.")
+        if target <= spot_entry_price:
+            raise ValueError("For LONG trade, Spot Target must be above Spot Entry.")
+
+    elif direction == "SHORT":
+        if stop_loss <= spot_entry_price:
+            raise ValueError("For SHORT trade, Spot Stop Loss must be above Spot Entry.")
+
+        if target >= spot_entry_price:
+            raise ValueError("For SHORT trade, Spot Target must be below Spot Entry.")
 
 
 def estimate_charges(direction, entry_price, exit_price, quantity):
@@ -278,7 +286,7 @@ def open_trade(
     if get_open_entry():
         raise ValueError("Close the current trade before opening a new trade.")
 
-    validate_risk(direction, futures_entry_price, stop_loss, target)
+    validate_risk(direction, spot_entry_price, stop_loss, target)
 
     process_score = calculate_process_score(
         direction=direction,
