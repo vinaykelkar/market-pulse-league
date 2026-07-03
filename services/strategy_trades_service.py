@@ -42,6 +42,20 @@ PRICE_UPDATE_FIELDNAMES = [
 ]
 
 
+STRATEGY_TYPE_LABELS = {
+    "LONG_FUTURE_LONG_ATM_PUT": "Protective Put: Long Future + Long ATM Put",
+    "SHORT_FUTURE_LONG_ATM_CALL": "Protective Call: Short Future + Long ATM Call",
+    "SHORT_STRANGLE": "Short Strangle: Sell CE + Sell PE",
+}
+
+
+def strategy_type_label(strategy_type):
+    return STRATEGY_TYPE_LABELS.get(
+        strategy_type,
+        str(strategy_type).replace("_", " ").title()
+    )
+
+
 def ensure_csv_exists():
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
 
@@ -72,6 +86,66 @@ def safe_int(value, default=0):
         return int(float(value))
     except Exception:
         return default
+
+
+
+
+def parse_strategy_datetime(date_value, time_value):
+    if not date_value or not time_value:
+        return None
+
+    raw = f"{date_value} {time_value}"
+
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+        try:
+            return datetime.strptime(raw, fmt)
+        except Exception:
+            pass
+
+    return None
+
+
+def format_holding_period(row):
+    start = parse_strategy_datetime(
+        row.get("created_date"),
+        row.get("created_time"),
+    )
+
+    if not start:
+        return ""
+
+    if row.get("status") == "CLOSED":
+        end = parse_strategy_datetime(
+            row.get("closed_date"),
+            row.get("closed_time"),
+        )
+    else:
+        end = datetime.now()
+
+    if not end:
+        return ""
+
+    total_seconds = max(0, int((end - start).total_seconds()))
+
+    if total_seconds < 60:
+        return f"{total_seconds} sec"
+
+    total_minutes = total_seconds // 60
+
+    if total_minutes < 60:
+        seconds = total_seconds % 60
+        return f"{total_minutes} min {seconds} sec"
+
+    total_hours = total_minutes // 60
+
+    if total_hours < 24:
+        minutes = total_minutes % 60
+        return f"{total_hours} hr {minutes} min"
+
+    days = total_hours // 24
+    hours = total_hours % 24
+
+    return f"{days} day {hours} hr"
 
 
 def is_disciplined_snapshot_time():
@@ -286,6 +360,8 @@ def enrich(row):
 
     enriched = dict(row)
     enriched.update({
+        "strategy_type_label": strategy_type_label(row.get("strategy_type")),
+        "holding_period": format_holding_period(row),
         "futures_pnl": round(f_pnl, 2),
         "option_1_pnl": round(o1_pnl, 2),
         "option_2_pnl": round(o2_pnl, 2),

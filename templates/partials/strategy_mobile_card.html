@@ -5,8 +5,27 @@
     </div>
 
     <h2 class="strategy-mobile-card-title">
-        {{ strategy.strategy_type.replace("_", " ") }}
+        {{ strategy.strategy_type_label }}
     </h2>
+
+    <div class="mobile-trade-row">
+        <span>Opened</span>
+        <strong>{{ strategy.created_date }} {{ strategy.created_time }}</strong>
+    </div>
+
+    {% if strategy.status == "CLOSED" %}
+        <div class="mobile-trade-row">
+            <span>Closed</span>
+            <strong>{{ strategy.closed_date }} {{ strategy.closed_time }}</strong>
+        </div>
+    {% endif %}
+
+    {% if strategy.holding_period %}
+        <div class="mobile-trade-row">
+            <span>Holding Period</span>
+            <strong>{{ strategy.holding_period }}</strong>
+        </div>
+    {% endif %}
 
     {% if strategy.futures_direction %}
         <div class="mobile-trade-row">
@@ -15,7 +34,13 @@
         </div>
 
         <div class="mobile-trade-row">
-            <span>Fut Entry / Current</span>
+            <span>
+                {% if strategy.status == "CLOSED" %}
+                    Fut Entry / Exit
+                {% else %}
+                    Fut Entry / Current
+                {% endif %}
+            </span>
             <strong>{{ strategy.futures_entry }} / {{ strategy.futures_current }}</strong>
         </div>
 
@@ -34,7 +59,13 @@
         </div>
 
         <div class="mobile-trade-row">
-            <span>Opt 1 Entry / Current</span>
+            <span>
+                {% if strategy.status == "CLOSED" %}
+                    Opt 1 Entry / Exit
+                {% else %}
+                    Opt 1 Entry / Current
+                {% endif %}
+            </span>
             <strong>{{ strategy.option_1_entry }} / {{ strategy.option_1_current }}</strong>
         </div>
 
@@ -53,7 +84,13 @@
         </div>
 
         <div class="mobile-trade-row">
-            <span>Opt 2 Entry / Current</span>
+            <span>
+                {% if strategy.status == "CLOSED" %}
+                    Opt 2 Entry / Exit
+                {% else %}
+                    Opt 2 Entry / Current
+                {% endif %}
+            </span>
             <strong>{{ strategy.option_2_entry }} / {{ strategy.option_2_current }}</strong>
         </div>
 
@@ -76,7 +113,13 @@
     </div>
 
     <div class="mobile-trade-row highlight">
-        <span>Net If Closed Now</span>
+        <span>
+            {% if strategy.status == "CLOSED" %}
+                Net P&L
+            {% else %}
+                Net If Closed Now
+            {% endif %}
+        </span>
         <strong class="{{ 'positive' if strategy.net_pnl >= 0 else 'negative' }}">
             ₹{{ "{:,.0f}".format(strategy.net_pnl) }}
         </strong>

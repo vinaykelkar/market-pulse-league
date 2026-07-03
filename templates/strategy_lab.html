@@ -50,8 +50,8 @@
 
                     <label>Strategy Type</label>
                     <select name="strategy_type" id="strategy_type" required onchange="toggleStrategyFields()">
-                        <option value="LONG_FUTURE_LONG_ATM_PUT">Long Future + Long ATM Put</option>
-                        <option value="SHORT_FUTURE_LONG_ATM_CALL">Short Future + Long ATM Call</option>
+                        <option value="LONG_FUTURE_LONG_ATM_PUT">Protective Put: Long Future + Long ATM Put</option>
+                        <option value="SHORT_FUTURE_LONG_ATM_CALL">Protective Call: Short Future + Long ATM Call</option>
                         <option value="SHORT_STRANGLE">Short Strangle: Sell CE + Sell PE</option>
                     </select>
 
@@ -142,7 +142,7 @@
                             <div class="strategy-position-header">
                                 <div>
                                     <p>Strategy #{{ strategy.strategy_id }}</p>
-                                    <h3>{{ strategy.strategy_type.replace("_", " ") }}</h3>
+                                    <h3>{{ strategy.strategy_type_label }}</h3>
                                     <span>{{ strategy.created_date }} {{ strategy.created_time }}</span>
                                 </div>
 

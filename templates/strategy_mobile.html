@@ -100,7 +100,7 @@
                         <option value="{{ strategy.strategy_id }}"
                             {% if selected_strategy and selected_strategy.strategy_id == strategy.strategy_id %}selected{% endif %}>
                             #{{ strategy.strategy_id }} —
-                            {{ strategy.strategy_type.replace("_", " ") }}
+                            {{ strategy.strategy_type_label }}
                             —
                             {{ strategy.status }}
                         </option>
