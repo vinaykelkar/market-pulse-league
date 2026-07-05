@@ -2232,3 +2232,232 @@ a {
         border-radius: 22px;
     }
 }
+
+/* =========================================================
+   Home Compact Redesign - Market Pulse League
+   Keeps homepage within one clean first-view screen
+   ========================================================= */
+
+.home-compact-page {
+    min-height: calc(100vh - 58px);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.12), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(20, 184, 166, 0.11), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #ffffff 46%, #f5faf9 100%);
+    color: #0b1f3a;
+}
+
+.home-compact-hero {
+    position: relative;
+    min-height: calc(100vh - 58px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 32px 18px;
+}
+
+.home-compact-bg {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 999px;
+    filter: blur(20px);
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.home-compact-bg-left {
+    left: -130px;
+    bottom: -130px;
+    background: rgba(37, 99, 235, 0.10);
+}
+
+.home-compact-bg-right {
+    right: -130px;
+    top: -130px;
+    background: rgba(20, 184, 166, 0.12);
+}
+
+.home-compact-inner {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100%);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.home-compact-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border: 1px solid rgba(11, 31, 58, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    color: #123f7a;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+    margin-bottom: 26px;
+}
+
+.home-compact-title {
+    margin: 0 auto;
+    max-width: 1180px;
+    font-size: clamp(34px, 4.4vw, 68px);
+    line-height: 1.02;
+    font-weight: 950;
+    letter-spacing: -0.055em;
+    color: #0b1f3a;
+    white-space: nowrap;
+}
+
+.home-compact-subtitle {
+    max-width: 760px;
+    margin: 22px auto 0;
+    color: #334155;
+    font-size: clamp(15px, 1.35vw, 20px);
+    line-height: 1.65;
+}
+
+.home-compact-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 34px;
+}
+
+.home-compact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 190px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.home-compact-btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.home-compact-btn-primary {
+    background: #0b2f5f;
+    color: #ffffff;
+    box-shadow: 0 16px 30px rgba(11, 47, 95, 0.22);
+}
+
+.home-compact-btn-primary:hover {
+    background: #123f7a;
+    color: #ffffff;
+}
+
+.home-compact-btn-secondary {
+    background: rgba(255, 255, 255, 0.82);
+    color: #0b2f5f;
+    border: 1px solid rgba(11, 47, 95, 0.16);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.07);
+}
+
+.home-compact-btn-secondary:hover {
+    background: #ffffff;
+    color: #0b2f5f;
+}
+
+.home-compact-trust-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 36px auto 0;
+    max-width: 980px;
+}
+
+.home-compact-trust-bar span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(11, 31, 58, 0.09);
+    color: #334155;
+    font-size: 13px;
+    font-weight: 850;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
+}
+
+.home-compact-footer-note {
+    margin-top: 28px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+@media (max-width: 1200px) {
+    .home-compact-title {
+        white-space: normal;
+        max-width: 920px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-compact-page,
+    .home-compact-hero {
+        min-height: auto;
+    }
+
+    .home-compact-hero {
+        padding: 56px 16px 44px;
+    }
+
+    .home-compact-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.09em;
+        padding: 8px 13px;
+        margin-bottom: 20px;
+    }
+
+    .home-compact-title {
+        font-size: 36px;
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+    }
+
+    .home-compact-subtitle {
+        font-size: 15px;
+        margin-top: 18px;
+    }
+
+    .home-compact-actions {
+        margin-top: 28px;
+        gap: 10px;
+    }
+
+    .home-compact-btn {
+        width: 100%;
+        max-width: 330px;
+        min-width: 0;
+        padding: 12px 18px;
+    }
+
+    .home-compact-trust-bar {
+        margin-top: 28px;
+        gap: 8px;
+    }
+
+    .home-compact-trust-bar span {
+        font-size: 12px;
+        padding: 8px 11px;
+    }
+}
