@@ -200,24 +200,22 @@ def get_process_grade(score):
 
 def validate_risk(direction, spot_entry_price, stop_loss, target):
     """
-    Validate stop loss and target using SPOT price.
+    Validate stop loss and target against SPOT levels.
 
-    Trading decisions are made on Spot, while P&L is calculated
-    using Futures prices.
+    Market structure, stop loss and target are planned on Nifty Spot.
+    Actual P&L is still calculated using Futures entry and Futures exit.
     """
     direction = direction.upper()
 
     if direction == "LONG":
         if stop_loss >= spot_entry_price:
             raise ValueError("For LONG trade, Spot Stop Loss must be below Spot Entry.")
-
         if target <= spot_entry_price:
             raise ValueError("For LONG trade, Spot Target must be above Spot Entry.")
 
     elif direction == "SHORT":
         if stop_loss <= spot_entry_price:
             raise ValueError("For SHORT trade, Spot Stop Loss must be above Spot Entry.")
-
         if target >= spot_entry_price:
             raise ValueError("For SHORT trade, Spot Target must be below Spot Entry.")
 

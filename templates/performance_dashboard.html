@@ -127,11 +127,13 @@
                             <small>CSV: {{ dashboard.stocks.csv_file }}</small>
                         </div>
 
-                        <form method="POST" action="/performance-dashboard/update-stocks">
-                            <button type="submit" class="performance-action-btn">
-                                Update Latest Prices
-                            </button>
-                        </form>
+                        {% if is_admin %}
+                            <form method="POST" action="/performance-dashboard/update-stocks">
+                                <button type="submit" class="performance-action-btn">
+                                    Update Latest Prices
+                                </button>
+                            </form>
+                        {% endif %}
                     </div>
 
                     <div class="performance-kpi-grid">
@@ -183,11 +185,13 @@
                             <small>CSV: {{ dashboard.mutual_funds.csv_file }}</small>
                         </div>
 
-                        <form method="POST" action="/performance-dashboard/update-mutual-funds">
-                            <button type="submit" class="performance-action-btn">
-                                Update Latest NAV
-                            </button>
-                        </form>
+                        {% if is_admin %}
+                            <form method="POST" action="/performance-dashboard/update-mutual-funds">
+                                <button type="submit" class="performance-action-btn">
+                                    Update Latest NAV
+                                </button>
+                            </form>
+                        {% endif %}
                     </div>
 
                     <div class="performance-kpi-grid">

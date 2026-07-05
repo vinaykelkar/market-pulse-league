@@ -41,8 +41,8 @@
                 <ul class="navbar-nav ms-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/equity">
-                            Equity
+                        <a class="nav-link" href="/">
+                            Home
                         </a>
                     </li>
 
@@ -53,58 +53,46 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/mutual-funds">
-                            Mutual Funds
+                        <a class="nav-link" href="/trade-journal">
+                            Trade Journal
                         </a>
                     </li>
-<!-- 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/crypto">
-                            Cryptocurrency
-                        </a>
-                    </li>
--->				
-					<li class="nav-item">
-						<a class="nav-link" href="/paper-trading">
-							Paper Trading
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="/trade-journal">
-							Trade Journal
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="/journal-mobile">
-							Mobile Journal
-						</a>
-					</li>
 
-					<li class="nav-item">
-						<a class="nav-link" href="/strategy-lab">
-							Strategy Lab
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="/strategy-trades">
-							Strategy Trades
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="/strategy-mobile">
-							Strategy Mobile
-						</a>
-					</li>
-					
-					<li class="nav-item">
-                        <a class="nav-link" href="/contact">
-                            Contact Us
+                    <li class="nav-item">
+                        <a class="nav-link" href="/strategy-lab">
+                            Strategy Lab
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            About
+                        </a>
+                    </li>
+
+                    {% if is_admin %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle admin-nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                                Admin Panel
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/admin">Admin Home</a></li>
+                                <li><a class="dropdown-item" href="/admin/paper-trading">Paper Trading</a></li>
+                                <li><a class="dropdown-item" href="/admin/strategy-lab">Strategy Lab Entry</a></li>
+                                <li><a class="dropdown-item" href="/journal-mobile">Mobile Journal</a></li>
+                                <li><a class="dropdown-item" href="/strategy-mobile">Strategy Mobile</a></li>
+                                <li><a class="dropdown-item" href="/equity">Legacy Equity</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link" href="/admin/login">
+                                Admin Login
+                            </a>
+                        </li>
+                    {% endif %}
 
                 </ul>
 

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-auth-section">
+    <div class="admin-auth-card">
+        <p class="section-eyebrow">ADMIN ACCESS</p>
+        <h1>Market Pulse League Admin</h1>
+        <p>Login to add trades, update strategy prices and maintain portfolio data.</p>
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" class="mt-4">
+            <label class="form-label">Admin Password</label>
+            <input type="password" name="password" class="form-control admin-password-input" required autofocus>
+
+            <button type="submit" class="admin-primary-btn mt-3">
+                Login
+            </button>
+        </form>
+
+        <small class="admin-help-text">
+            Deployment tip: set MPL_ADMIN_PASSWORD as an environment variable.
+        </small>
+    </div>
+</section>
+
+{% endblock %}

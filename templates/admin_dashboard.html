@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-dashboard-section">
+    <div class="container">
+        <div class="admin-dashboard-hero">
+            <p class="section-eyebrow">PRIVATE WORKSPACE</p>
+            <h1>Admin Panel</h1>
+            <p>Use this area to update Market Pulse League. Public visitors can view the journal and dashboards, but cannot edit anything.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/admin/paper-trading">
+                    <span>Daily Workflow</span>
+                    <strong>Paper Trading</strong>
+                    <small>Open, update and close intraday Nifty Futures paper trades.</small>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/admin/strategy-lab">
+                    <span>Strategy Research</span>
+                    <strong>Strategy Lab Entry</strong>
+                    <small>Create strategies, update MTM prices and close strategy trades.</small>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/performance-dashboard">
+                    <span>Portfolio</span>
+                    <strong>Performance Dashboard</strong>
+                    <small>Refresh latest stock prices and mutual fund NAVs.</small>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/journal-mobile">
+                    <span>Recording</span>
+                    <strong>Mobile Journal</strong>
+                    <small>Mobile-first trade view for Shorts and Reels recording.</small>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/strategy-mobile">
+                    <span>Recording</span>
+                    <strong>Strategy Mobile</strong>
+                    <small>Mobile-first strategy view for Shorts and Reels recording.</small>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="admin-action-card" href="/admin/logout">
+                    <span>Security</span>
+                    <strong>Logout</strong>
+                    <small>End the current admin session.</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
