@@ -83,13 +83,24 @@
                                 <li><a class="dropdown-item" href="/strategy-mobile">Strategy Mobile</a></li>
                                 <li><a class="dropdown-item" href="/equity">Legacy Equity</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% elif current_user %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle admin-nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                                {{ current_user.name or current_user.email }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                <li><span class="dropdown-item-text">{{ current_user.email }}</span></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link admin-nav-link" href="/admin/login">
-                                Admin Login
+                            <a class="nav-link admin-nav-link" href="/login">
+                                Login
                             </a>
                         </li>
                     {% endif %}

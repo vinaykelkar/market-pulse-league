@@ -2736,3 +2736,58 @@ a {
         padding: 18px 18px;
     }
 }
+/* =========================================================
+   Google Login / Auth Polish
+   ========================================================= */
+
+.google-login-btn {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border-radius: 999px;
+    border: 1px solid #d8e1ec;
+    background: #ffffff;
+    color: #0b2344;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(15, 35, 70, 0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.google-login-btn:hover {
+    color: #0b2344;
+    transform: translateY(-1px);
+    border-color: #b9c8da;
+    box-shadow: 0 16px 36px rgba(15, 35, 70, 0.10);
+}
+
+.admin-login-divider {
+    position: relative;
+    margin: 26px 0 14px;
+    text-align: center;
+}
+
+.admin-login-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.admin-login-divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 12px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}

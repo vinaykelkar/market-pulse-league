@@ -4,9 +4,12 @@
 
 <section class="admin-auth-section">
     <div class="admin-auth-card">
-        <p class="section-eyebrow">ADMIN ACCESS</p>
-        <h1>Market Pulse League Admin</h1>
-        <p>Login to add trades, update strategy prices and maintain portfolio data.</p>
+        <p class="section-eyebrow">SECURE ACCESS</p>
+        <h1>Market Pulse League Login</h1>
+        <p>
+            Sign in with Google. The configured admin email gets full admin access;
+            all other Google accounts remain normal users.
+        </p>
 
         {% if error %}
             <div class="alert alert-danger mt-3">
@@ -14,17 +17,31 @@
             </div>
         {% endif %}
 
-        <form method="POST" class="mt-4">
+        {% if google_login_enabled %}
+            <a href="{{ url_for('google_login') }}" class="google-login-btn mt-4">
+                Continue with Google
+            </a>
+        {% else %}
+            <div class="alert alert-warning mt-4">
+                Google login is not configured yet. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your environment variables.
+            </div>
+        {% endif %}
+
+        <div class="admin-login-divider">
+            <span>Admin fallback</span>
+        </div>
+
+        <form method="POST" class="mt-3">
             <label class="form-label">Admin Password</label>
-            <input type="password" name="password" class="form-control admin-password-input" required autofocus>
+            <input type="password" name="password" class="form-control admin-password-input" required>
 
             <button type="submit" class="admin-primary-btn mt-3">
-                Login
+                Login with Password
             </button>
         </form>
 
         <small class="admin-help-text">
-            Deployment tip: set MPL_ADMIN_PASSWORD as an environment variable.
+            Local fallback password remains available as admin123 unless overridden by MPL_ADMIN_PASSWORD.
         </small>
     </div>
 </section>
