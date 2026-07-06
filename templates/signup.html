@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-auth-section">
+    <div class="admin-auth-card auth-card-light signup-card">
+        <p class="section-eyebrow">CREATE ACCOUNT</p>
+        <h1>Join Market Pulse League</h1>
+        <p>Create a free account. Initially, users get public read-only access while the platform evolves.</p>
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" class="mt-4">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="full_name" class="form-control admin-password-input" required>
+
+            <label class="form-label mt-3">Username</label>
+            <input type="text" name="username" class="form-control admin-password-input" required>
+            <small class="auth-field-help">Use 3-30 characters: letters, numbers or underscore.</small>
+
+            <label class="form-label mt-3">Email</label>
+            <input type="email" name="email" class="form-control admin-password-input" required>
+
+            <label class="form-label mt-3">Password</label>
+            <input type="password" name="password" class="form-control admin-password-input" required>
+
+            <label class="form-label mt-3">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control admin-password-input" required>
+
+            <button type="submit" class="admin-primary-btn mt-4">
+                Create Account
+            </button>
+        </form>
+
+        <div class="auth-switch-text">
+            Already have an account?
+            <a href="{{ url_for('user_login') }}">Login</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

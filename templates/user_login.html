@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-auth-section">
+    <div class="admin-auth-card auth-card-light">
+        <p class="section-eyebrow">SECURE ACCESS</p>
+        <h1>Login</h1>
+        <p>Access your Market Pulse League account. Public pages remain visible without login.</p>
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" class="mt-4">
+            <label class="form-label">Username or Email</label>
+            <input type="text" name="identifier" class="form-control admin-password-input" required autofocus>
+
+            <label class="form-label mt-3">Password</label>
+            <input type="password" name="password" class="form-control admin-password-input" required>
+
+            <button type="submit" class="admin-primary-btn mt-4">
+                Login
+            </button>
+        </form>
+
+        <div class="auth-switch-text">
+            New here?
+            <a href="{{ url_for('signup') }}">Create an account</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

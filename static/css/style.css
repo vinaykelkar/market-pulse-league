@@ -2737,57 +2737,47 @@ a {
     }
 }
 /* =========================================================
-   Google Login / Auth Polish
-   ========================================================= */
+   Local Auth — Signup / Login
+========================================================= */
 
-.google-login-btn {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 13px 18px;
-    border-radius: 999px;
-    border: 1px solid #d8e1ec;
-    background: #ffffff;
-    color: #0b2344;
-    font-weight: 800;
-    text-decoration: none;
-    box-shadow: 0 12px 28px rgba(15, 35, 70, 0.06);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+.signup-nav-link,
+.user-nav-link {
+    font-weight: 700;
 }
 
-.google-login-btn:hover {
-    color: #0b2344;
-    transform: translateY(-1px);
-    border-color: #b9c8da;
-    box-shadow: 0 16px 36px rgba(15, 35, 70, 0.10);
+.signup-nav-link {
+    color: #dbeafe !important;
 }
 
-.admin-login-divider {
-    position: relative;
-    margin: 26px 0 14px;
+.user-nav-link {
+    color: #bfdbfe !important;
+}
+
+.auth-card-light.signup-card {
+    max-width: 520px;
+}
+
+.auth-field-help {
+    display: block;
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.auth-switch-text {
+    margin-top: 20px;
+    color: #94a3b8;
+    font-size: 14px;
     text-align: center;
 }
 
-.admin-login-divider::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: #e2e8f0;
+.auth-switch-text a {
+    color: #93c5fd;
+    font-weight: 800;
+    text-decoration: none;
 }
 
-.admin-login-divider span {
-    position: relative;
-    display: inline-block;
-    padding: 0 12px;
-    background: #ffffff;
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+.auth-switch-text a:hover {
+    color: #bfdbfe;
+    text-decoration: underline;
 }

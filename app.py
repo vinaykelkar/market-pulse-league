@@ -4,10 +4,8 @@ from functools import wraps
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
-from authlib.integrations.flask_client import OAuth
 
 from config import Config
-from services.user_service import upsert_google_user
 
 from services.strategy_trades_service import (
     get_strategy_lab_summary,
@@ -18,41 +16,16 @@ from services.strategy_trades_service import (
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-oauth = OAuth(app)
-
-if app.config.get("GOOGLE_CLIENT_ID") and app.config.get("GOOGLE_CLIENT_SECRET"):
-    oauth.register(
-        name="google",
-        server_metadata_url=app.config["GOOGLE_DISCOVERY_URL"],
-        client_id=app.config["GOOGLE_CLIENT_ID"],
-        client_secret=app.config["GOOGLE_CLIENT_SECRET"],
-        client_kwargs={"scope": "openid email profile"},
-    )
-
+app.secret_key = app.config["SECRET_KEY"]
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-
-def google_login_enabled():
-    return bool(app.config.get("GOOGLE_CLIENT_ID") and app.config.get("GOOGLE_CLIENT_SECRET"))
-
-
-def get_current_user():
-    email = session.get("user_email")
-
-    if not email:
-        return None
-
-    return {
-        "email": email,
-        "name": session.get("user_name", ""),
-        "picture": session.get("user_picture", ""),
-        "role": session.get("user_role", "user"),
-    }
 
 
 def is_admin_logged_in():
     return session.get("admin_logged_in") is True or session.get("user_role") == "admin"
+
+
+def is_user_logged_in():
+    return bool(session.get("user_id")) or is_admin_logged_in()
 
 
 def require_admin(view_func):
@@ -70,8 +43,10 @@ def require_admin(view_func):
 def inject_auth_state():
     return {
         "is_admin": is_admin_logged_in(),
-        "current_user": get_current_user(),
-        "google_login_enabled": google_login_enabled(),
+        "is_logged_in": is_user_logged_in(),
+        "current_user_name": session.get("user_name"),
+        "current_username": session.get("username"),
+        "current_user_role": session.get("user_role"),
     }
 
 
@@ -191,88 +166,93 @@ def contact():
 
 
 # =========================================================
-# AUTH / ADMIN AUTH
+# ADMIN AUTH
 # =========================================================
 
-@app.route("/admin/login", methods=["GET", "POST"])
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    from services.user_service import create_user
+
+    error = None
+
+    if request.method == "POST":
+        try:
+            user = create_user(
+                users_csv=app.config["USERS_CSV"],
+                username=request.form.get("username", ""),
+                full_name=request.form.get("full_name", ""),
+                email=request.form.get("email", ""),
+                password=request.form.get("password", ""),
+                confirm_password=request.form.get("confirm_password", ""),
+                admin_email=app.config["ADMIN_EMAIL"],
+                admin_username=app.config["ADMIN_USERNAME"],
+            )
+
+            session.clear()
+            session["user_id"] = user["user_id"]
+            session["username"] = user["username"]
+            session["user_email"] = user["email"]
+            session["user_name"] = user["full_name"]
+            session["user_role"] = user["role"]
+            session["admin_logged_in"] = user["role"] == "admin"
+
+            return redirect(url_for("admin_dashboard") if user["role"] == "admin" else url_for("home"))
+
+        except ValueError as validation_error:
+            error = str(validation_error)
+
+    return render_template("signup.html", error=error)
+
+
 @app.route("/login", methods=["GET", "POST"])
+def user_login():
+    from services.user_service import authenticate_user
+
+    error = None
+
+    if request.method == "POST":
+        identifier = request.form.get("identifier", "")
+        password = request.form.get("password", "")
+
+        user = authenticate_user(app.config["USERS_CSV"], identifier, password)
+
+        if user:
+            session.clear()
+            session["user_id"] = user["user_id"]
+            session["username"] = user["username"]
+            session["user_email"] = user["email"]
+            session["user_name"] = user["full_name"]
+            session["user_role"] = user["role"]
+            session["admin_logged_in"] = user["role"] == "admin"
+
+            next_url = session.pop("next_url", None)
+            return redirect(next_url or (url_for("admin_dashboard") if user["role"] == "admin" else url_for("home")))
+
+        error = "Invalid username/email or password."
+
+    return render_template("user_login.html", error=error)
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
-    error = session.pop("auth_error", None)
+    error = None
 
     if request.method == "POST":
         password = request.form.get("password", "")
 
         if password == app.config["ADMIN_PASSWORD"]:
+            session.clear()
             session["admin_logged_in"] = True
-            session["user_email"] = app.config["ADMIN_EMAIL"]
-            session["user_name"] = "Market Pulse League Admin"
-            session["user_picture"] = ""
             session["user_role"] = "admin"
-
+            session["user_email"] = app.config["ADMIN_EMAIL"]
+            session["username"] = app.config["ADMIN_USERNAME"]
+            session["user_name"] = "Market Pulse League Admin"
             next_url = session.pop("next_url", None)
             return redirect(next_url or url_for("admin_dashboard"))
 
         error = "Invalid admin password."
 
     return render_template("admin_login.html", error=error)
-
-
-@app.route("/auth/google")
-def google_login():
-    if not google_login_enabled():
-        session["auth_error"] = "Google login is not configured yet. Use admin password login for now."
-        return redirect(url_for("admin_login"))
-
-    next_url = request.args.get("next") or session.get("next_url") or request.referrer
-
-    if next_url:
-        session["next_url"] = next_url
-
-    redirect_uri = url_for("google_callback", _external=True)
-    return oauth.google.authorize_redirect(redirect_uri)
-
-
-@app.route("/auth/google/callback")
-def google_callback():
-    if not google_login_enabled():
-        session["auth_error"] = "Google login is not configured."
-        return redirect(url_for("admin_login"))
-
-    try:
-        token = oauth.google.authorize_access_token()
-        userinfo = token.get("userinfo")
-
-        if not userinfo:
-            userinfo = oauth.google.get("https://openidconnect.googleapis.com/v1/userinfo").json()
-
-        email = (userinfo.get("email") or "").strip().lower()
-        name = userinfo.get("name", "")
-        picture = userinfo.get("picture", "")
-
-        user = upsert_google_user(
-            path=app.config["USERS_CSV"],
-            email=email,
-            name=name,
-            picture=picture,
-            admin_email=app.config["ADMIN_EMAIL"],
-        )
-
-        session["user_email"] = user["email"]
-        session["user_name"] = user["name"]
-        session["user_picture"] = user["picture"]
-        session["user_role"] = user["role"]
-        session["admin_logged_in"] = user["role"] == "admin"
-
-        next_url = session.pop("next_url", None)
-
-        if user["role"] == "admin":
-            return redirect(next_url or url_for("admin_dashboard"))
-
-        return redirect(next_url or url_for("home"))
-
-    except Exception as error:
-        session["auth_error"] = f"Google login failed: {error}"
-        return redirect(url_for("admin_login"))
 
 
 @app.route("/admin/logout")

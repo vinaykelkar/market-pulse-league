@@ -86,21 +86,33 @@
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
-                    {% elif current_user %}
+                    {% elif is_logged_in %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle admin-nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                                {{ current_user.name or current_user.email }}
+                            <a class="nav-link dropdown-toggle user-nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                                {{ current_username or "Account" }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                                <li><span class="dropdown-item-text">{{ current_user.email }}</span></li>
+                                <li><span class="dropdown-item-text">{{ current_user_name or "User" }}</span></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link admin-nav-link" href="/login">
+                            <a class="nav-link" href="/login">
                                 Login
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link signup-nav-link" href="/signup">
+                                Sign Up
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link" href="/admin/login">
+                                Admin Login
                             </a>
                         </li>
                     {% endif %}
