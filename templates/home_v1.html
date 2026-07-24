@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="home-premium">
+    <div class="home-premium-inner">
+
+        <div class="home-eyebrow">
+            Public Trading Journal • Strategy Research • Performance Dashboard
+        </div>
+
+        <h1 class="home-title">
+            A Transparent Trading Journal.
+        </h1>
+
+        <p class="home-subtitle">
+            Every trade is documented with entry, exit, reasoning, screenshots,
+            process score, and performance tracking.
+        </p>
+
+        <div class="home-actions-label">
+            Explore the platform
+        </div>
+
+        <div class="home-actions">
+            <a href="{{ url_for('performance_dashboard') }}" class="home-btn home-btn-primary">
+                Performance Dashboard
+            </a>
+
+            <a href="{{ url_for('trade_journal') }}" class="home-btn home-btn-secondary">
+                Trade Journal
+            </a>
+
+            <a href="{{ url_for('public_strategy_lab') }}" class="home-btn home-btn-secondary">
+                Strategy Lab
+            </a>
+        </div>
+
+        <div class="home-trust-row">
+            <span>✓ Every Trade Documented</span>
+            <span>✓ Entry & Exit Evidence</span>
+            <span>✓ Process Score</span>
+            <span>✓ Public Read-only</span>
+        </div>
+
+        <p class="home-principle">
+            Market Pulse League separates outcome from process so every trade can be reviewed honestly.
+        </p>
+
+        <div class="championship-card">
+            <div class="championship-tag">Coming Soon</div>
+            <h2>Market Trading Championship</h2>
+            <p>
+                A transparent competition where traders are ranked by process,
+                consistency, and documented performance.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

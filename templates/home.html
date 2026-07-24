@@ -1,62 +1,78 @@
 {% extends "base.html" %}
 
 {% block content %}
+<main class="simple-home">
+    <section class="simple-home-hero">
+        <div class="simple-home-container simple-home-hero-inner">
+            <p class="simple-home-kicker">TRADING AND INVESTING, MADE EASIER TO FOLLOW</p>
 
-<section class="home-premium">
-    <div class="home-premium-inner">
+            <h1>Learn from real market decisions.</h1>
 
-        <div class="home-eyebrow">
-            Public Trading Journal • Strategy Research • Performance Dashboard
-        </div>
+            <p class="simple-home-intro">
+                Market Pulse League is a simple, public place to explore documented trades,
+                investment performance and practical strategy experiments—without hype or complicated language.
+            </p>
 
-        <h1 class="home-title">
-            A Transparent Trading Journal.
-        </h1>
-
-        <p class="home-subtitle">
-            Every trade is documented with entry, exit, reasoning, screenshots,
-            process score, and performance tracking.
-        </p>
-
-        <div class="home-actions-label">
-            Explore the platform
-        </div>
-
-        <div class="home-actions">
-            <a href="{{ url_for('performance_dashboard') }}" class="home-btn home-btn-primary">
-                Performance Dashboard
+            <a class="simple-home-primary-link" href="{{ url_for('trade_journal') }}">
+                Start with the Trade Journal
+                <span aria-hidden="true">→</span>
             </a>
 
-            <a href="{{ url_for('trade_journal') }}" class="home-btn home-btn-secondary">
-                Trade Journal
-            </a>
-
-            <a href="{{ url_for('public_strategy_lab') }}" class="home-btn home-btn-secondary">
-                Strategy Lab
-            </a>
+            <p class="simple-home-note">No sign-up required. Just open, explore and learn.</p>
         </div>
+    </section>
 
-        <div class="home-trust-row">
-            <span>✓ Every Trade Documented</span>
-            <span>✓ Entry & Exit Evidence</span>
-            <span>✓ Process Score</span>
-            <span>✓ Public Read-only</span>
+    <section class="simple-home-explore" aria-labelledby="explore-heading">
+        <div class="simple-home-container">
+            <div class="simple-home-section-heading">
+                <p>EXPLORE AT YOUR OWN PACE</p>
+                <h2 id="explore-heading">Three simple places to begin</h2>
+            </div>
+
+            <div class="simple-home-card-grid">
+                <a class="simple-home-card" href="{{ url_for('performance_dashboard') }}">
+                    <span class="simple-home-card-number">01</span>
+                    <h3>See the performance</h3>
+                    <p>
+                        View stocks, mutual funds, futures and strategy results in one clear dashboard.
+                    </p>
+                    <strong>Open Performance Dashboard <span aria-hidden="true">→</span></strong>
+                </a>
+
+                <a class="simple-home-card" href="{{ url_for('trade_journal') }}">
+                    <span class="simple-home-card-number">02</span>
+                    <h3>Review every trade</h3>
+                    <p>
+                        Follow entries, exits, reasoning, screenshots and lessons from each documented trade.
+                    </p>
+                    <strong>Open Trade Journal <span aria-hidden="true">→</span></strong>
+                </a>
+
+                <a class="simple-home-card" href="{{ url_for('public_strategy_lab') }}">
+                    <span class="simple-home-card-number">03</span>
+                    <h3>Understand strategies</h3>
+                    <p>
+                        Explore practical futures and options experiments with transparent outcomes.
+                    </p>
+                    <strong>Open Strategy Lab <span aria-hidden="true">→</span></strong>
+                </a>
+            </div>
         </div>
+    </section>
 
-        <p class="home-principle">
-            Market Pulse League separates outcome from process so every trade can be reviewed honestly.
-        </p>
+    <section class="simple-home-purpose">
+        <div class="simple-home-container simple-home-purpose-inner">
+            <div>
+                <p class="simple-home-purpose-label">THE IDEA IS SIMPLE</p>
+                <h2>Better decisions begin with honest review.</h2>
+            </div>
 
-        <div class="championship-card">
-            <div class="championship-tag">Coming Soon</div>
-            <h2>Market Trading Championship</h2>
             <p>
-                A transparent competition where traders are ranked by process,
-                consistency, and documented performance.
+                A profitable trade is not always a good trade, and a losing trade is not always a bad one.
+                This platform records both the result and the process so that market learning stays practical,
+                transparent and useful.
             </p>
         </div>
-
-    </div>
-</section>
-
+    </section>
+</main>
 {% endblock %}
