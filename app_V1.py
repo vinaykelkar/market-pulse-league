@@ -21,7 +21,11 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 
 def is_admin_logged_in():
-    return session.get("admin_logged_in") is True
+    return session.get("admin_logged_in") is True or session.get("user_role") == "admin"
+
+
+def is_user_logged_in():
+    return bool(session.get("user_id")) or is_admin_logged_in()
 
 
 def require_admin(view_func):
@@ -39,6 +43,10 @@ def require_admin(view_func):
 def inject_auth_state():
     return {
         "is_admin": is_admin_logged_in(),
+        "is_logged_in": is_user_logged_in(),
+        "current_user_name": session.get("user_name"),
+        "current_username": session.get("username"),
+        "current_user_role": session.get("user_role"),
     }
 
 
@@ -161,6 +169,70 @@ def contact():
 # ADMIN AUTH
 # =========================================================
 
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    from services.user_service import create_user
+
+    error = None
+
+    if request.method == "POST":
+        try:
+            user = create_user(
+                users_csv=app.config["USERS_CSV"],
+                username=request.form.get("username", ""),
+                full_name=request.form.get("full_name", ""),
+                email=request.form.get("email", ""),
+                password=request.form.get("password", ""),
+                confirm_password=request.form.get("confirm_password", ""),
+                admin_email=app.config["ADMIN_EMAIL"],
+                admin_username=app.config["ADMIN_USERNAME"],
+            )
+
+            session.clear()
+            session["user_id"] = user["user_id"]
+            session["username"] = user["username"]
+            session["user_email"] = user["email"]
+            session["user_name"] = user["full_name"]
+            session["user_role"] = user["role"]
+            session["admin_logged_in"] = user["role"] == "admin"
+
+            return redirect(url_for("admin_dashboard") if user["role"] == "admin" else url_for("home"))
+
+        except ValueError as validation_error:
+            error = str(validation_error)
+
+    return render_template("signup.html", error=error)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def user_login():
+    from services.user_service import authenticate_user
+
+    error = None
+
+    if request.method == "POST":
+        identifier = request.form.get("identifier", "")
+        password = request.form.get("password", "")
+
+        user = authenticate_user(app.config["USERS_CSV"], identifier, password)
+
+        if user:
+            session.clear()
+            session["user_id"] = user["user_id"]
+            session["username"] = user["username"]
+            session["user_email"] = user["email"]
+            session["user_name"] = user["full_name"]
+            session["user_role"] = user["role"]
+            session["admin_logged_in"] = user["role"] == "admin"
+
+            next_url = session.pop("next_url", None)
+            return redirect(next_url or (url_for("admin_dashboard") if user["role"] == "admin" else url_for("home")))
+
+        error = "Invalid username/email or password."
+
+    return render_template("user_login.html", error=error)
+
+
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     error = None
@@ -171,6 +243,10 @@ def admin_login():
         if password == app.config["ADMIN_PASSWORD"]:
             session.clear()
             session["admin_logged_in"] = True
+            session["user_role"] = "admin"
+            session["user_email"] = app.config["ADMIN_EMAIL"]
+            session["username"] = app.config["ADMIN_USERNAME"]
+            session["user_name"] = "Market Pulse League Admin"
             next_url = session.pop("next_url", None)
             return redirect(next_url or url_for("admin_dashboard"))
 
@@ -180,6 +256,7 @@ def admin_login():
 
 
 @app.route("/admin/logout")
+@app.route("/logout")
 def admin_logout():
     session.clear()
     return redirect(url_for("home"))
