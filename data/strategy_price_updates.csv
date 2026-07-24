@@ -1,3 +1,5 @@
 snapshot_id,strategy_id,snapshot_type,update_date,update_time,futures_current,option_1_current,option_2_current,gross_pnl,estimated_charges,net_pnl,roi,notes
 1,1,DISCIPLINED_3PM_SNAPSHOT,2026-07-02,15:27:29,24260.0,73.0,0.0,1690.0,955.3,734.7,0.4,Propert nifty future and option buy hedge strategy
 2,1,FINAL_CLOSE_SNAPSHOT,2026-07-03,10:18:32,24410.0,31.0,0.0,8710.0,957.59,7752.41,4.19,Propert nifty future and option buy hedge strategy
+3,2,FINAL_CLOSE_SNAPSHOT,2026-07-14,23:09:54,24024.0,0.05,0.0,7478.25,949.24,6529.01,3.58,
+4,3,FINAL_CLOSE_SNAPSHOT,2026-07-23,13:02:54,23835.0,57.0,0.0,3055.0,947.37,2107.63,1.09,
