@@ -69,12 +69,6 @@ def equity():
     )
 
 
-@app.route("/financial-tools")
-def financial_tools():
-    """Public landing page for investing and trading calculators."""
-    return render_template("financial_tools.html")
-
-
 @app.route("/performance-dashboard")
 def performance_dashboard():
     from services.performance_dashboard_service import get_performance_dashboard

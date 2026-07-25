@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="tools-page">
+    <section class="tools-hero" aria-labelledby="tools-title">
+        <span class="tools-kicker">Market Pulse League Toolkit</span>
+        <h1 id="tools-title">Financial tools for clearer decisions.</h1>
+        <p>
+            Choose a category to explore simple calculators for investing, trading,
+            taxes, portfolios and mutual funds. We will build each section step by step.
+        </p>
+    </section>
+
+    <section class="tools-category-section" aria-labelledby="category-title">
+        <div class="tools-section-heading">
+            <span>Five practical sections</span>
+            <h2 id="category-title">What would you like to calculate?</h2>
+        </div>
+
+        <div class="tools-category-grid">
+            <article class="tools-category-card tools-card-investing">
+                <div class="tools-card-number">01</div>
+                <div class="tools-card-icon" aria-hidden="true">↗</div>
+                <h3>Investing</h3>
+                <p>Plan long-term goals and understand how money may grow over time.</p>
+                <div class="tools-card-examples">
+                    <span>SIP</span><span>Lumpsum</span><span>CAGR</span><span>Inflation</span>
+                </div>
+                <span class="tools-card-status">Calculators coming next</span>
+            </article>
+
+            <article class="tools-category-card tools-card-trading">
+                <div class="tools-card-number">02</div>
+                <div class="tools-card-icon" aria-hidden="true">⌁</div>
+                <h3>Trading</h3>
+                <p>Plan entries, risk and position size before placing a trade.</p>
+                <div class="tools-card-examples">
+                    <span>Risk–Reward</span><span>Position Size</span><span>Futures P&amp;L</span>
+                </div>
+                <span class="tools-card-status">Calculators coming next</span>
+            </article>
+
+            <article class="tools-category-card tools-card-tax">
+                <div class="tools-card-number">03</div>
+                <div class="tools-card-icon" aria-hidden="true">%</div>
+                <h3>Tax</h3>
+                <p>Estimate common tax impacts connected with market investments.</p>
+                <div class="tools-card-examples">
+                    <span>Capital Gains</span><span>Tax Harvesting</span><span>Dividends</span>
+                </div>
+                <span class="tools-card-status">Calculators coming later</span>
+            </article>
+
+            <article class="tools-category-card tools-card-portfolio">
+                <div class="tools-card-number">04</div>
+                <div class="tools-card-icon" aria-hidden="true">◫</div>
+                <h3>Portfolio</h3>
+                <p>Review allocation, average cost and portfolio-level performance.</p>
+                <div class="tools-card-examples">
+                    <span>Average Price</span><span>Allocation</span><span>Rebalancing</span>
+                </div>
+                <span class="tools-card-status">Calculators coming later</span>
+            </article>
+
+            <article class="tools-category-card tools-card-mutual-funds">
+                <div class="tools-card-number">05</div>
+                <div class="tools-card-icon" aria-hidden="true">◎</div>
+                <h3>Mutual Funds</h3>
+                <p>Understand SIPs, withdrawals, expenses and goal-based investing.</p>
+                <div class="tools-card-examples">
+                    <span>SWP</span><span>Step-up SIP</span><span>Expense Ratio</span>
+                </div>
+                <span class="tools-card-status">Calculators coming later</span>
+            </article>
+        </div>
+    </section>
+
+    <section class="tools-next-step" aria-label="Financial tools development note">
+        <div>
+            <span>Built one useful tool at a time</span>
+            <h2>We will begin with the Investing calculators.</h2>
+        </div>
+        <p>Each calculator will be simple, mobile-friendly and supported by a short explanation.</p>
+    </section>
+</main>
+{% endblock %}
