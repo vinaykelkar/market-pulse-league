@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Tax Toolkit | Market Pulse League{% endblock %}
+
+{% block content %}
+<main class="tax-toolkit-page">
+    <div class="tax-toolkit-shell">
+        <nav class="tax-toolkit-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ url_for('financial_tools') }}">Investor Toolkit</a>
+            <span aria-hidden="true">/</span>
+            <strong>Tax Toolkit</strong>
+        </nav>
+
+        <header class="tax-toolkit-header">
+            <p class="tax-toolkit-eyebrow">Tax Toolkit</p>
+            <h1>Understand taxes before investing.</h1>
+            <p class="tax-toolkit-intro">
+                Practical calculators to estimate investment taxes, review harvesting opportunities
+                and understand how dividend income may affect your tax position.
+            </p>
+        </header>
+
+        <nav class="tax-toolkit-jump-links" aria-label="Tax calculators">
+            <a href="#capital-gains">Capital Gains</a>
+            <a href="#tax-harvesting">Tax Harvesting</a>
+            <a href="#dividend-tax">Dividend Tax</a>
+        </nav>
+
+        <section class="tax-toolkit-list" aria-label="Tax calculator catalogue">
+            <article class="tax-tool-card" id="capital-gains">
+                <div class="tax-tool-number">01</div>
+                <div class="tax-tool-content">
+                    <div class="tax-tool-heading-row">
+                        <div>
+                            <p class="tax-tool-label">Investment tax</p>
+                            <h2>Capital Gains Calculator</h2>
+                        </div>
+                        <span class="tax-tool-status">Build first</span>
+                    </div>
+                    <p class="tax-tool-description">
+                        Estimate taxable gains and indicative tax based on the asset type, purchase value,
+                        sale value, holding period and eligible costs.
+                    </p>
+                    <div class="tax-tool-preview-grid">
+                        <div><span>Typical inputs</span><strong>Buy value, sale value, dates and costs</strong></div>
+                        <div><span>Useful output</span><strong>Gain type, taxable gain and estimated tax</strong></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tax-tool-card" id="tax-harvesting">
+                <div class="tax-tool-number">02</div>
+                <div class="tax-tool-content">
+                    <div class="tax-tool-heading-row">
+                        <div>
+                            <p class="tax-tool-label">Tax planning</p>
+                            <h2>Tax Harvesting Calculator</h2>
+                        </div>
+                        <span class="tax-tool-status">Planned</span>
+                    </div>
+                    <p class="tax-tool-description">
+                        Explore whether booking eligible gains or losses before the financial year closes
+                        could improve the use of available exemptions or offsets.
+                    </p>
+                    <div class="tax-tool-preview-grid">
+                        <div><span>Typical inputs</span><strong>Realised gains, unrealised gains and losses</strong></div>
+                        <div><span>Useful output</span><strong>Harvesting room and possible tax impact</strong></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tax-tool-card" id="dividend-tax">
+                <div class="tax-tool-number">03</div>
+                <div class="tax-tool-content">
+                    <div class="tax-tool-heading-row">
+                        <div>
+                            <p class="tax-tool-label">Income tax</p>
+                            <h2>Dividend Tax Calculator</h2>
+                        </div>
+                        <span class="tax-tool-status">Planned</span>
+                    </div>
+                    <p class="tax-tool-description">
+                        Estimate the tax effect of dividend income using the investor's applicable tax rate,
+                        eligible expenses and tax already deducted at source.
+                    </p>
+                    <div class="tax-tool-preview-grid">
+                        <div><span>Typical inputs</span><strong>Dividend income, tax slab and TDS</strong></div>
+                        <div><span>Useful output</span><strong>Estimated liability, TDS credit and balance</strong></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <aside class="tax-toolkit-note">
+            <strong>Important</strong>
+            <p>
+                These tools will provide estimates for education and planning. Tax treatment can depend on
+                the asset, transaction date, holding period, tax regime and individual circumstances.
+            </p>
+        </aside>
+    </div>
+</main>
+{% endblock %}

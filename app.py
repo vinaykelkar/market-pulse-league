@@ -388,6 +388,10 @@ def strategy_lab_close(strategy_id):
     close_strategy_trade(strategy_id, request.form)
     return redirect(url_for("admin_strategy_lab"))
 
+@app.route("/financial-tools/tax")
+def tax_toolkit():
+    """Public landing page for Market Pulse League tax calculators."""
+    return render_template("tax_toolkit.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
