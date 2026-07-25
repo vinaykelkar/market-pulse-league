@@ -45,22 +45,18 @@
             </div>
         </article>
 
-        <article class="toolkit-card toolkit-card-clickable" aria-labelledby="tax-title">
+        <article class="toolkit-card" aria-labelledby="tax-title">
             <div class="toolkit-card-heading">
                 <div>
-                    <h2 id="tax-title">
-                        <a class="toolkit-card-main-link" href="{{ url_for('tax_toolkit') }}">
-                            <span aria-hidden="true">💰</span> Tax
-                        </a>
-                    </h2>
+                    <h2 id="tax-title"><span aria-hidden="true">💰</span> Tax</h2>
                     <p>Understand taxes before investing.</p>
                 </div>
                 <span class="tool-count">3 Tools</span>
             </div>
-            <div class="tool-links toolkit-card-action-links" aria-label="Tax calculators">
-                <a class="tool-pill" href="{{ url_for('tax_toolkit') }}#capital-gains">Capital Gains</a>
-                <a class="tool-pill" href="{{ url_for('tax_toolkit') }}#tax-harvesting">Harvesting</a>
-                <a class="tool-pill" href="{{ url_for('tax_toolkit') }}#dividend-tax">Dividend Tax</a>
+            <div class="tool-links" aria-label="Tax calculators">
+                <span class="tool-pill">Capital Gains</span>
+                <span class="tool-pill">Harvesting</span>
+                <span class="tool-pill">Dividend Tax</span>
             </div>
         </article>
 
