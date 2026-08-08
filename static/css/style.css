@@ -6464,3 +6464,288 @@ body:has(.investment-calculator-page) {
     }
 
 }
+
+/* =========================================================
+   TRADING TOOLKIT
+========================================================= */
+
+body:has(.trading-toolkit-page),
+body:has(.trading-calculator-page) {
+    background: #ffffff;
+    color: #10233f;
+}
+
+
+.trading-toolkit-page,
+.trading-calculator-page {
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+
+.trading-toolkit-shell,
+.trading-calculator-shell {
+    width: min(1080px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 52px 0 72px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.trading-toolkit-header,
+.trading-calculator-header {
+    max-width: 760px;
+    margin-bottom: 30px;
+}
+
+
+.trading-toolkit-eyebrow,
+.trading-calculator-eyebrow {
+    margin: 0 0 8px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 850;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+}
+
+
+.trading-toolkit-header h1,
+.trading-calculator-header h1 {
+    margin: 0;
+
+    color: #10233f;
+
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 850;
+
+    line-height: 1.06;
+
+    letter-spacing: -0.04em;
+}
+
+
+.trading-toolkit-header p,
+.trading-calculator-header p {
+    max-width: 700px;
+
+    margin: 12px 0 0;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TOOL NAVIGATION
+========================================================= */
+
+.trading-toolkit-nav {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 30px;
+}
+
+
+.trading-toolkit-nav a,
+.trading-calculator-back-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding: 9px 15px;
+
+    border: 1px solid #d8e0e8;
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    color: #10233f;
+
+    font-size: 13px;
+    font-weight: 750;
+
+    text-decoration: none;
+}
+
+
+.trading-toolkit-nav a:hover,
+.trading-calculator-back-link:hover {
+    border-color: #2563eb;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   TOOL GRID
+========================================================= */
+
+.trading-tool-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   TOOL CARDS
+========================================================= */
+
+.trading-tool-card {
+    min-height: 240px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 28px;
+
+    border: 1px solid #dfe5ec;
+
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    color: #10233f;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.17s ease,
+        border-color 0.17s ease,
+        box-shadow 0.17s ease;
+}
+
+
+.trading-tool-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(37, 99, 235, 0.38);
+
+    box-shadow: 0 18px 38px rgba(16, 35, 63, 0.08);
+
+    color: #10233f;
+}
+
+
+/* =========================================================
+   TOOL NUMBER
+========================================================= */
+
+.trading-tool-number {
+    width: 44px;
+    height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 36px;
+
+    border-radius: 14px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   TOOL CONTENT
+========================================================= */
+
+.trading-tool-card h2 {
+    margin: 0 0 10px;
+
+    color: #10233f;
+
+    font-size: 24px;
+    font-weight: 850;
+}
+
+
+.trading-tool-card p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    line-height: 1.65;
+}
+
+
+.trading-tool-card strong {
+    margin-top: auto;
+
+    padding-top: 24px;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 850;
+}
+
+
+/* =========================================================
+   CALCULATOR PLACEHOLDER
+========================================================= */
+
+.trading-calculator-back-link {
+    width: fit-content;
+
+    margin-bottom: 28px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .trading-toolkit-shell,
+    .trading-calculator-shell {
+        width: min(100% - 28px, 1080px);
+
+        padding: 36px 0 52px;
+    }
+
+
+    .trading-tool-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .trading-tool-card {
+        min-height: 220px;
+
+        padding: 24px;
+    }
+
+}

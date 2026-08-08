@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="trading-calculator-page">
+
+    <div class="trading-calculator-shell">
+
+        <a
+            href="{{ url_for('trading_toolkit') }}"
+            class="trading-calculator-back-link"
+        >
+            ← Back to Trading
+        </a>
+
+
+        <header class="trading-calculator-header">
+
+            <p class="trading-calculator-eyebrow">
+                TRADING CALCULATOR
+            </p>
+
+            <h1>{{ calculator_name }}</h1>
+
+            <p>
+                This calculator will be built next.
+            </p>
+
+        </header>
+
+    </div>
+
+</section>
+
+{% endblock %}

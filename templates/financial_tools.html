@@ -72,22 +72,79 @@
 
 </article>
 
-        <article class="toolkit-card" aria-labelledby="trading-title">
-            <div class="toolkit-card-heading">
-                <div>
-                    <h2 id="trading-title"><span aria-hidden="true">📊</span> Trading</h2>
-                    <p>Manage risk before every trade.</p>
-                </div>
-                <span class="tool-count">5 Tools</span>
-            </div>
-            <div class="tool-links" aria-label="Trading calculators">
-					<span class="tool-pill">Position Size</span>
-					<span class="tool-pill">Stop Loss / Risk</span>
-					<span class="tool-pill">Risk–Reward</span>
-					<span class="tool-pill">Profit / Loss</span>
-					<span class="tool-pill">Average Entry</span>
-            </div>
-        </article>
+<article class="toolkit-card" aria-labelledby="trading-title">
+
+    <a
+        href="{{ url_for('trading_toolkit') }}"
+        class="toolkit-card-main-link"
+        aria-label="Open Trading Toolkit"
+    ></a>
+
+    <div class="toolkit-card-heading">
+
+        <div>
+
+            <h2 id="trading-title">
+                <span aria-hidden="true">📊</span>
+                Trading
+            </h2>
+
+            <p>
+                Manage risk before every trade.
+            </p>
+
+        </div>
+
+        <span class="tool-count">
+            5 Tools
+        </span>
+
+    </div>
+
+
+    <div
+        class="tool-links"
+        aria-label="Trading calculators"
+    >
+
+        <a
+            href="{{ url_for('position_size_calculator') }}"
+            class="tool-pill"
+        >
+            Position Size
+        </a>
+
+        <a
+            href="{{ url_for('stop_loss_risk_calculator') }}"
+            class="tool-pill"
+        >
+            Stop Loss / Risk
+        </a>
+
+        <a
+            href="{{ url_for('risk_reward_calculator') }}"
+            class="tool-pill"
+        >
+            Risk–Reward
+        </a>
+
+        <a
+            href="{{ url_for('profit_loss_calculator') }}"
+            class="tool-pill"
+        >
+            Profit / Loss
+        </a>
+
+        <a
+            href="{{ url_for('average_entry_calculator') }}"
+            class="tool-pill"
+        >
+            Average Entry
+        </a>
+
+    </div>
+
+</article>
 
 <!--
         <article class="toolkit-card toolkit-card-clickable" aria-labelledby="tax-title">

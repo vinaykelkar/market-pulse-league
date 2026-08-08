@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="trading-toolkit-page">
+
+    <div class="trading-toolkit-shell">
+
+        <!-- PAGE HEADER -->
+        <header class="trading-toolkit-header">
+
+            <p class="trading-toolkit-eyebrow">
+                TRADER TOOLKIT
+            </p>
+
+            <h1>Trading</h1>
+
+            <p>
+                Practical calculators for position sizing, trade risk,
+                risk–reward planning, profit and loss, and average entry price.
+            </p>
+
+        </header>
+
+
+        <!-- QUICK NAVIGATION -->
+        <nav
+            class="trading-toolkit-nav"
+            aria-label="Trading calculators"
+        >
+
+            <a href="{{ url_for('position_size_calculator') }}">
+                Position Size
+            </a>
+
+            <a href="{{ url_for('stop_loss_risk_calculator') }}">
+                Stop Loss / Risk
+            </a>
+
+            <a href="{{ url_for('risk_reward_calculator') }}">
+                Risk–Reward
+            </a>
+
+            <a href="{{ url_for('profit_loss_calculator') }}">
+                Profit / Loss
+            </a>
+
+            <a href="{{ url_for('average_entry_calculator') }}">
+                Average Entry
+            </a>
+
+        </nav>
+
+
+        <!-- CALCULATOR GRID -->
+        <div class="trading-tool-grid">
+
+
+            <!-- POSITION SIZE -->
+            <a
+                href="{{ url_for('position_size_calculator') }}"
+                class="trading-tool-card"
+            >
+
+                <span class="trading-tool-number">
+                    01
+                </span>
+
+                <div>
+
+                    <h2>Position Size Calculator</h2>
+
+                    <p>
+                        Calculate how many shares or F&amp;O lots you can trade
+                        based on your capital, entry price and maximum risk.
+                    </p>
+
+                </div>
+
+                <strong>
+                    Open Calculator →
+                </strong>
+
+            </a>
+
+
+            <!-- STOP LOSS / RISK -->
+            <a
+                href="{{ url_for('stop_loss_risk_calculator') }}"
+                class="trading-tool-card"
+            >
+
+                <span class="trading-tool-number">
+                    02
+                </span>
+
+                <div>
+
+                    <h2>Stop Loss / Risk Calculator</h2>
+
+                    <p>
+                        Understand your risk per unit and total potential loss
+                        before entering a trade.
+                    </p>
+
+                </div>
+
+                <strong>
+                    Open Calculator →
+                </strong>
+
+            </a>
+
+
+            <!-- RISK REWARD -->
+            <a
+                href="{{ url_for('risk_reward_calculator') }}"
+                class="trading-tool-card"
+            >
+
+                <span class="trading-tool-number">
+                    03
+                </span>
+
+                <div>
+
+                    <h2>Risk–Reward Calculator</h2>
+
+                    <p>
+                        Compare your planned stop loss and target to calculate
+                        the risk–reward ratio of a trade.
+                    </p>
+
+                </div>
+
+                <strong>
+                    Open Calculator →
+                </strong>
+
+            </a>
+
+
+            <!-- PROFIT LOSS -->
+            <a
+                href="{{ url_for('profit_loss_calculator') }}"
+                class="trading-tool-card"
+            >
+
+                <span class="trading-tool-number">
+                    04
+                </span>
+
+                <div>
+
+                    <h2>Profit / Loss Calculator</h2>
+
+                    <p>
+                        Estimate the gross profit or loss on long or short
+                        trades using shares or F&amp;O lots.
+                    </p>
+
+                </div>
+
+                <strong>
+                    Open Calculator →
+                </strong>
+
+            </a>
+
+
+            <!-- AVERAGE ENTRY -->
+            <a
+                href="{{ url_for('average_entry_calculator') }}"
+                class="trading-tool-card"
+            >
+
+                <span class="trading-tool-number">
+                    05
+                </span>
+
+                <div>
+
+                    <h2>Average Entry Price Calculator</h2>
+
+                    <p>
+                        Calculate your weighted average entry when a position
+                        is built across multiple prices and quantities.
+                    </p>
+
+                </div>
+
+                <strong>
+                    Open Calculator →
+                </strong>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

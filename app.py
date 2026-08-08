@@ -418,6 +418,52 @@ def inflation_calculator():
 @app.route("/financial-tools/investing/goal-planner")
 def goal_planner():
     return render_template("goal_planner.html")
+    
+# TRADING TOOLKIT ROUTES
+
+@app.route("/trading")
+def trading_toolkit():
+    return render_template("trading_toolkit.html")
+
+
+@app.route("/trading/position-size")
+def position_size_calculator():
+    return render_template(
+        "trading_calculator_placeholder.html",
+        calculator_name="Position Size Calculator"
+    )
+
+
+@app.route("/trading/stop-loss-risk")
+def stop_loss_risk_calculator():
+    return render_template(
+        "trading_calculator_placeholder.html",
+        calculator_name="Stop Loss / Risk Calculator"
+    )
+
+
+@app.route("/trading/risk-reward")
+def risk_reward_calculator():
+    return render_template(
+        "trading_calculator_placeholder.html",
+        calculator_name="Risk–Reward Calculator"
+    )
+
+
+@app.route("/trading/profit-loss")
+def profit_loss_calculator():
+    return render_template(
+        "trading_calculator_placeholder.html",
+        calculator_name="Profit / Loss Calculator"
+    )
+
+
+@app.route("/trading/average-entry")
+def average_entry_calculator():
+    return render_template(
+        "trading_calculator_placeholder.html",
+        calculator_name="Average Entry Price Calculator"
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
