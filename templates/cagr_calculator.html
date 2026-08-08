@@ -1,4 +1,263 @@
 {% extends "base.html" %}
+
 {% block content %}
-<section class="investment-calculator-page"><div class="investment-calculator-shell"><a href="{{ url_for('investing_toolkit') }}" class="calculator-back-link">← Back to Investing</a><header class="investment-calculator-header"><p class="investment-calculator-eyebrow">INVESTING CALCULATOR</p><h1>CAGR Calculator</h1><p>Calculate the annualised growth rate of an investment over a period of time.</p></header><div class="investment-calculator-placeholder"><span>Calculator logic coming next</span><h2>Compound Annual Growth Rate</h2><p>The page structure is ready. We will finalise the business logic, inputs, outputs, validation and examples before activating calculations.</p></div><section class="investment-calculator-learning"><div><span>WHAT THIS TOOL WILL COVER</span><h2>Clear calculation. Clear explanation.</h2></div><p>Each calculator will include the calculation itself, the formula, a practical example and a short explanation so the result is easy to understand.</p></section></div></section>
+
+<main class="investment-calculator-shell">
+
+    <a
+        href="{{ url_for('investing_toolkit') }}"
+        class="investment-back-link"
+    >
+        ← Back to Investing
+    </a>
+
+
+    <header class="investment-calculator-header">
+
+        <p class="toolkit-eyebrow">
+            Investing Calculator
+        </p>
+
+        <h1>
+            CAGR Calculator
+        </h1>
+
+        <p>
+            Calculate the annualised growth rate of an investment
+            between its starting value and final value.
+        </p>
+
+    </header>
+
+
+    <section
+        class="cagr-calculator-shell"
+        aria-label="CAGR calculator"
+    >
+
+        <div class="cagr-panel">
+
+            <div class="cagr-panel-header">
+
+                <span class="calculator-label">
+                    CAGR CALCULATOR
+                </span>
+
+                <h2>
+                    Calculate annualised investment growth
+                </h2>
+
+                <p>
+                    Enter the initial value, final value and investment
+                    period to calculate the Compound Annual Growth Rate.
+                </p>
+
+            </div>
+
+
+            <div class="cagr-calculator-grid">
+
+
+                <!-- =====================================================
+                     INPUT CARD
+                ====================================================== -->
+
+                <div class="cagr-input-card">
+
+
+                    <div class="cagr-field">
+
+                        <label for="cagrInitialValue">
+                            Initial Investment
+                        </label>
+
+                        <div class="cagr-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="cagrInitialValue"
+                                min="1"
+                                step="1000"
+                                value="100000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cagr-field">
+
+                        <label for="cagrFinalValue">
+                            Final Value
+                        </label>
+
+                        <div class="cagr-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="cagrFinalValue"
+                                min="1"
+                                step="1000"
+                                value="200000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cagr-field">
+
+                        <label for="cagrYears">
+                            Investment Period (Years)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cagrYears"
+                            min="0.01"
+                            max="100"
+                            step="0.1"
+                            value="6"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="cagr-calculate-btn"
+                        id="cagrCalculateBtn"
+                    >
+                        Calculate CAGR
+                    </button>
+
+
+                    <p
+                        id="cagrError"
+                        class="cagr-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- =====================================================
+                     RESULT CARD
+                ====================================================== -->
+
+                <div
+                    class="cagr-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        COMPOUND ANNUAL GROWTH RATE
+                    </span>
+
+
+                    <div
+                        id="cagrResult"
+                        class="cagr-main-result"
+                    >
+                        —
+                    </div>
+
+
+                    <div class="cagr-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Absolute Gain / Loss
+                            </span>
+
+                            <strong id="cagrGain">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Return
+                            </span>
+
+                            <strong id="cagrTotalReturn">
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Wealth Multiple
+                            </span>
+
+                            <strong id="cagrMultiple">
+                                0×
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EDUCATIONAL NOTE
+    ====================================================== -->
+
+    <section class="cagr-info-card">
+
+        <span class="calculator-label">
+            WHAT CAGR MEANS
+        </span>
+
+        <h2>
+            One annualised growth rate
+        </h2>
+
+        <p>
+            CAGR represents the constant annual growth rate that would
+            take an investment from its initial value to its final value
+            over the selected period. It smooths out year-to-year
+            fluctuations and does not show the actual return earned
+            during each individual year.
+        </p>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='js/cagr_calculator.js') }}"
+></script>
+
 {% endblock %}

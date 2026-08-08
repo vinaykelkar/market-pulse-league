@@ -1,5 +1,58 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="investing-toolkit-page"><div class="investing-toolkit-shell"><header class="investing-toolkit-header"><p class="investing-toolkit-eyebrow">INVESTOR TOOLKIT</p><h1>Investing</h1><p>Practical calculators for long-term investing, growth planning, inflation awareness and financial goals.</p></header><nav class="investing-toolkit-nav" aria-label="Investing calculators"><a href="{{ url_for('sip_calculator') }}">SIP</a><a href="{{ url_for('lumpsum_calculator') }}">Lumpsum</a><a href="{{ url_for('cagr_calculator') }}">CAGR</a><a href="{{ url_for('inflation_calculator') }}">Inflation</a><a href="{{ url_for('goal_planner') }}">Goal Planner</a></nav><div class="investing-tool-grid">
-<a href="{{ url_for('sip_calculator') }}" class="investing-tool-card"><span class="investing-tool-number">01</span><div><h2>SIP Calculator</h2><p>Estimate how regular monthly investments may grow over time.</p></div><strong>Open Calculator →</strong></a><a href="{{ url_for('lumpsum_calculator') }}" class="investing-tool-card"><span class="investing-tool-number">02</span><div><h2>Lumpsum Calculator</h2><p>Estimate the future value of a one-time investment.</p></div><strong>Open Calculator →</strong></a><a href="{{ url_for('cagr_calculator') }}" class="investing-tool-card"><span class="investing-tool-number">03</span><div><h2>CAGR Calculator</h2><p>Measure the annualised growth rate between two investment values.</p></div><strong>Open Calculator →</strong></a><a href="{{ url_for('inflation_calculator') }}" class="investing-tool-card"><span class="investing-tool-number">04</span><div><h2>Inflation Calculator</h2><p>Understand how inflation can change the future cost of money.</p></div><strong>Open Calculator →</strong></a><a href="{{ url_for('goal_planner') }}" class="investing-tool-card"><span class="investing-tool-number">05</span><div><h2>Goal Planner</h2><p>Work backwards from a future goal to estimate the investment required.</p></div><strong>Open Calculator →</strong></a></div></div></section>
-{% endblock %}
+{% extends "base.html" %} {% block content %} <section class="investing-toolkit-page">
+  <div class="investing-toolkit-shell">
+    <header class="investing-toolkit-header">
+      <p class="investing-toolkit-eyebrow">INVESTOR TOOLKIT</p>
+      <h1>Investing</h1>
+      <p>Practical calculators for long-term investing, growth planning, inflation awareness and financial goals.</p>
+    </header>
+    <nav class="investing-toolkit-nav" aria-label="Investing calculators">
+      <a href="{{ url_for('sip_calculator') }}">SIP</a>
+      <a href="{{ url_for('lumpsum_calculator') }}">Lumpsum</a>
+      <a href="{{ url_for('cagr_calculator') }}">CAGR</a>
+      <a href="{{ url_for('inflation_calculator') }}">Inflation</a>
+      <a href="{{ url_for('goal_planner') }}">Goal Planner</a>
+    </nav>
+    <div class="investing-tool-grid">
+      <a href="{{ url_for('sip_calculator') }}" class="investing-tool-card">
+        <span class="investing-tool-number">01</span>
+        <div>
+          <h2>SIP Calculator</h2>
+          <p>Estimate how regular monthly investments may grow over time.</p>
+        </div>
+        <strong>Open Calculator →</strong>
+      </a>
+      <a href="{{ url_for('lumpsum_calculator') }}" class="investing-tool-card">
+        <span class="investing-tool-number">02</span>
+        <div>
+          <h2>Lumpsum Calculator</h2>
+          <p>Estimate the future value of a one-time investment.</p>
+        </div>
+        <strong>Open Calculator →</strong>
+      </a>
+      <a href="{{ url_for('cagr_calculator') }}" class="investing-tool-card">
+        <span class="investing-tool-number">03</span>
+        <div>
+          <h2>CAGR Calculator</h2>
+          <p>Measure the annualised growth rate between two investment values.</p>
+        </div>
+        <strong>Open Calculator →</strong>
+      </a>
+      <a href="{{ url_for('inflation_calculator') }}" class="investing-tool-card">
+        <span class="investing-tool-number">04</span>
+        <div>
+          <h2>Inflation Calculator</h2>
+          <p>Understand how inflation can change the future cost of money.</p>
+        </div>
+        <strong>Open Calculator →</strong>
+      </a>
+      <a href="{{ url_for('goal_planner') }}" class="investing-tool-card">
+        <span class="investing-tool-number">05</span>
+        <div>
+          <h2>Goal Planner</h2>
+          <p>Work backwards from a future goal to estimate the investment required.</p>
+        </div>
+        <strong>Open Calculator →</strong>
+      </a>
+    </div>
+  </div>
+</section> {% endblock %}

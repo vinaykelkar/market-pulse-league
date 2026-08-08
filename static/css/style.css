@@ -4895,3 +4895,400 @@ body:has(.investment-calculator-page) {
     }
 
 }
+/* =========================================================
+   CAGR CALCULATOR
+   ========================================================= */
+
+
+.cagr-calculator-shell {
+    margin-top: 30px;
+}
+
+
+
+.cagr-panel {
+    border: 1px solid #dbe3ed;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 30px
+        rgba(16, 35, 63, 0.04);
+}
+
+
+
+.cagr-panel-header {
+    margin-bottom: 28px;
+}
+
+
+.cagr-panel-header h2,
+.cagr-info-card h2 {
+    color: #10233f;
+
+    font-size: 28px;
+
+    line-height: 1.2;
+
+    margin: 0 0 8px;
+}
+
+
+.cagr-panel-header p,
+.cagr-info-card p {
+    color: #66758a;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
+
+
+/* ---------------------------------------------------------
+   GRID
+--------------------------------------------------------- */
+
+.cagr-calculator-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 30px;
+}
+
+
+
+/* ---------------------------------------------------------
+   CARDS
+--------------------------------------------------------- */
+
+.cagr-input-card,
+.cagr-result-card {
+    border:
+        1px solid #e0e6ef;
+
+    border-radius:
+        16px;
+
+    padding:
+        24px;
+}
+
+
+
+/* ---------------------------------------------------------
+   INPUT FIELDS
+--------------------------------------------------------- */
+
+.cagr-field {
+    margin-bottom:
+        20px;
+}
+
+
+.cagr-field label {
+    display:
+        block;
+
+    color:
+        #24364d;
+
+    font-weight:
+        600;
+
+    font-size:
+        14px;
+
+    margin-bottom:
+        8px;
+}
+
+
+.cagr-field input {
+    width:
+        100%;
+
+    box-sizing:
+        border-box;
+
+    border:
+        1px solid #ccd6e2;
+
+    border-radius:
+        10px;
+
+    padding:
+        12px 14px;
+
+    font-size:
+        16px;
+
+    color:
+        #10233f;
+
+    outline:
+        none;
+
+    background:
+        #ffffff;
+}
+
+
+.cagr-field input:focus {
+    border-color:
+        #365b8c;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(54, 91, 140, 0.08);
+}
+
+
+
+/* ---------------------------------------------------------
+   ₹ PREFIX
+--------------------------------------------------------- */
+
+.cagr-input-prefix-wrapper {
+    position:
+        relative;
+}
+
+
+.cagr-input-prefix-wrapper span {
+    position:
+        absolute;
+
+    left:
+        14px;
+
+    top:
+        50%;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        #66758a;
+
+    font-weight:
+        600;
+}
+
+
+.cagr-input-prefix-wrapper input {
+    padding-left:
+        34px;
+}
+
+
+
+/* ---------------------------------------------------------
+   BUTTON
+--------------------------------------------------------- */
+
+.cagr-calculate-btn {
+    width:
+        100%;
+
+    border:
+        none;
+
+    background:
+        #10233f;
+
+    color:
+        #ffffff;
+
+    border-radius:
+        10px;
+
+    padding:
+        13px 18px;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    transition:
+        0.2s ease;
+}
+
+
+.cagr-calculate-btn:hover {
+    background:
+        #203a63;
+}
+
+
+
+/* ---------------------------------------------------------
+   ERROR
+--------------------------------------------------------- */
+
+.cagr-error {
+    color:
+        #b42318;
+
+    font-size:
+        13px;
+
+    margin:
+        10px 0 0;
+
+    min-height:
+        18px;
+}
+
+
+
+/* ---------------------------------------------------------
+   RESULTS
+--------------------------------------------------------- */
+
+.cagr-result-card {
+    background:
+        #f8fafc;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+}
+
+
+.cagr-main-result {
+    color:
+        #10233f;
+
+    font-size:
+        42px;
+
+    font-weight:
+        800;
+
+    margin:
+        10px 0 28px;
+}
+
+
+
+.cagr-result-breakdown {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        12px;
+}
+
+
+.cagr-result-breakdown div {
+    border-top:
+        1px solid #dbe3ed;
+
+    padding-top:
+        14px;
+}
+
+
+.cagr-result-breakdown span {
+    display:
+        block;
+
+    color:
+        #718096;
+
+    font-size:
+        12px;
+
+    margin-bottom:
+        5px;
+}
+
+
+.cagr-result-breakdown strong {
+    color:
+        #10233f;
+
+    font-size:
+        15px;
+}
+
+
+
+/* ---------------------------------------------------------
+   INFO CARD
+--------------------------------------------------------- */
+
+.cagr-info-card {
+    margin-top:
+        20px;
+
+    border:
+        1px solid #dbe3ed;
+
+    border-radius:
+        20px;
+
+    padding:
+        28px 30px;
+
+    background:
+        #ffffff;
+}
+
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (
+    max-width: 768px
+) {
+
+    .cagr-calculator-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .cagr-result-breakdown {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .cagr-panel {
+        padding:
+            20px;
+    }
+
+
+    .cagr-main-result {
+        font-size:
+            32px;
+    }
+
+}
