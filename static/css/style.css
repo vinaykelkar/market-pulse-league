@@ -6658,7 +6658,6 @@ body:has(.trading-calculator-page) {
     height: 44px;
 
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
@@ -6666,7 +6665,7 @@ body:has(.trading-calculator-page) {
 
     border-radius: 14px;
 
-    background: #2563eb;
+    background: #0f6b50;
 
     color: #ffffff;
 
@@ -6705,7 +6704,7 @@ body:has(.trading-calculator-page) {
 
     padding-top: 24px;
 
-    color: #2563eb;
+    color: #0f6b50;
 
     font-size: 13px;
     font-weight: 850;
