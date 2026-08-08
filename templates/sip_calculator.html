@@ -1,4 +1,334 @@
 {% extends "base.html" %}
+
 {% block content %}
-<section class="investment-calculator-page"><div class="investment-calculator-shell"><a href="{{ url_for('investing_toolkit') }}" class="calculator-back-link">← Back to Investing</a><header class="investment-calculator-header"><p class="investment-calculator-eyebrow">INVESTING CALCULATOR</p><h1>SIP Calculator</h1><p>Estimate how a regular monthly investment may grow over time.</p></header><div class="investment-calculator-placeholder"><span>Calculator logic coming next</span><h2>Systematic Investment Plan</h2><p>The page structure is ready. We will finalise the business logic, inputs, outputs, validation and examples before activating calculations.</p></div><section class="investment-calculator-learning"><div><span>WHAT THIS TOOL WILL COVER</span><h2>Clear calculation. Clear explanation.</h2></div><p>Each calculator will include the calculation itself, the formula, a practical example and a short explanation so the result is easy to understand.</p></section></div></section>
+<main class="investment-calculator-shell">
+
+    <a href="{{ url_for('investing_toolkit') }}" class="investment-back-link">
+        ← Back to Investing
+    </a>
+
+    <header class="investment-calculator-header">
+        <p class="toolkit-eyebrow">Investing Calculator</p>
+        <h1>SIP Calculator</h1>
+        <p>
+            Estimate SIP growth, calculate how long a target may take,
+            or estimate the return earned on a regular monthly investment.
+        </p>
+    </header>
+
+    <section class="sip-calculator-shell" aria-label="SIP calculators">
+
+        <div class="sip-tabs" role="tablist" aria-label="Choose SIP calculator">
+            <button
+                type="button"
+                class="sip-tab active"
+                data-target="basic-sip"
+                role="tab"
+                aria-selected="true"
+                aria-controls="basic-sip"
+            >
+                Basic SIP
+            </button>
+
+            <button
+                type="button"
+                class="sip-tab"
+                data-target="duration-sip"
+                role="tab"
+                aria-selected="false"
+                aria-controls="duration-sip"
+            >
+                SIP Duration
+            </button>
+
+            <button
+                type="button"
+                class="sip-tab"
+                data-target="return-sip"
+                role="tab"
+                aria-selected="false"
+                aria-controls="return-sip"
+            >
+                SIP Return
+            </button>
+        </div>
+
+        <!-- =====================================================
+             1. BASIC SIP CALCULATOR
+        ====================================================== -->
+        <section id="basic-sip" class="sip-panel active" role="tabpanel">
+            <div class="sip-panel-header">
+                <span class="calculator-label">BASIC SIP CALCULATOR</span>
+                <h2>Estimate your SIP growth</h2>
+                <p>
+                    See how a fixed monthly investment may grow over time
+                    based on an assumed annual return.
+                </p>
+            </div>
+
+            <div class="sip-calculator-grid">
+                <div class="sip-input-card">
+
+                    <div class="sip-field">
+                        <label for="basicAmount">Monthly SIP Amount</label>
+                        <div class="input-prefix-wrapper">
+                            <span aria-hidden="true">₹</span>
+                            <input
+                                type="number"
+                                id="basicAmount"
+                                min="1"
+                                step="500"
+                                value="10000"
+                                inputmode="decimal"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="basicReturn">Expected Annual Return (%)</label>
+                        <input
+                            type="number"
+                            id="basicReturn"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="12"
+                            inputmode="decimal"
+                        >
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="basicYears">Investment Period (Years)</label>
+                        <input
+                            type="number"
+                            id="basicYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="10"
+                            inputmode="numeric"
+                        >
+                    </div>
+
+                    <button type="button" class="sip-calculate-btn" id="basicCalculateBtn">
+                        Calculate SIP
+                    </button>
+
+                    <p id="basicError" class="sip-error" role="alert"></p>
+                </div>
+
+                <div class="sip-result-card" aria-live="polite">
+                    <span class="result-label">ESTIMATED CORPUS</span>
+                    <div id="basicCorpus" class="sip-main-result">₹0</div>
+
+                    <div class="sip-result-breakdown">
+                        <div>
+                            <span>Total Invested</span>
+                            <strong id="basicInvested">₹0</strong>
+                        </div>
+                        <div>
+                            <span>Estimated Returns</span>
+                            <strong id="basicGain">₹0</strong>
+                        </div>
+                        <div>
+                            <span>Total SIPs</span>
+                            <strong id="basicInstallments">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             2. SIP DURATION CALCULATOR
+        ====================================================== -->
+        <section id="duration-sip" class="sip-panel" role="tabpanel" hidden>
+            <div class="sip-panel-header">
+                <span class="calculator-label">SIP DURATION CALCULATOR</span>
+                <h2>How long could your goal take?</h2>
+                <p>
+                    Enter a monthly investment, expected return and target corpus
+                    to estimate the time required.
+                </p>
+            </div>
+
+            <div class="sip-calculator-grid">
+                <div class="sip-input-card">
+
+                    <div class="sip-field">
+                        <label for="durationAmount">Monthly SIP Amount</label>
+                        <div class="input-prefix-wrapper">
+                            <span aria-hidden="true">₹</span>
+                            <input
+                                type="number"
+                                id="durationAmount"
+                                min="1"
+                                step="500"
+                                value="10000"
+                                inputmode="decimal"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="durationReturn">Expected Annual Return (%)</label>
+                        <input
+                            type="number"
+                            id="durationReturn"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="12"
+                            inputmode="decimal"
+                        >
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="durationGoal">Target Corpus</label>
+                        <div class="input-prefix-wrapper">
+                            <span aria-hidden="true">₹</span>
+                            <input
+                                type="number"
+                                id="durationGoal"
+                                min="1"
+                                step="10000"
+                                value="5000000"
+                                inputmode="decimal"
+                            >
+                        </div>
+                    </div>
+
+                    <button type="button" class="sip-calculate-btn" id="durationCalculateBtn">
+                        Calculate Duration
+                    </button>
+
+                    <p id="durationError" class="sip-error" role="alert"></p>
+                </div>
+
+                <div class="sip-result-card" aria-live="polite">
+                    <span class="result-label">ESTIMATED TIME REQUIRED</span>
+                    <div id="durationTime" class="sip-main-result">—</div>
+
+                    <div class="sip-result-breakdown">
+                        <div>
+                            <span>Total Months</span>
+                            <strong id="durationMonths">—</strong>
+                        </div>
+                        <div>
+                            <span>Total Invested</span>
+                            <strong id="durationInvested">₹0</strong>
+                        </div>
+                        <div>
+                            <span>Estimated Corpus</span>
+                            <strong id="durationCorpus">₹0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             3. SIP RETURN CALCULATOR
+        ====================================================== -->
+        <section id="return-sip" class="sip-panel" role="tabpanel" hidden>
+            <div class="sip-panel-header">
+                <span class="calculator-label">SIP RETURN CALCULATOR</span>
+                <h2>Estimate the return earned on your SIP</h2>
+                <p>
+                    Enter your monthly SIP, investment period and final corpus
+                    to estimate the annualised return implied by those cash flows.
+                </p>
+            </div>
+
+            <div class="sip-calculator-grid">
+                <div class="sip-input-card">
+
+                    <div class="sip-field">
+                        <label for="returnAmount">Monthly SIP Amount</label>
+                        <div class="input-prefix-wrapper">
+                            <span aria-hidden="true">₹</span>
+                            <input
+                                type="number"
+                                id="returnAmount"
+                                min="1"
+                                step="500"
+                                value="10000"
+                                inputmode="decimal"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="returnYears">Investment Period (Years)</label>
+                        <input
+                            type="number"
+                            id="returnYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="10"
+                            inputmode="numeric"
+                        >
+                    </div>
+
+                    <div class="sip-field">
+                        <label for="returnCorpus">Final Corpus</label>
+                        <div class="input-prefix-wrapper">
+                            <span aria-hidden="true">₹</span>
+                            <input
+                                type="number"
+                                id="returnCorpus"
+                                min="1"
+                                step="10000"
+                                value="2320000"
+                                inputmode="decimal"
+                            >
+                        </div>
+                    </div>
+
+                    <button type="button" class="sip-calculate-btn" id="returnCalculateBtn">
+                        Calculate Return
+                    </button>
+
+                    <p id="returnError" class="sip-error" role="alert"></p>
+                </div>
+
+                <div class="sip-result-card" aria-live="polite">
+                    <span class="result-label">ESTIMATED ANNUALISED RETURN</span>
+                    <div id="annualisedReturn" class="sip-main-result">—</div>
+
+                    <div class="sip-result-breakdown">
+                        <div>
+                            <span>Total Invested</span>
+                            <strong id="returnInvested">₹0</strong>
+                        </div>
+                        <div>
+                            <span>Investment Gain / Loss</span>
+                            <strong id="returnGain">₹0</strong>
+                        </div>
+                        <div>
+                            <span>Total SIPs</span>
+                            <strong id="returnInstallments">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+    <section class="sip-info-card">
+        <span class="calculator-label">HOW IT WORKS</span>
+        <h2>Simple assumptions. Transparent calculations.</h2>
+        <p>
+            These tools assume a fixed monthly SIP invested at the beginning of
+            each month. The entered annual return is divided by 12 to derive a
+            monthly rate for compounding. Results are estimates only and actual
+            investment performance may differ.
+        </p>
+    </section>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/sip_calculator.js') }}"></script>
 {% endblock %}
