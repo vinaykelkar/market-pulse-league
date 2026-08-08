@@ -4039,7 +4039,8 @@ body:has(.investment-calculator-page) {
 }
 
 /* =========================================================
-   INVESTING TOOLKIT CARD LINKS
+   TOOLKIT CARD LINKS
+   Whole card clickable + individual calculator pills clickable
 ========================================================= */
 
 .toolkit-card {
@@ -4051,19 +4052,41 @@ body:has(.investment-calculator-page) {
     inset: 0;
     z-index: 1;
     border-radius: inherit;
+    text-decoration: none;
 }
 
-.toolkit-card-heading,
-.tool-links {
+/*
+   Content remains visually above the full-card link,
+   but does not block clicks from reaching it.
+*/
+.toolkit-card-heading {
     position: relative;
     z-index: 2;
+    pointer-events: none;
 }
 
+/*
+   Re-enable the Tax heading's main link because Tax currently
+   places .toolkit-card-main-link inside the heading.
+*/
+.toolkit-card-heading .toolkit-card-main-link {
+    pointer-events: auto;
+}
+
+/*
+   Calculator area sits above the full-card link.
+   Blank space passes through; actual pills remain clickable.
+*/
 .tool-links {
+    position: relative;
+    z-index: 3;
     pointer-events: none;
 }
 
 .tool-pill {
+    position: relative;
+    z-index: 4;
     pointer-events: auto;
     text-decoration: none;
+    cursor: pointer;
 }
