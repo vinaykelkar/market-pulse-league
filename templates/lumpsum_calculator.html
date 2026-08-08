@@ -1,4 +1,700 @@
 {% extends "base.html" %}
+
 {% block content %}
-<section class="investment-calculator-page"><div class="investment-calculator-shell"><a href="{{ url_for('investing_toolkit') }}" class="calculator-back-link">← Back to Investing</a><header class="investment-calculator-header"><p class="investment-calculator-eyebrow">INVESTING CALCULATOR</p><h1>Lumpsum Calculator</h1><p>Estimate the future value of a one-time investment.</p></header><div class="investment-calculator-placeholder"><span>Calculator logic coming next</span><h2>One-time Investment</h2><p>The page structure is ready. We will finalise the business logic, inputs, outputs, validation and examples before activating calculations.</p></div><section class="investment-calculator-learning"><div><span>WHAT THIS TOOL WILL COVER</span><h2>Clear calculation. Clear explanation.</h2></div><p>Each calculator will include the calculation itself, the formula, a practical example and a short explanation so the result is easy to understand.</p></section></div></section>
+
+<main class="investment-calculator-shell">
+
+    <a
+        href="{{ url_for('investing_toolkit') }}"
+        class="investment-back-link"
+    >
+        ← Back to Investing
+    </a>
+
+
+    <header class="investment-calculator-header">
+
+        <p class="toolkit-eyebrow">
+            Investing Calculator
+        </p>
+
+        <h1>
+            Lumpsum Calculator
+        </h1>
+
+        <p>
+            Estimate how a one-time investment may grow,
+            how long it may take to reach a target,
+            or calculate the return earned on an investment.
+        </p>
+
+    </header>
+
+
+    <section
+        class="lumpsum-calculator-shell"
+        aria-label="Lumpsum calculators"
+    >
+
+
+        <!-- =====================================================
+             CALCULATOR TABS
+        ====================================================== -->
+
+        <div
+            class="lumpsum-tabs"
+            role="tablist"
+            aria-label="Choose Lumpsum calculator"
+        >
+
+            <button
+                type="button"
+                class="lumpsum-tab active"
+                data-target="basic-lumpsum"
+                role="tab"
+                aria-selected="true"
+                aria-controls="basic-lumpsum"
+            >
+                Basic Lumpsum
+            </button>
+
+
+            <button
+                type="button"
+                class="lumpsum-tab"
+                data-target="duration-lumpsum"
+                role="tab"
+                aria-selected="false"
+                aria-controls="duration-lumpsum"
+            >
+                Lumpsum Duration
+            </button>
+
+
+            <button
+                type="button"
+                class="lumpsum-tab"
+                data-target="return-lumpsum"
+                role="tab"
+                aria-selected="false"
+                aria-controls="return-lumpsum"
+            >
+                Lumpsum Return
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             1. BASIC LUMPSUM CALCULATOR
+        ====================================================== -->
+
+        <section
+            id="basic-lumpsum"
+            class="lumpsum-panel active"
+            role="tabpanel"
+        >
+
+            <div class="lumpsum-panel-header">
+
+                <span class="calculator-label">
+                    BASIC LUMPSUM CALCULATOR
+                </span>
+
+                <h2>
+                    Estimate your investment growth
+                </h2>
+
+                <p>
+                    See how a one-time investment may grow over time
+                    based on an assumed annual return.
+                </p>
+
+            </div>
+
+
+            <div class="lumpsum-calculator-grid">
+
+
+                <!-- INPUT SIDE -->
+
+                <div class="lumpsum-input-card">
+
+                    <div class="lumpsum-field">
+
+                        <label for="basicLumpsumAmount">
+                            Investment Amount
+                        </label>
+
+                        <div class="lumpsum-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="basicLumpsumAmount"
+                                min="1"
+                                step="1000"
+                                value="100000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="basicLumpsumReturn">
+                            Expected Annual Return (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="basicLumpsumReturn"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="12"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="basicLumpsumYears">
+                            Investment Period (Years)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="basicLumpsumYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="10"
+                            inputmode="numeric"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="lumpsum-calculate-btn"
+                        id="basicLumpsumCalculateBtn"
+                    >
+                        Calculate Lumpsum
+                    </button>
+
+
+                    <p
+                        id="basicLumpsumError"
+                        class="lumpsum-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- RESULT SIDE -->
+
+                <div
+                    class="lumpsum-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        ESTIMATED CORPUS
+                    </span>
+
+
+                    <div
+                        id="basicLumpsumCorpus"
+                        class="lumpsum-main-result"
+                    >
+                        ₹0
+                    </div>
+
+
+                    <div class="lumpsum-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Amount Invested
+                            </span>
+
+                            <strong id="basicLumpsumInvested">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Estimated Returns
+                            </span>
+
+                            <strong id="basicLumpsumGain">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Wealth Multiple
+                            </span>
+
+                            <strong id="basicLumpsumMultiple">
+                                0×
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             2. LUMPSUM DURATION CALCULATOR
+        ====================================================== -->
+
+        <section
+            id="duration-lumpsum"
+            class="lumpsum-panel"
+            role="tabpanel"
+            hidden
+        >
+
+            <div class="lumpsum-panel-header">
+
+                <span class="calculator-label">
+                    LUMPSUM DURATION CALCULATOR
+                </span>
+
+                <h2>
+                    How long could your goal take?
+                </h2>
+
+                <p>
+                    Enter your current investment, expected return
+                    and target corpus to estimate the required duration.
+                </p>
+
+            </div>
+
+
+            <div class="lumpsum-calculator-grid">
+
+
+                <!-- INPUT SIDE -->
+
+                <div class="lumpsum-input-card">
+
+                    <div class="lumpsum-field">
+
+                        <label for="durationLumpsumAmount">
+                            Investment Amount
+                        </label>
+
+                        <div class="lumpsum-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="durationLumpsumAmount"
+                                min="1"
+                                step="1000"
+                                value="100000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="durationLumpsumReturn">
+                            Expected Annual Return (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="durationLumpsumReturn"
+                            min="0.01"
+                            max="100"
+                            step="0.1"
+                            value="12"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="durationLumpsumGoal">
+                            Target Corpus
+                        </label>
+
+                        <div class="lumpsum-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="durationLumpsumGoal"
+                                min="1"
+                                step="10000"
+                                value="500000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="lumpsum-calculate-btn"
+                        id="durationLumpsumCalculateBtn"
+                    >
+                        Calculate Duration
+                    </button>
+
+
+                    <p
+                        id="durationLumpsumError"
+                        class="lumpsum-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- RESULT SIDE -->
+
+                <div
+                    class="lumpsum-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        ESTIMATED TIME REQUIRED
+                    </span>
+
+
+                    <div
+                        id="durationLumpsumTime"
+                        class="lumpsum-main-result"
+                    >
+                        —
+                    </div>
+
+
+                    <div class="lumpsum-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Starting Investment
+                            </span>
+
+                            <strong id="durationLumpsumInvested">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Target Corpus
+                            </span>
+
+                            <strong id="durationLumpsumTarget">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Estimated Gain
+                            </span>
+
+                            <strong id="durationLumpsumGain">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             3. LUMPSUM RETURN CALCULATOR
+        ====================================================== -->
+
+        <section
+            id="return-lumpsum"
+            class="lumpsum-panel"
+            role="tabpanel"
+            hidden
+        >
+
+            <div class="lumpsum-panel-header">
+
+                <span class="calculator-label">
+                    LUMPSUM RETURN CALCULATOR
+                </span>
+
+                <h2>
+                    Estimate your annualised return
+                </h2>
+
+                <p>
+                    Enter your original investment, final value and
+                    investment period to estimate the annualised return.
+                </p>
+
+            </div>
+
+
+            <div class="lumpsum-calculator-grid">
+
+
+                <!-- INPUT SIDE -->
+
+                <div class="lumpsum-input-card">
+
+                    <div class="lumpsum-field">
+
+                        <label for="returnLumpsumAmount">
+                            Initial Investment
+                        </label>
+
+                        <div class="lumpsum-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="returnLumpsumAmount"
+                                min="1"
+                                step="1000"
+                                value="100000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="returnLumpsumCorpus">
+                            Final Value
+                        </label>
+
+                        <div class="lumpsum-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="returnLumpsumCorpus"
+                                min="1"
+                                step="1000"
+                                value="310585"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="lumpsum-field">
+
+                        <label for="returnLumpsumYears">
+                            Investment Period (Years)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="returnLumpsumYears"
+                            min="0.01"
+                            max="100"
+                            step="0.1"
+                            value="10"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="lumpsum-calculate-btn"
+                        id="returnLumpsumCalculateBtn"
+                    >
+                        Calculate Return
+                    </button>
+
+
+                    <p
+                        id="returnLumpsumError"
+                        class="lumpsum-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- RESULT SIDE -->
+
+                <div
+                    class="lumpsum-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        ANNUALISED RETURN
+                    </span>
+
+
+                    <div
+                        id="lumpsumAnnualisedReturn"
+                        class="lumpsum-main-result"
+                    >
+                        —
+                    </div>
+
+
+                    <div class="lumpsum-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Initial Investment
+                            </span>
+
+                            <strong id="returnLumpsumInvested">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Final Value
+                            </span>
+
+                            <strong id="returnLumpsumFinal">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Gain / Loss
+                            </span>
+
+                            <strong id="returnLumpsumGain">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EXPLANATION
+    ====================================================== -->
+
+    <section class="lumpsum-info-card">
+
+        <span class="calculator-label">
+            HOW IT WORKS
+        </span>
+
+        <h2>
+            Simple compound-growth assumptions
+        </h2>
+
+        <p>
+            These calculators assume annual compounding using the
+            return entered by the user. Returns are estimates only
+            and actual investment performance may differ.
+        </p>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='js/lumpsum_calculator.js') }}"
+></script>
+
 {% endblock %}
