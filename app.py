@@ -393,5 +393,31 @@ def tax_toolkit():
     """Public landing page for Market Pulse League tax calculators."""
     return render_template("tax_toolkit.html")
 
+
+# INVESTING TOOLKIT ROUTES
+@app.route("/financial-tools/investing")
+def investing_toolkit():
+    return render_template("investing_toolkit.html")
+
+@app.route("/financial-tools/investing/sip")
+def sip_calculator():
+    return render_template("sip_calculator.html")
+
+@app.route("/financial-tools/investing/lumpsum")
+def lumpsum_calculator():
+    return render_template("lumpsum_calculator.html")
+
+@app.route("/financial-tools/investing/cagr")
+def cagr_calculator():
+    return render_template("cagr_calculator.html")
+
+@app.route("/financial-tools/investing/inflation")
+def inflation_calculator():
+    return render_template("inflation_calculator.html")
+
+@app.route("/financial-tools/investing/goal-planner")
+def goal_planner():
+    return render_template("goal_planner.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
