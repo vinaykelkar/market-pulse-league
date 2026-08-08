@@ -1,4 +1,782 @@
 {% extends "base.html" %}
+
 {% block content %}
-<section class="investment-calculator-page"><div class="investment-calculator-shell"><a href="{{ url_for('investing_toolkit') }}" class="calculator-back-link">← Back to Investing</a><header class="investment-calculator-header"><p class="investment-calculator-eyebrow">INVESTING CALCULATOR</p><h1>Goal Planner</h1><p>Estimate the investment required today or over time to work toward a future financial goal.</p></header><div class="investment-calculator-placeholder"><span>Calculator logic coming next</span><h2>Financial Goal Planning</h2><p>The page structure is ready. We will finalise the business logic, inputs, outputs, validation and examples before activating calculations.</p></div><section class="investment-calculator-learning"><div><span>WHAT THIS TOOL WILL COVER</span><h2>Clear calculation. Clear explanation.</h2></div><p>Each calculator will include the calculation itself, the formula, a practical example and a short explanation so the result is easy to understand.</p></section></div></section>
+
+<main class="investment-calculator-shell">
+
+    <a
+        href="{{ url_for('investing_toolkit') }}"
+        class="investment-back-link"
+    >
+        ← Back to Investing
+    </a>
+
+
+    <header class="investment-calculator-header">
+
+        <p class="toolkit-eyebrow">
+            Investing Calculator
+        </p>
+
+        <h1>
+            Goal Planner
+        </h1>
+
+        <p>
+            Estimate how much you may need to invest every month
+            for a financial goal or for retirement.
+        </p>
+
+    </header>
+
+
+
+    <section
+        class="goal-planner-shell"
+        aria-label="Financial goal calculators"
+    >
+
+        <!-- =====================================================
+             MAIN TABS
+        ====================================================== -->
+
+        <div
+            class="goal-planner-tabs"
+            role="tablist"
+            aria-label="Choose goal planner"
+        >
+
+            <button
+                type="button"
+                class="goal-planner-tab active"
+                data-target="financial-goal-panel"
+                role="tab"
+                aria-selected="true"
+            >
+                Financial Goal
+            </button>
+
+
+            <button
+                type="button"
+                class="goal-planner-tab"
+                data-target="retirement-panel"
+                role="tab"
+                aria-selected="false"
+            >
+                Retirement
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             1. FINANCIAL GOAL PLANNER
+        ====================================================== -->
+
+        <section
+            id="financial-goal-panel"
+            class="goal-planner-panel active"
+            role="tabpanel"
+        >
+
+            <div class="goal-planner-panel-header">
+
+                <span class="calculator-label">
+                    FINANCIAL GOAL
+                </span>
+
+                <h2>
+                    How much should you invest each month?
+                </h2>
+
+                <p>
+                    Choose your goal, enter the amount you want to reach
+                    and estimate the monthly investment required.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 GOAL SELECTOR
+            ================================================== -->
+
+            <div class="goal-type-section">
+
+                <p class="goal-type-label">
+                    What are you planning for?
+                </p>
+
+
+                <div
+                    class="goal-type-options"
+                    role="group"
+                    aria-label="Choose financial goal"
+                >
+
+                    <button
+                        type="button"
+                        class="goal-type-btn active"
+                        data-goal="Education"
+                        data-icon="🎓"
+                    >
+                        <span>🎓</span>
+                        Education
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Home"
+                        data-icon="🏠"
+                    >
+                        <span>🏠</span>
+                        Home
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Car"
+                        data-icon="🚗"
+                    >
+                        <span>🚗</span>
+                        Car
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Wedding"
+                        data-icon="💍"
+                    >
+                        <span>💍</span>
+                        Wedding
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Travel"
+                        data-icon="✈️"
+                    >
+                        <span>✈️</span>
+                        Travel
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Child / Family"
+                        data-icon="👶"
+                    >
+                        <span>👶</span>
+                        Child / Family
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Medical"
+                        data-icon="🩺"
+                    >
+                        <span>🩺</span>
+                        Medical
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="goal-type-btn"
+                        data-goal="Goal"
+                        data-icon="🎯"
+                    >
+                        <span>🎯</span>
+                        Other
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="goal-planner-grid">
+
+                <!-- INPUTS -->
+
+                <div class="goal-planner-input-card">
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="goalTargetAmount">
+                            Target Amount
+                        </label>
+
+                        <div class="goal-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="goalTargetAmount"
+                                min="1"
+                                step="10000"
+                                value="5000000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="goalCurrentSavings">
+                            Current Savings
+                        </label>
+
+                        <div class="goal-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="goalCurrentSavings"
+                                min="0"
+                                step="10000"
+                                value="500000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="goalYears">
+                            Years Until Goal
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="12"
+                            inputmode="numeric"
+                        >
+
+                    </div>
+
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="goalExpectedReturn">
+                            Expected Annual Return (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalExpectedReturn"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="12"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="goal-planner-calculate-btn"
+                        id="goalCalculateBtn"
+                    >
+                        Calculate Monthly Investment
+                    </button>
+
+
+                    <p
+                        id="goalPlannerError"
+                        class="goal-planner-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- RESULTS -->
+
+                <div
+                    class="goal-planner-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        REQUIRED MONTHLY INVESTMENT
+                    </span>
+
+
+                    <div
+                        id="goalMonthlyInvestment"
+                        class="goal-planner-main-result"
+                    >
+                        ₹0
+                    </div>
+
+
+                    <div class="goal-planner-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Target Amount
+                            </span>
+
+                            <strong id="goalResultTarget">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Savings at Goal Date
+                            </span>
+
+                            <strong id="goalSavingsFutureValue">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Monthly SIP Contribution
+                            </span>
+
+                            <strong id="goalTotalSIPContribution">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="goal-planner-explanation"
+                        id="goalExplanation"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             2. RETIREMENT PLANNER
+        ====================================================== -->
+
+        <section
+            id="retirement-panel"
+            class="goal-planner-panel"
+            role="tabpanel"
+            hidden
+        >
+
+            <div class="goal-planner-panel-header">
+
+                <span class="calculator-label">
+                    RETIREMENT PLANNER
+                </span>
+
+                <h2>
+                    Estimate your retirement corpus
+                </h2>
+
+                <p>
+                    Estimate how much money you may need at retirement
+                    and the monthly investment required to build it.
+                </p>
+
+            </div>
+
+
+
+            <div class="retirement-intro">
+
+                <span class="retirement-intro-icon">
+                    🌅
+                </span>
+
+                <div>
+
+                    <strong>
+                        Plan for income after work
+                    </strong>
+
+                    <p>
+                        Your retirement corpus depends on your current
+                        expenses, inflation, years in retirement and
+                        investment returns.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="goal-planner-grid">
+
+
+                <!-- RETIREMENT INPUTS -->
+
+                <div class="goal-planner-input-card">
+
+
+                    <div class="retirement-field-row">
+
+                        <div class="goal-planner-field">
+
+                            <label for="currentAge">
+                                Current Age
+                            </label>
+
+                            <input
+                                type="number"
+                                id="currentAge"
+                                min="18"
+                                max="100"
+                                step="1"
+                                value="32"
+                                inputmode="numeric"
+                            >
+
+                        </div>
+
+
+                        <div class="goal-planner-field">
+
+                            <label for="retirementAge">
+                                Retirement Age
+                            </label>
+
+                            <input
+                                type="number"
+                                id="retirementAge"
+                                min="19"
+                                max="100"
+                                step="1"
+                                value="60"
+                                inputmode="numeric"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="monthlyExpenses">
+                            Monthly Expenses Today
+                        </label>
+
+                        <div class="goal-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="monthlyExpenses"
+                                min="1"
+                                step="1000"
+                                value="50000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="retirement-field-row">
+
+                        <div class="goal-planner-field">
+
+                            <label for="retirementInflation">
+                                Inflation (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="retirementInflation"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                value="6"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+
+                        <div class="goal-planner-field">
+
+                            <label for="lifeExpectancy">
+                                Plan Until Age
+                            </label>
+
+                            <input
+                                type="number"
+                                id="lifeExpectancy"
+                                min="20"
+                                max="120"
+                                step="1"
+                                value="85"
+                                inputmode="numeric"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="goal-planner-field">
+
+                        <label for="retirementCurrentSavings">
+                            Current Retirement Savings
+                        </label>
+
+                        <div class="goal-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="retirementCurrentSavings"
+                                min="0"
+                                step="10000"
+                                value="500000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="retirement-field-row">
+
+                        <div class="goal-planner-field">
+
+                            <label for="preRetirementReturn">
+                                Return Before Retirement (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="preRetirementReturn"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                value="10"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+
+                        <div class="goal-planner-field">
+
+                            <label for="postRetirementReturn">
+                                Return After Retirement (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="postRetirementReturn"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                value="7"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="goal-planner-calculate-btn"
+                        id="retirementCalculateBtn"
+                    >
+                        Calculate Retirement Plan
+                    </button>
+
+
+                    <p
+                        id="retirementError"
+                        class="goal-planner-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- RETIREMENT RESULTS -->
+
+                <div
+                    class="goal-planner-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        REQUIRED RETIREMENT CORPUS
+                    </span>
+
+
+                    <div
+                        id="retirementCorpus"
+                        class="goal-planner-main-result"
+                    >
+                        ₹0
+                    </div>
+
+
+                    <div class="goal-planner-result-breakdown retirement-breakdown">
+
+                        <div>
+
+                            <span>
+                                Monthly Expense at Retirement
+                            </span>
+
+                            <strong id="futureMonthlyExpense">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Savings at Retirement
+                            </span>
+
+                            <strong id="retirementSavingsFuture">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Required Monthly Investment
+                            </span>
+
+                            <strong id="retirementMonthlyInvestment">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="goal-planner-explanation"
+                        id="retirementExplanation"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         INFORMATION
+    ====================================================== -->
+
+    <section class="goal-planner-info-card">
+
+        <span class="calculator-label">
+            PLANNING NOTE
+        </span>
+
+        <h2>
+            Estimates help turn goals into numbers
+        </h2>
+
+        <p>
+            Financial goals and retirement needs depend on assumptions
+            about future returns, inflation and expenses. These calculators
+            are planning tools and actual investment outcomes may differ.
+        </p>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='js/goal_planner.js') }}"
+></script>
+
 {% endblock %}

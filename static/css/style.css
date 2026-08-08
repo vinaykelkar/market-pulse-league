@@ -5842,3 +5842,625 @@ body:has(.investment-calculator-page) {
     }
 
 }
+/* =========================================================
+   GOAL PLANNER
+   ========================================================= */
+
+
+.goal-planner-shell {
+    margin-top: 30px;
+}
+
+
+
+/* ---------------------------------------------------------
+   MAIN TABS
+--------------------------------------------------------- */
+
+.goal-planner-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+
+.goal-planner-tab {
+    border: 1px solid #d9e1ec;
+    background: #ffffff;
+    color: #43566f;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.goal-planner-tab:hover {
+    border-color: #10233f;
+    color: #10233f;
+}
+
+
+.goal-planner-tab.active {
+    background: #10233f;
+    border-color: #10233f;
+    color: #ffffff;
+}
+
+
+
+/* ---------------------------------------------------------
+   PANEL
+--------------------------------------------------------- */
+
+.goal-planner-panel {
+    display: none;
+
+    border: 1px solid #dbe3ed;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 30px
+        rgba(16, 35, 63, 0.04);
+}
+
+
+.goal-planner-panel.active {
+    display: block;
+}
+
+
+
+.goal-planner-panel-header {
+    margin-bottom: 26px;
+}
+
+
+.goal-planner-panel-header h2,
+.goal-planner-info-card h2 {
+    color: #10233f;
+
+    font-size: 28px;
+
+    line-height: 1.2;
+
+    margin: 0 0 8px;
+}
+
+
+.goal-planner-panel-header p,
+.goal-planner-info-card p {
+    color: #66758a;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
+
+
+/* ---------------------------------------------------------
+   GOAL TYPE SELECTOR
+--------------------------------------------------------- */
+
+.goal-type-section {
+    margin-bottom: 28px;
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e0e6ef;
+
+    border-radius: 14px;
+}
+
+
+.goal-type-label {
+    margin: 0 0 14px;
+
+    color: #24364d;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.goal-type-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+
+.goal-type-btn {
+    border: 1px solid #dbe3ed;
+
+    background: #ffffff;
+
+    color: #43566f;
+
+    border-radius: 12px;
+
+    padding: 13px 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.goal-type-btn span {
+    display: block;
+
+    font-size: 23px;
+
+    margin-bottom: 5px;
+}
+
+
+.goal-type-btn:hover {
+    border-color: #365b8c;
+
+    transform: translateY(-1px);
+}
+
+
+.goal-type-btn.active {
+    border-color: #10233f;
+
+    background: #eef3f9;
+
+    color: #10233f;
+
+    box-shadow:
+        0 0 0 1px
+        #10233f;
+}
+
+
+
+/* ---------------------------------------------------------
+   MAIN CALCULATOR GRID
+--------------------------------------------------------- */
+
+.goal-planner-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 30px;
+}
+
+
+
+/* ---------------------------------------------------------
+   INPUT / RESULT CARDS
+--------------------------------------------------------- */
+
+.goal-planner-input-card,
+.goal-planner-result-card {
+    border: 1px solid #e0e6ef;
+
+    border-radius: 16px;
+
+    padding: 24px;
+}
+
+
+
+/* ---------------------------------------------------------
+   INPUT FIELDS
+--------------------------------------------------------- */
+
+.goal-planner-field {
+    margin-bottom: 20px;
+}
+
+
+.goal-planner-field label {
+    display: block;
+
+    color: #24364d;
+
+    font-weight: 600;
+
+    font-size: 14px;
+
+    margin-bottom: 8px;
+}
+
+
+.goal-planner-field input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ccd6e2;
+
+    border-radius: 10px;
+
+    padding: 12px 14px;
+
+    font-size: 16px;
+
+    color: #10233f;
+
+    outline: none;
+
+    background: #ffffff;
+}
+
+
+.goal-planner-field input:focus {
+    border-color: #365b8c;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(54, 91, 140, 0.08);
+}
+
+
+
+/* ---------------------------------------------------------
+   ₹ PREFIX
+--------------------------------------------------------- */
+
+.goal-input-prefix-wrapper {
+    position: relative;
+}
+
+
+.goal-input-prefix-wrapper span {
+    position: absolute;
+
+    left: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #66758a;
+
+    font-weight: 600;
+}
+
+
+.goal-input-prefix-wrapper input {
+    padding-left: 34px;
+}
+
+
+
+/* ---------------------------------------------------------
+   RETIREMENT TWO-COLUMN INPUTS
+--------------------------------------------------------- */
+
+.retirement-field-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 14px;
+}
+
+
+
+/* ---------------------------------------------------------
+   BUTTON
+--------------------------------------------------------- */
+
+.goal-planner-calculate-btn {
+    width: 100%;
+
+    border: none;
+
+    background: #10233f;
+
+    color: #ffffff;
+
+    border-radius: 10px;
+
+    padding: 13px 18px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.goal-planner-calculate-btn:hover {
+    background: #203a63;
+}
+
+
+
+/* ---------------------------------------------------------
+   ERROR
+--------------------------------------------------------- */
+
+.goal-planner-error {
+    color: #b42318;
+
+    font-size: 13px;
+
+    margin: 10px 0 0;
+
+    min-height: 18px;
+}
+
+
+
+/* ---------------------------------------------------------
+   RESULT
+--------------------------------------------------------- */
+
+.goal-planner-result-card {
+    background: #f8fafc;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.goal-planner-main-result {
+    color: #10233f;
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+    margin: 10px 0 28px;
+}
+
+
+
+/* ---------------------------------------------------------
+   RESULT BREAKDOWN
+--------------------------------------------------------- */
+
+.goal-planner-result-breakdown {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+
+.goal-planner-result-breakdown div {
+    border-top: 1px solid #dbe3ed;
+
+    padding-top: 14px;
+}
+
+
+.goal-planner-result-breakdown span {
+    display: block;
+
+    color: #718096;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+
+.goal-planner-result-breakdown strong {
+    color: #10233f;
+
+    font-size: 15px;
+}
+
+
+
+/* ---------------------------------------------------------
+   EXPLANATION
+--------------------------------------------------------- */
+
+.goal-planner-explanation {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 24px;
+
+    padding: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe3ed;
+
+    border-radius: 12px;
+}
+
+
+.goal-explanation-icon {
+    flex-shrink: 0;
+
+    font-size: 24px;
+
+    line-height: 1.3;
+}
+
+
+.goal-planner-explanation p {
+    margin: 0;
+
+    color: #53657a;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.goal-planner-explanation strong {
+    color: #10233f;
+}
+
+
+
+/* ---------------------------------------------------------
+   RETIREMENT INTRO
+--------------------------------------------------------- */
+
+.retirement-intro {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 14px;
+
+    margin-bottom: 28px;
+
+    padding: 18px 20px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e0e6ef;
+
+    border-radius: 14px;
+}
+
+
+.retirement-intro-icon {
+    font-size: 28px;
+
+    flex-shrink: 0;
+}
+
+
+.retirement-intro strong {
+    color: #10233f;
+
+    display: block;
+
+    margin-bottom: 4px;
+}
+
+
+.retirement-intro p {
+    color: #66758a;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin: 0;
+}
+
+
+
+/* ---------------------------------------------------------
+   INFO CARD
+--------------------------------------------------------- */
+
+.goal-planner-info-card {
+    margin-top: 20px;
+
+    border: 1px solid #dbe3ed;
+
+    border-radius: 20px;
+
+    padding: 28px 30px;
+
+    background: #ffffff;
+}
+
+
+
+/* ---------------------------------------------------------
+   TABLET
+--------------------------------------------------------- */
+
+@media (
+    max-width: 900px
+) {
+
+    .goal-type-options {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (
+    max-width: 768px
+) {
+
+    .goal-planner-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .goal-planner-result-breakdown {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .retirement-field-row {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .goal-planner-panel {
+        padding: 20px;
+    }
+
+
+    .goal-planner-main-result {
+        font-size: 30px;
+    }
+
+
+    .goal-type-options {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
