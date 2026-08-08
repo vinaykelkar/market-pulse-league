@@ -4037,3 +4037,33 @@ body:has(.investment-calculator-page) {
     padding: 28px 22px;
   }
 }
+
+/* =========================================================
+   INVESTING TOOLKIT CARD LINKS
+========================================================= */
+
+.toolkit-card {
+    position: relative;
+}
+
+.toolkit-card-main-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+.toolkit-card-heading,
+.tool-links {
+    position: relative;
+    z-index: 2;
+}
+
+.tool-links {
+    pointer-events: none;
+}
+
+.tool-pill {
+    pointer-events: auto;
+    text-decoration: none;
+}

@@ -11,22 +11,66 @@
     </header>
 
     <section class="toolkit-list" aria-label="Financial tool categories">
-        <article class="toolkit-card" aria-labelledby="investing-title">
-            <div class="toolkit-card-heading">
-                <div>
-                    <h2 id="investing-title"><span aria-hidden="true">📈</span> Investing</h2>
-                    <p>Build long-term wealth.</p>
-                </div>
-                <span class="tool-count">5 Tools</span>
-            </div>
-            <div class="tool-links" aria-label="Investing calculators">
-                <span class="tool-pill">SIP</span>
-                <span class="tool-pill">Lumpsum</span>
-                <span class="tool-pill">CAGR</span>
-                <span class="tool-pill">Inflation</span>
-                <span class="tool-pill">Goal Planner</span>
-            </div>
-        </article>
+<article class="toolkit-card" aria-labelledby="investing-title">
+
+    <a
+        href="{{ url_for('investing_toolkit') }}"
+        class="toolkit-card-main-link"
+        aria-label="Open Investing Toolkit"
+    ></a>
+
+    <div class="toolkit-card-heading">
+        <div>
+            <h2 id="investing-title">
+                <span aria-hidden="true">📈</span>
+                Investing
+            </h2>
+            <p>Build long-term wealth.</p>
+        </div>
+
+        <span class="tool-count">5 Tools</span>
+    </div>
+
+    <div class="tool-links" aria-label="Investing calculators">
+
+        <a
+            href="{{ url_for('sip_calculator') }}"
+            class="tool-pill"
+        >
+            SIP
+        </a>
+
+        <a
+            href="{{ url_for('lumpsum_calculator') }}"
+            class="tool-pill"
+        >
+            Lumpsum
+        </a>
+
+        <a
+            href="{{ url_for('cagr_calculator') }}"
+            class="tool-pill"
+        >
+            CAGR
+        </a>
+
+        <a
+            href="{{ url_for('inflation_calculator') }}"
+            class="tool-pill"
+        >
+            Inflation
+        </a>
+
+        <a
+            href="{{ url_for('goal_planner') }}"
+            class="tool-pill"
+        >
+            Goal Planner
+        </a>
+
+    </div>
+
+</article>
 
         <article class="toolkit-card" aria-labelledby="trading-title">
             <div class="toolkit-card-heading">
