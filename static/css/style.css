@@ -6506,7 +6506,7 @@ body:has(.trading-calculator-page) {
 .trading-calculator-eyebrow {
     margin: 0 0 8px;
 
-    color: #2563eb;
+    color: #0f6b50;
 
     font-size: 12px;
     font-weight: 850;
@@ -6589,11 +6589,9 @@ body:has(.trading-calculator-page) {
 
 .trading-toolkit-nav a:hover,
 .trading-calculator-back-link:hover {
-    border-color: #2563eb;
-
-    color: #2563eb;
+    border-color: #0f6b50;
+    color: #0f6b50;
 }
-
 
 /* =========================================================
    TOOL GRID
@@ -6641,7 +6639,7 @@ body:has(.trading-calculator-page) {
 .trading-tool-card:hover {
     transform: translateY(-3px);
 
-    border-color: rgba(37, 99, 235, 0.38);
+    border-color: rgba(15, 107, 80, 0.38);
 
     box-shadow: 0 18px 38px rgba(16, 35, 63, 0.08);
 
