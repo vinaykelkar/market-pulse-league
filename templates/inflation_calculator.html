@@ -1,4 +1,604 @@
 {% extends "base.html" %}
+
 {% block content %}
-<section class="investment-calculator-page"><div class="investment-calculator-shell"><a href="{{ url_for('investing_toolkit') }}" class="calculator-back-link">← Back to Investing</a><header class="investment-calculator-header"><p class="investment-calculator-eyebrow">INVESTING CALCULATOR</p><h1>Inflation Calculator</h1><p>Estimate how inflation may change the future cost or purchasing power of money.</p></header><div class="investment-calculator-placeholder"><span>Calculator logic coming next</span><h2>Inflation Impact</h2><p>The page structure is ready. We will finalise the business logic, inputs, outputs, validation and examples before activating calculations.</p></div><section class="investment-calculator-learning"><div><span>WHAT THIS TOOL WILL COVER</span><h2>Clear calculation. Clear explanation.</h2></div><p>Each calculator will include the calculation itself, the formula, a practical example and a short explanation so the result is easy to understand.</p></section></div></section>
+
+<main class="investment-calculator-shell">
+
+    <a
+        href="{{ url_for('investing_toolkit') }}"
+        class="investment-back-link"
+    >
+        ← Back to Investing
+    </a>
+
+
+    <header class="investment-calculator-header">
+
+        <p class="toolkit-eyebrow">
+            Investing Calculator
+        </p>
+
+        <h1>
+            Inflation Calculator
+        </h1>
+
+        <p>
+            Understand how inflation may increase the cost of your
+            future goals and reduce the purchasing power of your money.
+        </p>
+
+    </header>
+
+
+
+    <section
+        class="inflation-calculator-shell"
+        aria-label="Inflation calculators"
+    >
+
+        <!-- =====================================================
+             TABS
+        ====================================================== -->
+
+        <div
+            class="inflation-tabs"
+            role="tablist"
+            aria-label="Choose inflation calculator"
+        >
+
+            <button
+                type="button"
+                class="inflation-tab active"
+                data-target="future-goal-panel"
+                role="tab"
+                aria-selected="true"
+            >
+                Future Goal Cost
+            </button>
+
+
+            <button
+                type="button"
+                class="inflation-tab"
+                data-target="purchasing-power-panel"
+                role="tab"
+                aria-selected="false"
+            >
+                Purchasing Power
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             1. FUTURE GOAL COST
+        ====================================================== -->
+
+        <section
+            id="future-goal-panel"
+            class="inflation-panel active"
+            role="tabpanel"
+        >
+
+            <div class="inflation-panel-header">
+
+                <span class="calculator-label">
+                    FUTURE GOAL COST
+                </span>
+
+                <h2>
+                    What could your goal cost in the future?
+                </h2>
+
+                <p>
+                    Choose a goal and see how inflation may change
+                    its cost over time.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 GOAL SELECTOR
+            ================================================== -->
+
+            <div class="inflation-goal-section">
+
+                <p class="inflation-goal-label">
+                    What are you planning for?
+                </p>
+
+
+                <div
+                    class="inflation-goal-options"
+                    role="group"
+                    aria-label="Select financial goal"
+                >
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn active"
+                        data-goal="Education"
+                        data-icon="🎓"
+                    >
+                        <span>🎓</span>
+                        Education
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn"
+                        data-goal="Home"
+                        data-icon="🏠"
+                    >
+                        <span>🏠</span>
+                        Home
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn"
+                        data-goal="Car"
+                        data-icon="🚗"
+                    >
+                        <span>🚗</span>
+                        Car
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn"
+                        data-goal="Wedding"
+                        data-icon="💍"
+                    >
+                        <span>💍</span>
+                        Wedding
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn"
+                        data-goal="Travel"
+                        data-icon="✈️"
+                    >
+                        <span>✈️</span>
+                        Travel
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inflation-goal-btn"
+                        data-goal="Goal"
+                        data-icon="🎯"
+                    >
+                        <span>🎯</span>
+                        Other
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="inflation-calculator-grid">
+
+
+                <!-- =================================================
+                     INPUT CARD
+                ================================================== -->
+
+                <div class="inflation-input-card">
+
+
+                    <div class="inflation-field">
+
+                        <label for="goalCurrentCost">
+                            Today's Cost
+                        </label>
+
+
+                        <div class="inflation-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="goalCurrentCost"
+                                min="1"
+                                step="10000"
+                                value="1000000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="inflation-field">
+
+                        <label for="goalInflationRate">
+                            Expected Inflation (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalInflationRate"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="6"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+
+                    <div class="inflation-field">
+
+                        <label for="goalYears">
+                            Time Until Goal (Years)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="15"
+                            inputmode="numeric"
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="inflation-calculate-btn"
+                        id="goalCalculateBtn"
+                    >
+                        Calculate Future Cost
+                    </button>
+
+
+                    <p
+                        id="goalError"
+                        class="inflation-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RESULT CARD
+                ================================================== -->
+
+                <div
+                    class="inflation-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        FUTURE GOAL COST
+                    </span>
+
+
+                    <div
+                        id="goalFutureCost"
+                        class="inflation-main-result"
+                    >
+                        ₹0
+                    </div>
+
+
+                    <div class="inflation-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Today's Cost
+                            </span>
+
+                            <strong id="goalOriginalCost">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Additional Amount
+                            </span>
+
+                            <strong id="goalAdditionalCost">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Cost Increase
+                            </span>
+
+                            <strong id="goalCostIncrease">
+                                0%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="inflation-explanation"
+                        id="goalExplanation"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             2. PURCHASING POWER
+        ====================================================== -->
+
+        <section
+            id="purchasing-power-panel"
+            class="inflation-panel"
+            role="tabpanel"
+            hidden
+        >
+
+            <div class="inflation-panel-header">
+
+                <span class="calculator-label">
+                    PURCHASING POWER
+                </span>
+
+                <h2>
+                    What will your future money really be worth?
+                </h2>
+
+                <p>
+                    See what a future amount of money may be worth
+                    in today's purchasing power after inflation.
+                </p>
+
+            </div>
+
+
+
+            <div class="inflation-calculator-grid">
+
+
+                <!-- =================================================
+                     INPUT CARD
+                ================================================== -->
+
+                <div class="inflation-input-card">
+
+
+                    <div class="inflation-field">
+
+                        <label for="powerFutureAmount">
+                            Future Amount
+                        </label>
+
+
+                        <div class="inflation-input-prefix-wrapper">
+
+                            <span aria-hidden="true">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="powerFutureAmount"
+                                min="1"
+                                step="10000"
+                                value="1000000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="inflation-field">
+
+                        <label for="powerInflationRate">
+                            Expected Inflation (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="powerInflationRate"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value="6"
+                            inputmode="decimal"
+                        >
+
+                    </div>
+
+
+
+                    <div class="inflation-field">
+
+                        <label for="powerYears">
+                            Years From Today
+                        </label>
+
+                        <input
+                            type="number"
+                            id="powerYears"
+                            min="1"
+                            max="100"
+                            step="1"
+                            value="10"
+                            inputmode="numeric"
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="inflation-calculate-btn"
+                        id="powerCalculateBtn"
+                    >
+                        Calculate Purchasing Power
+                    </button>
+
+
+                    <p
+                        id="powerError"
+                        class="inflation-error"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RESULT CARD
+                ================================================== -->
+
+                <div
+                    class="inflation-result-card"
+                    aria-live="polite"
+                >
+
+                    <span class="result-label">
+                        VALUE IN TODAY'S MONEY
+                    </span>
+
+
+                    <div
+                        id="powerTodayValue"
+                        class="inflation-main-result"
+                    >
+                        ₹0
+                    </div>
+
+
+                    <div class="inflation-result-breakdown">
+
+                        <div>
+
+                            <span>
+                                Future Amount
+                            </span>
+
+                            <strong id="powerOriginalAmount">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Purchasing Power Lost
+                            </span>
+
+                            <strong id="powerLostAmount">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Purchasing Power Loss
+                            </span>
+
+                            <strong id="powerLossPercent">
+                                0%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="inflation-explanation"
+                        id="powerExplanation"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SIMPLE EDUCATIONAL NOTE
+    ====================================================== -->
+
+    <section class="inflation-info-card">
+
+        <span class="calculator-label">
+            WHY INFLATION MATTERS
+        </span>
+
+        <h2>
+            The same amount of money may buy less over time
+        </h2>
+
+        <p>
+            Inflation gradually increases the cost of goods and services.
+            This means future financial goals may require more money,
+            while a fixed amount of money may have lower purchasing power.
+        </p>
+
+    </section>
+
+</main>
+
+
+<script
+    src="{{ url_for('static', filename='js/inflation_calculator.js') }}"
+></script>
+
 {% endblock %}
