@@ -428,42 +428,27 @@ def trading_toolkit():
 
 @app.route("/trading/position-size")
 def position_size_calculator():
-    return render_template(
-        "trading_calculator_placeholder.html",
-        calculator_name="Position Size Calculator"
-    )
+    return render_template("position_size_calculator.html")
 
 
 @app.route("/trading/stop-loss-risk")
 def stop_loss_risk_calculator():
-    return render_template(
-        "trading_calculator_placeholder.html",
-        calculator_name="Stop Loss / Risk Calculator"
-    )
+    return render_template("stop_loss_risk_calculator.html")
 
 
 @app.route("/trading/risk-reward")
 def risk_reward_calculator():
-    return render_template(
-        "trading_calculator_placeholder.html",
-        calculator_name="Risk–Reward Calculator"
-    )
+    return render_template("risk_reward_calculator.html")
 
 
 @app.route("/trading/profit-loss")
 def profit_loss_calculator():
-    return render_template(
-        "trading_calculator_placeholder.html",
-        calculator_name="Profit / Loss Calculator"
-    )
+    return render_template("profit_loss_calculator.html")
 
 
 @app.route("/trading/average-entry")
 def average_entry_calculator():
-    return render_template(
-        "trading_calculator_placeholder.html",
-        calculator_name="Average Entry Price Calculator"
-    )
-
+    return render_template("average_entry_calculator.html")
+    
 if __name__ == "__main__":
     app.run(debug=True)
