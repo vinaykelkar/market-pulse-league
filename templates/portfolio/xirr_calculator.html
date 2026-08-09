@@ -378,83 +378,112 @@
         </section>
 
 
-        <!-- =====================================================
-             RESULT
-        ====================================================== -->
+<!-- =====================================================
+     RESULT
+====================================================== -->
 
-        <section
-            class="xirr-result-card xirr-hidden"
-            id="resultCard"
-        >
+<section
+    class="xirr-result-card xirr-hidden"
+    id="resultCard"
+>
 
-            <div class="xirr-result-heading">
+    <div class="xirr-result-heading">
 
-                <div>
-                    <p class="xirr-result-label">
-                        YOUR XIRR
-                    </p>
-
-                    <div class="xirr-xirr-value">
-                        <span id="resultXirr">
-                            0.00%
-                        </span>
-
-                        <small>
-                            p.a.
-                        </small>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="xirr-result-grid">
-
-                <div class="xirr-result-item">
-                    <span>Total Invested</span>
-                    <strong id="resultInvested">
-                        ₹0
-                    </strong>
-                </div>
-
-                <div class="xirr-result-item">
-                    <span>Total Withdrawn</span>
-                    <strong id="resultWithdrawn">
-                        ₹0
-                    </strong>
-                </div>
-
-                <div class="xirr-result-item">
-                    <span>Current Value</span>
-                    <strong id="resultCurrentValue">
-                        ₹0
-                    </strong>
-                </div>
-
-                <div class="xirr-result-item">
-                    <span>Absolute Profit</span>
-                    <strong id="resultProfit">
-                        ₹0
-                    </strong>
-                </div>
-
-                <div class="xirr-result-item">
-                    <span>Absolute Return</span>
-                    <strong id="resultAbsoluteReturn">
-                        0.00%
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <p class="xirr-result-explanation">
-                Absolute return shows your overall gain or loss.
-                XIRR also considers when each investment and
-                withdrawal occurred.
+        <div>
+            <p class="xirr-result-label">
+                YOUR XIRR
             </p>
 
-        </section>
+            <div class="xirr-xirr-value">
+
+                <span id="resultXirr">
+                    0.00%
+                </span>
+
+                <small>
+                    p.a.
+                </small>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SHORT PERIOD / EXTREME XIRR WARNING
+    ================================================== -->
+
+    <div
+        class="xirr-warning xirr-hidden"
+        id="xirrWarning"
+    >
+
+        <div class="xirr-warning-title">
+            ⚠️ Very short investment period
+        </div>
+
+        <p id="xirrWarningText"></p>
+
+    </div>
+
+
+    <div class="xirr-result-grid">
+
+        <div class="xirr-result-item">
+            <span>Total Invested</span>
+
+            <strong id="resultInvested">
+                ₹0
+            </strong>
+        </div>
+
+
+        <div class="xirr-result-item">
+            <span>Total Withdrawn</span>
+
+            <strong id="resultWithdrawn">
+                ₹0
+            </strong>
+        </div>
+
+
+        <div class="xirr-result-item">
+            <span>Current Value</span>
+
+            <strong id="resultCurrentValue">
+                ₹0
+            </strong>
+        </div>
+
+
+        <div class="xirr-result-item">
+            <span>Absolute Profit</span>
+
+            <strong id="resultProfit">
+                ₹0
+            </strong>
+        </div>
+
+
+        <div class="xirr-result-item">
+            <span>Absolute Return</span>
+
+            <strong id="resultAbsoluteReturn">
+                0.00%
+            </strong>
+        </div>
+
+    </div>
+
+
+    <p class="xirr-result-explanation">
+        Absolute return shows your overall gain or loss.
+        XIRR also considers when each investment and
+        withdrawal occurred.
+    </p>
+
+</section>
 
 
         <!-- =====================================================

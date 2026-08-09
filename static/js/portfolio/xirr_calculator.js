@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const resultAbsoluteReturn =
         document.getElementById("resultAbsoluteReturn");
+	
+	const xirrWarning =
+		document.getElementById("xirrWarning");
+
+	const xirrWarningText =
+		document.getElementById("xirrWarningText");
 
     let excelTransactions = null;
 
@@ -1047,16 +1053,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-            const summary =
-                calculateSummary(
-                    transactions
-                );
+const summary =
+    calculateSummary(
+        transactions
+    );
 
 
-            displayResult(
-                xirr,
-                summary
-            );
+const investmentPeriodDays =
+    calculateInvestmentPeriodDays(
+        transactions
+    );
+
+
+displayResult(
+    xirr,
+    summary,
+    investmentPeriodDays
+);
 
 
         } catch (error) {
@@ -1806,68 +1819,185 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+	
+// =========================================================
+// 24. INVESTMENT PERIOD
+// =========================================================
 
+function calculateInvestmentPeriodDays(
+    transactions
+) {
+
+    const dates =
+        transactions.map(
+            function (transaction) {
+                return transaction.date.getTime();
+            }
+        );
+
+
+    const earliestDate =
+        Math.min(...dates);
+
+
+    const latestDate =
+        Math.max(...dates);
+
+
+    const millisecondsPerDay =
+        1000 * 60 * 60 * 24;
+
+
+    return Math.round(
+        (
+            latestDate -
+            earliestDate
+        ) /
+        millisecondsPerDay
+    );
+
+}
 
     // =========================================================
-    // 24. RESULT RENDERING
+    // 25. RESULT RENDERING
     // =========================================================
 
-    function displayResult(
-        xirr,
-        summary
+  function displayResult(
+    xirr,
+    summary,
+    investmentPeriodDays
+) {
+
+    // =====================================================
+    // XIRR DISPLAY
+    // =====================================================
+
+    const xirrPercentage =
+        xirr * 100;
+
+
+    /*
+     * Keep the real calculated XIRR internally.
+     *
+     * Only cap what is shown on screen so an
+     * astronomically large annualized percentage
+     * does not destroy the UI.
+     */
+if (
+    xirrPercentage > 10000
+) {
+
+    resultXirr.textContent =
+        ">10,000%";
+
+} else {
+
+    resultXirr.textContent =
+        formatPercent(
+            xirrPercentage
+        );
+
+}
+
+
+    // =====================================================
+    // SUMMARY
+    // =====================================================
+
+    resultInvested.textContent =
+        formatCurrency(
+            summary.totalInvested
+        );
+
+
+    resultWithdrawn.textContent =
+        formatCurrency(
+            summary.totalWithdrawn
+        );
+
+
+    resultCurrentValue.textContent =
+        formatCurrency(
+            summary.currentValue
+        );
+
+
+    resultProfit.textContent =
+        formatCurrency(
+            summary.absoluteProfit
+        );
+
+
+    resultAbsoluteReturn.textContent =
+        formatPercent(
+            summary.absoluteReturn
+        );
+
+
+    // =====================================================
+    // SHORT-PERIOD WARNING
+    // =====================================================
+
+    if (
+        investmentPeriodDays < 30
     ) {
 
-        resultXirr.textContent =
-            formatPercent(
-                xirr * 100
-            );
-
-
-        resultInvested.textContent =
-            formatCurrency(
-                summary.totalInvested
-            );
-
-
-        resultWithdrawn.textContent =
-            formatCurrency(
-                summary.totalWithdrawn
-            );
-
-
-        resultCurrentValue.textContent =
-            formatCurrency(
-                summary.currentValue
-            );
-
-
-        resultProfit.textContent =
-            formatCurrency(
-                summary.absoluteProfit
-            );
-
-
-        resultAbsoluteReturn.textContent =
-            formatPercent(
-                summary.absoluteReturn
-            );
-
-
-        resultCard.classList.remove(
+        xirrWarning.classList.remove(
             "xirr-hidden"
         );
 
 
-        resultCard.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-        });
+const displayedPeriodDays =
+    Math.max(investmentPeriodDays, 1);
+
+const dayText =
+    displayedPeriodDays === 1
+        ? "day"
+        : "days";
+
+
+        xirrWarningText.textContent =
+            `Your investment history covers only ` +
+            `${displayedPeriodDays} ${dayText}. ` +
+            `XIRR annualizes returns to a full year, so ` +
+            `large gains or losses over very short periods ` +
+            `can produce unusually high annualized percentages. ` +
+            `Your Absolute Return of ` +
+            `${formatPercent(summary.absoluteReturn)} ` +
+            `may provide more useful context for this period.`;
+
+    } else {
+
+        xirrWarning.classList.add(
+            "xirr-hidden"
+        );
+
+
+        xirrWarningText.textContent =
+            "";
 
     }
 
 
+    // =====================================================
+    // SHOW RESULT
+    // =====================================================
+
+    resultCard.classList.remove(
+        "xirr-hidden"
+    );
+
+
+    resultCard.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+
+}
+
+
     // =========================================================
-    // 25. FORMATTING
+    // 26. FORMATTING
     // =========================================================
 
     function formatCurrency(
@@ -1906,7 +2036,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // 26. MESSAGES
+    // 27. MESSAGES
     // =========================================================
 
     function showMessage(
@@ -1950,7 +2080,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // 27. RESULT VISIBILITY
+    // 28. RESULT VISIBILITY
     // =========================================================
 
     function hideResult() {
@@ -1968,7 +2098,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // 28. MANUAL RESET
+    // 29. MANUAL RESET
     // =========================================================
 
     if (resetManualButton) {
@@ -2003,7 +2133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // 29. XLSX RESET
+    // 30. XLSX RESET
     // =========================================================
 
     if (resetExcelButton) {
@@ -2038,7 +2168,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================================
-    // 30. INITIAL STATE
+    // 31. INITIAL STATE
     // =========================================================
 
     updateCurrentValueState();
