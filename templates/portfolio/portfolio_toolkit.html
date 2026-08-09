@@ -32,7 +32,7 @@
             aria-label="Portfolio calculators"
         >
 
-            <a href="#">
+            <a href="{{ url_for('xirr_calculator') }}">
                 XIRR
             </a>
 
@@ -62,10 +62,10 @@
                  01 - XIRR
             ================================================== -->
 
-            <a
-                href="#"
-                class="trading-tool-card"
-            >
+				<a
+					href="{{ url_for('xirr_calculator') }}"
+					class="trading-tool-card"
+				>
 
                 <span class="trading-tool-number">
                     01

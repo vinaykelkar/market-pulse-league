@@ -1,0 +1,616 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/portfolio/xirr_calculator.css') }}"
+>
+
+<section class="xirr-page">
+
+    <div class="xirr-shell">
+
+        <!-- =====================================================
+             PAGE HEADER
+        ====================================================== -->
+
+        <header class="xirr-header">
+
+            <p class="xirr-eyebrow">
+                PORTFOLIO TOOLKIT
+            </p>
+
+            <h1>
+                XIRR Calculator
+            </h1>
+
+            <p class="xirr-header-description">
+                Calculate your annualized investment return when money
+                is invested or withdrawn on different dates.
+            </p>
+
+        </header>
+
+
+        <!-- =====================================================
+             CALCULATOR CARD
+        ====================================================== -->
+
+        <section class="xirr-calculator-card">
+
+            <!-- MODE SWITCH -->
+
+            <div class="xirr-mode-switch" role="tablist">
+
+                <button
+                    type="button"
+                    class="xirr-mode-button active"
+                    id="manualModeButton"
+                    data-mode="manual"
+                >
+                    Manual Entry
+                </button>
+
+                <button
+                    type="button"
+                    class="xirr-mode-button"
+                    id="excelModeButton"
+                    data-mode="excel"
+                >
+                    Upload XLSX
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 MANUAL ENTRY
+            ================================================== -->
+
+            <div
+                class="xirr-mode-panel"
+                id="manualPanel"
+            >
+
+                <div class="xirr-section-heading">
+
+                    <div>
+                        <h2>
+                            Enter Transactions
+                        </h2>
+
+                        <p>
+                            Add every investment, withdrawal and your
+                            latest current portfolio value.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="xirr-table-wrapper">
+
+                    <table class="xirr-transaction-table">
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction Type</th>
+                                <th>Amount</th>
+                                <th aria-label="Delete transaction"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="transactionBody">
+
+                            <tr class="xirr-transaction-row">
+
+                                <td>
+                                    <input
+                                        type="date"
+                                        class="xirr-date-input"
+                                    >
+                                </td>
+
+                                <td>
+                                    <select class="xirr-type-input">
+                                        <option value="">
+                                            Select Type
+                                        </option>
+
+                                        <option value="investment">
+                                            Investment
+                                        </option>
+
+                                        <option value="withdrawal">
+                                            Withdrawal
+                                        </option>
+
+                                        <option value="current value">
+                                            Current Value
+                                        </option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <div class="xirr-amount-wrapper">
+                                        <span>₹</span>
+
+                                        <input
+                                            type="number"
+                                            class="xirr-amount-input"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="0"
+                                        >
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="xirr-delete-row"
+                                        aria-label="Delete transaction"
+                                    >
+                                        ×
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr class="xirr-transaction-row">
+
+                                <td>
+                                    <input
+                                        type="date"
+                                        class="xirr-date-input"
+                                    >
+                                </td>
+
+                                <td>
+                                    <select class="xirr-type-input">
+                                        <option value="">
+                                            Select Type
+                                        </option>
+
+                                        <option value="investment">
+                                            Investment
+                                        </option>
+
+                                        <option value="withdrawal">
+                                            Withdrawal
+                                        </option>
+
+                                        <option value="current value">
+                                            Current Value
+                                        </option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <div class="xirr-amount-wrapper">
+                                        <span>₹</span>
+
+                                        <input
+                                            type="number"
+                                            class="xirr-amount-input"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="0"
+                                        >
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <button
+                                        type="button"
+                                        class="xirr-delete-row"
+                                        aria-label="Delete transaction"
+                                    >
+                                        ×
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="xirr-transaction-actions">
+
+                    <button
+                        type="button"
+                        class="xirr-add-transaction"
+                        id="addTransactionButton"
+                    >
+                        + Add Transaction
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="xirr-message"
+                    id="manualMessage"
+                    aria-live="polite"
+                ></div>
+
+
+                <div class="xirr-main-actions">
+
+                    <button
+                        type="button"
+                        class="xirr-calculate-button"
+                        id="calculateManualButton"
+                    >
+                        Calculate XIRR
+                    </button>
+
+                    <button
+                        type="button"
+                        class="xirr-reset-button"
+                        id="resetManualButton"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 XLSX UPLOAD
+            ================================================== -->
+
+            <div
+                class="xirr-mode-panel xirr-hidden"
+                id="excelPanel"
+            >
+
+                <div class="xirr-section-heading">
+
+                    <div>
+                        <h2>
+                            Upload XLSX
+                        </h2>
+
+                        <p>
+                            Upload your transaction history using the
+                            required three-column format.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="xirr-upload-box">
+
+                    <input
+                        type="file"
+                        id="xlsxFileInput"
+                        accept=".xlsx"
+                    >
+
+                    <label for="xlsxFileInput">
+
+                        <span class="xirr-upload-icon">
+                            📄
+                        </span>
+
+                        <strong>
+                            Choose XLSX File
+                        </strong>
+
+                        <span id="xlsxFileName">
+                            No file selected
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="xirr-excel-rules">
+
+                    <h3>
+                        XLSX Format
+                    </h3>
+
+                    <p>
+                        Your file must contain exactly these three columns:
+                    </p>
+
+                    <div class="xirr-column-list">
+                        <span>Date</span>
+                        <span>Transaction Type</span>
+                        <span>Amount</span>
+                    </div>
+
+                    <p class="xirr-rule-note">
+                        Transaction Type can contain only Investment,
+                        Withdrawal or Current Value.
+                    </p>
+
+                    <p class="xirr-rule-note">
+                        Current Value must be the final transaction
+                        and must have the latest date.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="xirr-message"
+                    id="excelMessage"
+                    aria-live="polite"
+                ></div>
+
+
+                <div class="xirr-main-actions">
+
+                    <button
+                        type="button"
+                        class="xirr-calculate-button"
+                        id="calculateExcelButton"
+                    >
+                        Calculate XIRR
+                    </button>
+
+                    <button
+                        type="button"
+                        class="xirr-reset-button"
+                        id="resetExcelButton"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESULT
+        ====================================================== -->
+
+        <section
+            class="xirr-result-card xirr-hidden"
+            id="resultCard"
+        >
+
+            <div class="xirr-result-heading">
+
+                <div>
+                    <p class="xirr-result-label">
+                        YOUR XIRR
+                    </p>
+
+                    <div class="xirr-xirr-value">
+                        <span id="resultXirr">
+                            0.00%
+                        </span>
+
+                        <small>
+                            p.a.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="xirr-result-grid">
+
+                <div class="xirr-result-item">
+                    <span>Total Invested</span>
+                    <strong id="resultInvested">
+                        ₹0
+                    </strong>
+                </div>
+
+                <div class="xirr-result-item">
+                    <span>Total Withdrawn</span>
+                    <strong id="resultWithdrawn">
+                        ₹0
+                    </strong>
+                </div>
+
+                <div class="xirr-result-item">
+                    <span>Current Value</span>
+                    <strong id="resultCurrentValue">
+                        ₹0
+                    </strong>
+                </div>
+
+                <div class="xirr-result-item">
+                    <span>Absolute Profit</span>
+                    <strong id="resultProfit">
+                        ₹0
+                    </strong>
+                </div>
+
+                <div class="xirr-result-item">
+                    <span>Absolute Return</span>
+                    <strong id="resultAbsoluteReturn">
+                        0.00%
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <p class="xirr-result-explanation">
+                Absolute return shows your overall gain or loss.
+                XIRR also considers when each investment and
+                withdrawal occurred.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             EXAMPLE
+        ====================================================== -->
+
+        <section class="xirr-example-card">
+
+            <div class="xirr-example-heading">
+
+                <p class="xirr-eyebrow">
+                    SIMPLE EXAMPLE
+                </p>
+
+                <h2>
+                    Imagine You Started Investing in HDFC Bank
+                </h2>
+
+                <p>
+                    You gradually invested money, sold some shares,
+                    invested again and still hold shares today.
+                </p>
+
+            </div>
+
+
+            <div class="xirr-table-wrapper">
+
+                <table class="xirr-example-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Transaction Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>10 Jan 2025</td>
+                            <td>Investment</td>
+                            <td>₹10,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>1 Feb 2025</td>
+                            <td>Investment</td>
+                            <td>₹5,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>1 Mar 2025</td>
+                            <td>Investment</td>
+                            <td>₹40,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>1 Apr 2025</td>
+                            <td>Withdrawal</td>
+                            <td>₹5,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>1 May 2025</td>
+                            <td>Investment</td>
+                            <td>₹10,000</td>
+                        </tr>
+
+                        <tr>
+                            <td>9 Aug 2026</td>
+                            <td>Current Value</td>
+                            <td>₹1,00,000</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="xirr-example-results">
+
+                <div>
+                    <span>
+                        Total Invested
+                    </span>
+
+                    <strong>
+                        ₹65,000
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Withdrawal + Current Value
+                    </span>
+
+                    <strong>
+                        ₹1,05,000
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Absolute Profit
+                    </span>
+
+                    <strong>
+                        ₹40,000
+                    </strong>
+                </div>
+
+                <div>
+                    <span>
+                        Absolute Return
+                    </span>
+
+                    <strong>
+                        61.54%
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="xirr-example-callout">
+
+                <strong>
+                    Why XIRR?
+                </strong>
+
+                <p>
+                    The ₹65,000 was not invested on one single date.
+                    XIRR considers the exact timing of every investment
+                    and withdrawal to calculate the annualized return.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+
+<!-- SheetJS - browser-side XLSX reading -->
+<script
+    src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js">
+</script>
+
+<script
+    src="{{ url_for('static', filename='js/portfolio/xirr_calculator.js') }}">
+</script>
+
+{% endblock %}

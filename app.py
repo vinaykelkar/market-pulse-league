@@ -455,6 +455,12 @@ def average_entry_calculator():
 @app.route("/financial-tools/portfolio")
 def portfolio_toolkit():
     return render_template("portfolio/portfolio_toolkit.html")
+
+@app.route("/financial-tools/portfolio/xirr")
+def xirr_calculator():
+    return render_template(
+        "portfolio/xirr_calculator.html"
+    )
     
 if __name__ == "__main__":
     app.run(debug=True)
