@@ -6751,14 +6751,12 @@ body:has(.trading-calculator-page) {
 ========================================================= */
 
 body:has(.trade-calc-page) {
-    background: #ffffff;
-    color: #10233f;
+    background: #020b1c;
 }
 
 .trade-calc-page {
     min-height: 100vh;
-    background: #ffffff;
-    color: #10233f;
+    background: #020b1c;
 }
 
 .trade-calc-shell {
@@ -6845,7 +6843,7 @@ body:has(.trade-calc-page) {
 
 /* =========================================================
    CALCULATOR NAVIGATION
-========================================================= */
+========================================================= 
 
 .trade-calculator-nav {
     display: flex;
@@ -6886,6 +6884,7 @@ body:has(.trade-calc-page) {
     color: #ffffff;
 }
 
+*/
 
 /* =========================================================
    MAIN LAYOUT
@@ -6949,15 +6948,16 @@ body:has(.trade-calc-page) {
     box-sizing: border-box;
 
     min-height: 46px;
-    padding: 11px 13px;
 
-    border: 1px solid #cfd8e3;
-    border-radius: 11px;
+    border: 1px solid #ccd6e2;
+    border-radius: 10px;
+
+    padding: 12px 14px;
 
     background: #ffffff;
     color: #10233f;
 
-    font-size: 14px;
+    font-size: 16px;
 
     outline: none;
 }
@@ -6965,9 +6965,8 @@ body:has(.trade-calc-page) {
 .trade-field input:focus,
 .trade-field select:focus,
 .average-entry-row input:focus {
-    border-color: #0f6b50;
-
-    box-shadow: 0 0 0 3px rgba(15, 107, 80, 0.08);
+    border-color: #365b8c;
+    box-shadow: 0 0 0 3px rgba(54, 91, 140, 0.08);
 }
 
 
@@ -6979,22 +6978,25 @@ body:has(.trade-calc-page) {
     width: 100%;
 
     margin-top: 8px;
-    padding: 13px 18px;
 
-    border: 0;
-    border-radius: 11px;
+    border: none;
+    border-radius: 10px;
+
+    padding: 13px 18px;
 
     background: #10233f;
     color: #ffffff;
 
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 700;
 
     cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
 .trade-calc-button:hover {
-    opacity: 0.95;
+    background: #203a63;
 }
 
 .trade-calc-reset {
@@ -7207,4 +7209,14 @@ body:has(.trade-calc-page) {
             minmax(0, 1fr)
             36px;
     }
+}
+.trade-calc-panel {
+    border: 1px solid #dbe3ed;
+    border-radius: 20px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    box-shadow: 0 8px 30px rgba(16, 35, 63, 0.04);
 }
