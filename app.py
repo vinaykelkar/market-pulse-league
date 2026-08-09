@@ -461,6 +461,12 @@ def xirr_calculator():
     return render_template(
         "portfolio/xirr_calculator.html"
     )
+
+@app.route("/financial-tools/portfolio/asset-allocation")
+def asset_allocation_calculator():
+    return render_template(
+        "portfolio/asset_allocation_calculator.html"
+    )
     
 if __name__ == "__main__":
     app.run(debug=True)

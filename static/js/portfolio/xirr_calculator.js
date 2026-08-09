@@ -1053,16 +1053,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-const summary =
-    calculateSummary(
-        transactions
-    );
+			const summary =
+				calculateSummary(
+					transactions
+				);
 
 
-const investmentPeriodDays =
-    calculateInvestmentPeriodDays(
-        transactions
-    );
+			const investmentPeriodDays =
+				calculateInvestmentPeriodDays(
+					transactions
+				);
 
 
 displayResult(

@@ -1,0 +1,619 @@
+/* =========================================================
+   ASSET ALLOCATION CALCULATOR
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.asset-allocation-page {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 8px 32px 60px;
+    box-sizing: border-box;
+    color: #10233f;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.asset-allocation-page-header {
+    margin-bottom: 34px;
+}
+
+.asset-allocation-eyebrow {
+    margin: 0 0 7px;
+    color: #58708f;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.asset-allocation-page-header h1 {
+    margin: 0;
+    color: #10233f;
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -1px;
+}
+
+.asset-allocation-description {
+    max-width: 900px;
+    margin: 14px 0 0;
+    color: #58708f;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.asset-allocation-card {
+    width: 100%;
+    max-width: 1080px;
+    margin-bottom: 26px;
+    padding: 28px;
+    border: 1px solid #d5e0ed;
+    border-radius: 20px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MODE TOGGLE
+   ========================================================= */
+
+.asset-allocation-mode-toggle {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 30px;
+    padding: 5px;
+    border: 1px solid #d5dfec;
+    border-radius: 12px;
+    background: #f3f6fa;
+}
+
+.asset-allocation-page .calculator-mode-btn {
+    min-height: 44px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #58708f;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.asset-allocation-page .calculator-mode-btn:hover {
+    color: #10233f;
+}
+
+.asset-allocation-page .calculator-mode-btn.active {
+    background: #10233f;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FORM SECTION
+   ========================================================= */
+
+.asset-allocation-form-section {
+    max-width: 760px;
+}
+
+.asset-allocation-section-heading {
+    margin-bottom: 28px;
+}
+
+.asset-allocation-section-heading h2 {
+    margin: 0 0 6px;
+    color: #10233f;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.asset-allocation-section-heading p {
+    margin: 0;
+    color: #58708f;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.asset-allocation-form-group {
+    margin-bottom: 24px;
+}
+
+.asset-allocation-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #203a63;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.asset-allocation-form-group input,
+.asset-allocation-form-group select {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 14px;
+    border: 1px solid #cbd8e8;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #10233f;
+    font-family: inherit;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.asset-allocation-form-group input::placeholder {
+    color: #8797ab;
+}
+
+.asset-allocation-form-group input:focus,
+.asset-allocation-form-group select:focus {
+    outline: none;
+    border-color: #5879a7;
+    box-shadow: 0 0 0 3px rgba(88, 121, 167, 0.12);
+}
+
+
+/* =========================================================
+   CURRENCY INPUT
+   ========================================================= */
+
+.asset-allocation-currency-input {
+    position: relative;
+}
+
+.asset-allocation-currency-input .currency-symbol {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    z-index: 2;
+    transform: translateY(-50%);
+    color: #607590;
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.asset-allocation-currency-input input {
+    padding-left: 35px;
+}
+
+
+/* =========================================================
+   FIELD NOTE
+   ========================================================= */
+
+.asset-allocation-field-note {
+    margin: 7px 0 0;
+    color: #74859b;
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ASSET ALLOCATION ONLY INFO BOX
+   ========================================================= */
+
+.asset-allocation-info-box {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+    margin: 4px 0 24px;
+    padding: 17px 18px;
+    border: 1px solid #d7e2ee;
+    border-radius: 11px;
+    background: #f7f9fc;
+}
+
+.asset-allocation-info-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 21px;
+}
+
+.asset-allocation-info-box strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #203a63;
+    font-size: 14px;
+}
+
+.asset-allocation-info-box p {
+    margin: 0;
+    color: #60738d;
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.asset-allocation-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 31px;
+}
+
+.asset-allocation-primary-btn,
+.asset-allocation-reset-btn {
+    min-height: 48px;
+    padding: 11px 18px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.asset-allocation-primary-btn {
+    border: 1px solid #07845f;
+    background: #07845f;
+    color: #ffffff;
+}
+
+.asset-allocation-primary-btn:hover {
+    border-color: #066e50;
+    background: #066e50;
+}
+
+.asset-allocation-reset-btn {
+    border: 1px solid #cbd8e8;
+    background: #ffffff;
+    color: #10233f;
+}
+
+.asset-allocation-reset-btn:hover {
+    background: #f5f7fa;
+}
+
+
+/* =========================================================
+   RESULTS
+   ========================================================= */
+
+.asset-allocation-results {
+    margin-top: 24px;
+}
+
+.asset-allocation-result-header {
+    margin-bottom: 23px;
+}
+
+.asset-allocation-result-label {
+    margin: 0 0 5px;
+    color: #58708f;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.asset-allocation-result-header h2 {
+    margin: 0;
+    color: #10233f;
+    font-size: 27px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RESULT KPI CARDS
+   ========================================================= */
+
+.asset-allocation-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 25px;
+}
+
+.asset-allocation-kpi-card {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #d7e1ed;
+    border-radius: 11px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.asset-allocation-kpi-card span {
+    display: block;
+    margin-bottom: 7px;
+    color: #687d97;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.asset-allocation-kpi-card strong {
+    display: block;
+    color: #10233f;
+    font-size: 22px;
+    font-weight: 700;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   EMERGENCY FUND RESULT MESSAGE
+   ========================================================= */
+
+.asset-allocation-warning {
+    margin-bottom: 23px;
+    padding: 15px 17px;
+    border: 1px solid #ead7a9;
+    border-radius: 10px;
+    background: #fffaf0;
+    color: #6d5520;
+    font-size: 13.5px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ALLOCATION TABLE
+   ========================================================= */
+
+.asset-allocation-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.asset-allocation-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.asset-allocation-table th,
+.asset-allocation-table td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #e0e7f0;
+    vertical-align: middle;
+}
+
+.asset-allocation-table th {
+    color: #58708f;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.asset-allocation-table td {
+    color: #203a63;
+    font-size: 14px;
+}
+
+.asset-allocation-table th:nth-child(2),
+.asset-allocation-table th:nth-child(3),
+.asset-allocation-table td:nth-child(2),
+.asset-allocation-table td:nth-child(3) {
+    text-align: right;
+}
+
+.asset-allocation-table td:nth-child(2) {
+    font-weight: 600;
+}
+
+.asset-allocation-table td:nth-child(3) {
+    color: #10233f;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PROFILE EXPLANATION
+   ========================================================= */
+
+.asset-allocation-explanation {
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid #d7e1ed;
+    border-radius: 11px;
+    background: #f7f9fc;
+}
+
+.asset-allocation-explanation h3 {
+    margin: 0 0 7px;
+    color: #10233f;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.asset-allocation-explanation p {
+    margin: 0;
+    color: #5d708a;
+    font-size: 13.5px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   DISCLAIMER
+   ========================================================= */
+
+.asset-allocation-disclaimer {
+    margin: 21px 0 0;
+    color: #7b899b;
+    font-size: 11.5px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   HIDDEN ELEMENTS
+   ========================================================= */
+
+.asset-allocation-page [hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .asset-allocation-page {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .asset-allocation-page-header h1 {
+        font-size: 44px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .asset-allocation-page {
+        padding: 6px 16px 45px;
+    }
+
+    .asset-allocation-page-header {
+        margin-bottom: 26px;
+    }
+
+    .asset-allocation-eyebrow {
+        font-size: 12px;
+        letter-spacing: 1.7px;
+    }
+
+    .asset-allocation-page-header h1 {
+        font-size: 35px;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+    }
+
+    .asset-allocation-description {
+        margin-top: 11px;
+        font-size: 14px;
+    }
+
+    .asset-allocation-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+
+    /* TOGGLE */
+
+    .asset-allocation-mode-toggle {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .asset-allocation-page .calculator-mode-btn {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 12.5px;
+        line-height: 1.3;
+    }
+
+
+    /* FORM */
+
+    .asset-allocation-section-heading h2 {
+        font-size: 21px;
+    }
+
+    .asset-allocation-form-group input,
+    .asset-allocation-form-group select {
+        font-size: 16px;
+    }
+
+
+    /* BUTTONS */
+
+    .asset-allocation-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .asset-allocation-primary-btn,
+    .asset-allocation-reset-btn {
+        width: 100%;
+    }
+
+
+    /* KPI */
+
+    .asset-allocation-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .asset-allocation-kpi-card strong {
+        font-size: 21px;
+    }
+
+
+    /* TABLE */
+
+    .asset-allocation-table th,
+    .asset-allocation-table td {
+        padding: 13px 9px;
+        font-size: 12.5px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .asset-allocation-page-header h1 {
+        font-size: 31px;
+    }
+
+    .asset-allocation-page .calculator-mode-btn {
+        font-size: 11.5px;
+    }
+
+    .asset-allocation-table th,
+    .asset-allocation-table td {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+}
