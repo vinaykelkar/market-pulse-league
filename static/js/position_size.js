@@ -82,40 +82,64 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        const rawQuantity = Math.floor(maximumRisk / riskPerUnit);
+		const riskBasedQuantity =
+    Math.floor(maximumRisk / riskPerUnit);
 
-        let totalQuantity = rawQuantity;
-        let resultText = "";
-        let resultLabel = "";
-
-
-        if (instrument.value === "stocks") {
-
-            resultText = `${formatInteger(rawQuantity)} Shares`;
-
-            resultLabel =
-                "Maximum shares based on your defined risk.";
-
-        } else {
-
-            const lotSize = parseInt(lotSizeInput.value, 10);
-
-            if (!Number.isFinite(lotSize) || lotSize <= 0) {
-                alert("Please enter a valid lot size.");
-                return;
-            }
+let totalQuantity = 0;
+let resultText = "";
+let resultLabel = "";
 
 
-            const lots = Math.floor(rawQuantity / lotSize);
+if (instrument.value === "stocks") {
 
-            totalQuantity = lots * lotSize;
+    const capitalBasedQuantity =
+        Math.floor(capital / entry);
 
-            resultText =
-                `${formatInteger(lots)} ${lots === 1 ? "Lot" : "Lots"}`;
+    totalQuantity =
+        Math.min(
+            riskBasedQuantity,
+            capitalBasedQuantity
+        );
 
-            resultLabel =
-                `${formatInteger(totalQuantity)} total units`;
-        }
+    resultText =
+        `${formatInteger(totalQuantity)} Shares`;
+
+    if (capitalBasedQuantity < riskBasedQuantity) {
+
+        resultLabel =
+            "Position size limited by available capital.";
+
+    } else {
+
+        resultLabel =
+            "Maximum shares based on your defined risk.";
+    }
+
+} else {
+
+    const lotSize =
+        parseInt(lotSizeInput.value, 10);
+
+    if (!Number.isFinite(lotSize) || lotSize <= 0) {
+        alert("Please enter a valid lot size.");
+        return;
+    }
+
+
+    const lots =
+        Math.floor(
+            riskBasedQuantity / lotSize
+        );
+
+    totalQuantity =
+        lots * lotSize;
+
+    resultText =
+        `${formatInteger(lots)} ${lots === 1 ? "Lot" : "Lots"}`;
+
+    resultLabel =
+        `${formatInteger(totalQuantity)} total units`;
+}
 
 
         const actualRisk = totalQuantity * riskPerUnit;

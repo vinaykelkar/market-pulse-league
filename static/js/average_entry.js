@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             const enteredQuantity =
-                parseFloat(
+                parseInt(
                     row.querySelector(
                         ".avg-quantity"
                     ).value
