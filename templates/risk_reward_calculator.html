@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="trade-calc-page">
+
+    <div class="trade-calc-shell">
+
+        <a href="{{ url_for('trading_toolkit') }}"
+           class="trade-calc-back">
+            ← Back to Trading
+        </a>
+
+
+        <header class="trade-calc-header">
+
+            <p class="trade-calc-eyebrow">
+                TRADING CALCULATOR
+            </p>
+
+            <h1>Risk–Reward Calculator</h1>
+
+            <p>
+                Compare your planned stop loss and target before taking
+                a long or short trade.
+            </p>
+
+        </header>
+
+
+        <div class="trade-calc-layout">
+
+            <div class="trade-calc-card">
+
+                <h2>Trade Setup</h2>
+
+
+                <div class="trade-field">
+
+                    <label for="rrDirection">
+                        Position
+                    </label>
+
+                    <select id="rrDirection">
+
+                        <option value="long">
+                            Long / Buy
+                        </option>
+
+                        <option value="short">
+                            Short / Sell
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="rrEntry">
+                        Entry Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rrEntry"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 1000"
+                    >
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="rrStop">
+                        Stop Loss
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rrStop"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 980"
+                    >
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="rrTarget">
+                        Target
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rrTarget"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 1050"
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-button"
+                    id="rrCalculate"
+                >
+                    Calculate Risk–Reward
+                </button>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-reset"
+                    id="rrReset"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div class="trade-result-card">
+
+                <p class="trade-result-label">
+                    RISK : REWARD
+                </p>
+
+                <div
+                    class="trade-result-primary"
+                    id="rrRatio"
+                >
+                    —
+                </div>
+
+                <p
+                    class="trade-result-sub"
+                    id="rrMessage"
+                >
+                    Enter your planned trade setup.
+                </p>
+
+
+                <div class="trade-result-grid">
+
+                    <div>
+                        <span>Risk</span>
+                        <strong id="rrRisk">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Reward</span>
+                        <strong id="rrReward">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Stop Distance</span>
+                        <strong id="rrStopPercent">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Break-even Win Rate</span>
+                        <strong id="rrBreakEven">—</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="trade-calc-note">
+                    The risk–reward ratio remains the same regardless
+                    of the number of shares or lots traded.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/trading/risk_reward.js') }}"></script>
+
+{% endblock %}

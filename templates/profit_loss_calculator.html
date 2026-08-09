@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="trade-calc-page">
+
+    <div class="trade-calc-shell">
+
+        <a href="{{ url_for('trading_toolkit') }}"
+           class="trade-calc-back">
+            ← Back to Trading
+        </a>
+
+
+        <header class="trade-calc-header">
+
+            <p class="trade-calc-eyebrow">
+                TRADING CALCULATOR
+            </p>
+
+            <h1>Profit / Loss Calculator</h1>
+
+            <p>
+                Calculate the gross profit or loss on a long or short
+                position using shares or F&amp;O lots.
+            </p>
+
+        </header>
+
+
+        <div class="trade-calc-layout">
+
+            <div class="trade-calc-card">
+
+                <h2>Trade Details</h2>
+
+
+                <div class="trade-field">
+
+                    <label for="plInstrument">
+                        Instrument
+                    </label>
+
+                    <select id="plInstrument">
+
+                        <option value="stocks">
+                            Stocks
+                        </option>
+
+                        <option value="futures">
+                            Futures
+                        </option>
+
+                        <option value="options">
+                            Options
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="plDirection">
+                        Position
+                    </label>
+
+                    <select id="plDirection">
+
+                        <option value="long">
+                            Long / Buy
+                        </option>
+
+                        <option value="short">
+                            Short / Sell
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="plEntry">
+                        Entry Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="plEntry"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 250"
+                    >
+
+                </div>
+
+
+                <div class="trade-field">
+
+                    <label for="plExit">
+                        Exit Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="plExit"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 270"
+                    >
+
+                </div>
+
+
+                <div class="trade-field stock-field pl-stock-field">
+
+                    <label for="plShares">
+                        Number of Shares
+                    </label>
+
+                    <input
+                        type="number"
+                        id="plShares"
+                        min="1"
+                        step="1"
+                        placeholder="Example: 100"
+                    >
+
+                </div>
+
+
+                <div class="fno-field pl-fno-field">
+
+                    <div class="trade-field">
+
+                        <label for="plLotSize">
+                            Lot Size
+                        </label>
+
+                        <input
+                            type="number"
+                            id="plLotSize"
+                            min="1"
+                            step="1"
+                            placeholder="Example: 65"
+                        >
+
+                    </div>
+
+
+                    <div class="trade-field">
+
+                        <label for="plLots">
+                            Number of Lots
+                        </label>
+
+                        <input
+                            type="number"
+                            id="plLots"
+                            min="1"
+                            step="1"
+                            placeholder="Example: 2"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-button"
+                    id="plCalculate"
+                >
+                    Calculate P&amp;L
+                </button>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-reset"
+                    id="plReset"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div class="trade-result-card">
+
+                <p class="trade-result-label">
+                    GROSS P&amp;L
+                </p>
+
+                <div
+                    class="trade-result-primary"
+                    id="plTotal"
+                >
+                    —
+                </div>
+
+                <p
+                    class="trade-result-sub"
+                    id="plMessage"
+                >
+                    Enter your completed trade details.
+                </p>
+
+
+                <div class="trade-result-grid">
+
+                    <div>
+                        <span>P&amp;L Per Unit</span>
+                        <strong id="plPerUnit">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Quantity</span>
+                        <strong id="plTotalQty">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Price Movement</span>
+                        <strong id="plMove">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Trade Direction</span>
+                        <strong id="plDirectionResult">—</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="trade-calc-note">
+                    Gross P&amp;L excludes brokerage, taxes, exchange
+                    charges, slippage and other transaction costs.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/trading/profit_loss.js') }}"></script>
+
+{% endblock %}

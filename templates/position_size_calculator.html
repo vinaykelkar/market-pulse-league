@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="trade-calc-page">
+
+    <div class="trade-calc-shell">
+
+        <a href="{{ url_for('trading_toolkit') }}"
+           class="trade-calc-back">
+            ← Back to Trading
+        </a>
+
+        <header class="trade-calc-header">
+            <p class="trade-calc-eyebrow">TRADING CALCULATOR</p>
+
+            <h1>Position Size Calculator</h1>
+
+            <p>
+                Calculate how many shares or F&amp;O lots you can trade
+                based on your capital and maximum acceptable risk.
+            </p>
+        </header>
+
+
+        <div class="trade-calc-layout">
+
+            <!-- INPUT -->
+            <div class="trade-calc-card">
+
+                <h2>Trade Details</h2>
+
+                <div class="trade-field">
+                    <label for="psInstrument">Instrument</label>
+
+                    <select id="psInstrument">
+                        <option value="stocks">Stocks</option>
+                        <option value="futures">Futures</option>
+                        <option value="options">Options</option>
+                    </select>
+                </div>
+
+
+                <div class="trade-field">
+                    <label for="psCapital">Trading Capital (₹)</label>
+
+                    <input
+                        type="number"
+                        id="psCapital"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 250000"
+                    >
+                </div>
+
+
+                <div class="trade-field">
+                    <label for="psRiskPercent">Risk Per Trade (%)</label>
+
+                    <input
+                        type="number"
+                        id="psRiskPercent"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 1"
+                    >
+                </div>
+
+
+                <div class="trade-field">
+                    <label for="psEntry">Entry Price (₹)</label>
+
+                    <input
+                        type="number"
+                        id="psEntry"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 250"
+                    >
+                </div>
+
+
+                <div class="trade-field">
+                    <label for="psStop">Stop Loss Price (₹)</label>
+
+                    <input
+                        type="number"
+                        id="psStop"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 240"
+                    >
+                </div>
+
+
+                <div class="trade-field fno-field ps-fno-field">
+                    <label for="psLotSize">Lot Size</label>
+
+                    <input
+                        type="number"
+                        id="psLotSize"
+                        min="1"
+                        step="1"
+                        placeholder="Example: 65"
+                    >
+                </div>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-button"
+                    id="psCalculate"
+                >
+                    Calculate Position Size
+                </button>
+
+
+                <button
+                    type="button"
+                    class="trade-calc-reset"
+                    id="psReset"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <!-- RESULTS -->
+            <div class="trade-result-card">
+
+                <p class="trade-result-label">
+                    POSITION SIZE
+                </p>
+
+                <div class="trade-result-primary" id="psPrimary">
+                    —
+                </div>
+
+                <p class="trade-result-sub" id="psPrimaryLabel">
+                    Enter your trade details to calculate.
+                </p>
+
+
+                <div class="trade-result-grid">
+
+                    <div>
+                        <span>Maximum Risk</span>
+                        <strong id="psRiskAmount">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Risk Per Unit</span>
+                        <strong id="psRiskUnit">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Quantity</span>
+                        <strong id="psTotalQty">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Position Value</span>
+                        <strong id="psPositionValue">—</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="trade-calc-note">
+                    Position sizing is based purely on your defined risk.
+                    Futures position value represents contract exposure,
+                    not the actual margin required.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/trading/position_size.js') }}"></script>
+
+{% endblock %}
