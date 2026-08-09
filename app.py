@@ -449,6 +449,12 @@ def profit_loss_calculator():
 @app.route("/trading/average-entry")
 def average_entry_calculator():
     return render_template("average_entry_calculator.html")
+
+# PORTFOLIO ROUTES
+
+@app.route("/financial-tools/portfolio")
+def portfolio_toolkit():
+    return render_template("portfolio/portfolio_toolkit.html")
     
 if __name__ == "__main__":
     app.run(debug=True)

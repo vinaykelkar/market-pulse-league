@@ -166,21 +166,66 @@
             </div>
         </article>
 -->
-        <article class="toolkit-card" aria-labelledby="portfolio-title">
-            <div class="toolkit-card-heading">
-                <div>
-                    <h2 id="portfolio-title"><span aria-hidden="true">📁</span> Portfolio</h2>
-                    <p>Understand how your entire portfolio is performing.</p>
-                </div>
-                <span class="tool-count">4 Tools</span>
-            </div>
-            <div class="tool-links" aria-label="Portfolio calculators">
-                <span class="tool-pill">XIRR</span>
-                <span class="tool-pill">Asset Allocation</span>
-                <span class="tool-pill">Rebalancing</span>
-                <span class="tool-pill">Net Worth</span>
-            </div>
-        </article>
+<article
+    class="toolkit-card"
+    aria-labelledby="portfolio-title"
+>
+
+    <a
+        href="{{ url_for('portfolio_toolkit') }}"
+        class="toolkit-card-main-link"
+        aria-label="Open Portfolio Toolkit"
+    ></a>
+
+    <div class="toolkit-card-heading">
+
+        <div>
+
+            <h2 id="portfolio-title">
+                <span aria-hidden="true">
+                    📁
+                </span>
+
+                Portfolio
+            </h2>
+
+            <p>
+                Understand how your entire portfolio is performing.
+            </p>
+
+        </div>
+
+        <span class="tool-count">
+            4 Tools
+        </span>
+
+    </div>
+
+
+    <div
+        class="tool-links"
+        aria-label="Portfolio calculators"
+    >
+
+        <span class="tool-pill">
+            XIRR
+        </span>
+
+        <span class="tool-pill">
+            Asset Allocation
+        </span>
+
+        <span class="tool-pill">
+            Rebalancing
+        </span>
+
+        <span class="tool-pill">
+            Net Worth
+        </span>
+
+    </div>
+
+</article>
 
         <article class="toolkit-card" aria-labelledby="mutual-funds-title">
             <div class="toolkit-card-heading">
