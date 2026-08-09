@@ -491,7 +491,7 @@
 
 .xirr-example-results {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
     margin-top: 22px;
 }
@@ -593,4 +593,13 @@
         grid-template-columns: 1fr;
     }
 
+}
+
+.xirr-example-xirr {
+    border-color: #b9dfd2 !important;
+    background: #f0faf7 !important;
+}
+
+.xirr-example-xirr strong {
+    color: #0f7a5a;
 }
