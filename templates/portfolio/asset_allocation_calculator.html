@@ -1,116 +1,97 @@
 {% extends "base.html" %}
 
-{% block title %}Asset Allocation Calculator{% endblock %}
+{% block content %}
 
-{% block extra_css %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/portfolio/asset_allocation.css') }}"
 >
-{% endblock %}
-
-{% block content %}
 
 <section class="asset-allocation-page">
 
-    <!-- =====================================================
-         PAGE HEADER
-         ===================================================== -->
-    <div class="asset-allocation-page-header">
-
-        <p class="asset-allocation-eyebrow">
-            PORTFOLIO TOOLKIT
-        </p>
-
-        <h1>
-            Asset Allocation Calculator
-        </h1>
-
-        <p class="asset-allocation-description">
-            Divide your capital across equity, debt funds, fixed deposits,
-            gold and liquid assets based on your risk profile.
-        </p>
-
-    </div>
+    <div class="asset-allocation-shell">
 
 
-    <!-- =====================================================
-         INPUT CARD
-         ===================================================== -->
-    <div class="asset-allocation-card">
+        <!-- =====================================================
+             PAGE HEADER
+        ====================================================== -->
 
-        <!-- MODE TOGGLE -->
-        <div
-            class="asset-allocation-mode-toggle"
-            role="tablist"
-            aria-label="Asset allocation mode"
-        >
+        <header class="asset-allocation-header">
 
-            <button
-                type="button"
-                class="calculator-mode-btn active"
-                id="mode-with-ef"
-                data-mode="with-ef"
-                role="tab"
-                aria-selected="true"
+            <p class="asset-allocation-eyebrow">
+                PORTFOLIO TOOLKIT
+            </p>
+
+            <h1>
+                Asset Allocation Calculator
+            </h1>
+
+            <p class="asset-allocation-header-description">
+                Divide your capital across equity, debt funds, fixed deposits,
+                gold and liquid assets based on your risk profile.
+            </p>
+
+        </header>
+
+
+        <!-- =====================================================
+             CALCULATOR CARD
+        ====================================================== -->
+
+        <section class="asset-allocation-calculator-card">
+
+
+            <!-- =================================================
+                 MODE SWITCH
+            ================================================== -->
+
+            <div
+                class="asset-allocation-mode-switch"
+                role="tablist"
+                aria-label="Asset allocation mode"
             >
-                Include Emergency Fund
-            </button>
 
-            <button
-                type="button"
-                class="calculator-mode-btn"
-                id="mode-without-ef"
-                data-mode="without-ef"
-                role="tab"
-                aria-selected="false"
-            >
-                Asset Allocation Only
-            </button>
+                <button
+                    type="button"
+                    class="calculator-mode-btn active"
+                    id="mode-with-ef"
+                    data-mode="with-ef"
+                    role="tab"
+                    aria-selected="true"
+                >
+                    Include Emergency Fund
+                </button>
 
-        </div>
-
-
-        <!-- =================================================
-             FORM
-             ================================================= -->
-        <div class="asset-allocation-form-section">
-
-            <div class="asset-allocation-section-heading">
-
-                <h2>
-                    Enter Your Details
-                </h2>
-
-                <p>
-                    Enter the capital you want to allocate and choose your
-                    preferred investment risk level.
-                </p>
+                <button
+                    type="button"
+                    class="calculator-mode-btn"
+                    id="mode-without-ef"
+                    data-mode="without-ef"
+                    role="tab"
+                    aria-selected="false"
+                >
+                    Asset Allocation Only
+                </button>
 
             </div>
 
 
-            <!-- CAPITAL -->
-            <div class="asset-allocation-form-group">
+            <!-- =================================================
+                 SECTION HEADING
+            ================================================== -->
 
-                <label for="allocation-capital">
-                    Capital to Allocate
-                </label>
+            <div class="asset-allocation-section-heading">
 
-                <div class="asset-allocation-currency-input">
+                <div>
 
-                    <span class="currency-symbol">
-                        ₹
-                    </span>
+                    <h2>
+                        Enter Your Details
+                    </h2>
 
-                    <input
-                        type="number"
-                        id="allocation-capital"
-                        min="1"
-                        step="1000"
-                        placeholder="500000"
-                        inputmode="decimal"
-                    >
+                    <p>
+                        Enter the capital you want to allocate and choose
+                        your preferred investment risk level.
+                    </p>
 
                 </div>
 
@@ -118,100 +99,322 @@
 
 
             <!-- =================================================
-                 EMERGENCY FUND MODE INPUTS
-                 ================================================= -->
-            <div id="emergency-fund-inputs">
+                 FORM
+            ================================================== -->
 
-                <!-- MONTHLY ESSENTIAL EXPENSES -->
+            <div class="asset-allocation-form">
+
+
+                <!-- CAPITAL -->
+
                 <div class="asset-allocation-form-group">
 
-                    <label for="monthly-expenses">
-                        Monthly Essential Expenses
+                    <label for="allocation-capital">
+                        Capital to Allocate
                     </label>
 
-                    <div class="asset-allocation-currency-input">
+                    <div class="asset-allocation-amount-wrapper">
 
-                        <span class="currency-symbol">
+                        <span>
                             ₹
                         </span>
 
                         <input
                             type="number"
-                            id="monthly-expenses"
-                            min="0"
+                            id="allocation-capital"
+                            min="1"
                             step="1000"
-                            placeholder="50000"
+                            placeholder="500000"
                             inputmode="decimal"
                         >
 
                     </div>
 
-                    <p class="asset-allocation-field-note">
-                        Include essential expenses such as rent, food, EMIs,
-                        utilities and necessary household costs.
-                    </p>
+                </div>
+
+
+                <!-- =================================================
+                     EMERGENCY FUND INPUTS
+                ================================================== -->
+
+                <div id="emergency-fund-inputs">
+
+
+                    <!-- MONTHLY EXPENSES -->
+
+                    <div class="asset-allocation-form-group">
+
+                        <label for="monthly-expenses">
+                            Monthly Essential Expenses
+                        </label>
+
+                        <div class="asset-allocation-amount-wrapper">
+
+                            <span>
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="monthly-expenses"
+                                min="0"
+                                step="1000"
+                                placeholder="50000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                        <p class="asset-allocation-field-note">
+                            Include essential expenses such as rent, food,
+                            EMIs, utilities and necessary household costs.
+                        </p>
+
+                    </div>
+
+
+                    <!-- EMERGENCY FUND STATUS -->
+
+                    <div class="asset-allocation-form-group">
+
+                        <label for="emergency-status">
+                            Emergency Fund Status
+                        </label>
+
+                        <select id="emergency-status">
+
+                            <option value="none">
+                                No emergency fund
+                            </option>
+
+                            <option value="partial">
+                                Partially funded
+                            </option>
+
+                            <option value="full">
+                                Fully funded
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CURRENT EMERGENCY FUND -->
+
+                    <div
+                        class="asset-allocation-form-group"
+                        id="existing-emergency-wrapper"
+                        hidden
+                    >
+
+                        <label for="existing-emergency-fund">
+                            Current Emergency Fund
+                        </label>
+
+                        <div class="asset-allocation-amount-wrapper">
+
+                            <span>
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                id="existing-emergency-fund"
+                                min="0"
+                                step="1000"
+                                placeholder="100000"
+                                inputmode="decimal"
+                            >
+
+                        </div>
+
+                        <p class="asset-allocation-field-note">
+                            Enter the amount you have already set aside
+                            specifically for emergencies.
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                <!-- EMERGENCY FUND STATUS -->
+                <!-- =================================================
+                     ASSET ALLOCATION ONLY INFO
+                ================================================== -->
+
+                <div
+                    class="asset-allocation-info-box"
+                    id="no-emergency-info"
+                    hidden
+                >
+
+                    <div class="asset-allocation-info-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Consider maintaining an emergency fund
+                        </strong>
+
+                        <p>
+                            An emergency reserve can help cover unexpected
+                            expenses or temporary income disruption without
+                            requiring you to sell long-term investments.
+                            This calculator will continue with your requested
+                            asset allocation without reserving an emergency fund.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RISK PROFILE
+                ================================================== -->
+
                 <div class="asset-allocation-form-group">
 
-                    <label for="emergency-status">
-                        Emergency Fund Status
+                    <label for="risk-profile">
+                        Risk Profile
                     </label>
 
-                    <select id="emergency-status">
+                    <select id="risk-profile">
 
-                        <option value="none">
-                            No emergency fund
+                        <option value="conservative">
+                            Conservative
                         </option>
 
-                        <option value="partial">
-                            Partially funded
+                        <option
+                            value="moderate"
+                            selected
+                        >
+                            Moderate
                         </option>
 
-                        <option value="full">
-                            Fully funded
+                        <option value="aggressive">
+                            Aggressive
                         </option>
 
                     </select>
 
+                    <p class="asset-allocation-field-note">
+                        Your risk profile determines how your investable
+                        capital is distributed across asset classes.
+                    </p>
+
                 </div>
 
 
-                <!-- CURRENT EMERGENCY FUND -->
+                <!-- =================================================
+                     ACTION BUTTONS
+                ================================================== -->
+
+                <div class="asset-allocation-main-actions">
+
+                    <button
+                        type="button"
+                        class="asset-allocation-calculate-button"
+                        id="calculate-allocation"
+                    >
+                        Calculate Allocation
+                    </button>
+
+                    <button
+                        type="button"
+                        class="asset-allocation-reset-button"
+                        id="reset-allocation"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESULT CARD
+        ====================================================== -->
+
+        <section
+            class="asset-allocation-result-card"
+            id="allocation-results"
+            hidden
+        >
+
+
+            <!-- RESULT HEADER -->
+
+            <div class="asset-allocation-result-heading">
+
+                <p class="asset-allocation-result-label">
+                    YOUR ALLOCATION
+                </p>
+
+                <h2 id="result-profile">
+                    Moderate Portfolio
+                </h2>
+
+            </div>
+
+
+            <!-- =================================================
+                 KPI GRID
+            ================================================== -->
+
+            <div class="asset-allocation-result-grid">
+
+
+                <!-- TOTAL CAPITAL -->
+
+                <div class="asset-allocation-result-item">
+
+                    <span>
+                        Total Capital
+                    </span>
+
+                    <strong id="result-total-capital">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <!-- EMERGENCY RESERVE -->
+
                 <div
-                    class="asset-allocation-form-group"
-                    id="existing-emergency-wrapper"
-                    hidden
+                    class="asset-allocation-result-item"
+                    id="result-emergency-card"
                 >
 
-                    <label for="existing-emergency-fund">
-                        Current Emergency Fund
-                    </label>
+                    <span>
+                        Emergency Reserve
+                    </span>
 
-                    <div class="asset-allocation-currency-input">
+                    <strong id="result-emergency-reserve">
+                        ₹0
+                    </strong>
 
-                        <span class="currency-symbol">
-                            ₹
-                        </span>
+                </div>
 
-                        <input
-                            type="number"
-                            id="existing-emergency-fund"
-                            min="0"
-                            step="1000"
-                            placeholder="100000"
-                            inputmode="decimal"
-                        >
 
-                    </div>
+                <!-- INVESTABLE CAPITAL -->
 
-                    <p class="asset-allocation-field-note">
-                        Enter the amount you have already set aside specifically
-                        for emergencies.
-                    </p>
+                <div class="asset-allocation-result-item">
+
+                    <span>
+                        Investable Capital
+                    </span>
+
+                    <strong id="result-investable-capital">
+                        ₹0
+                    </strong>
 
                 </div>
 
@@ -219,254 +422,197 @@
 
 
             <!-- =================================================
-                 ASSET ALLOCATION ONLY MESSAGE
-                 ================================================= -->
+                 EMERGENCY RESULT MESSAGE
+            ================================================== -->
+
             <div
-                class="asset-allocation-info-box"
-                id="no-emergency-info"
+                class="asset-allocation-warning"
+                id="emergency-result-message"
                 hidden
             >
+            </div>
 
-                <div class="asset-allocation-info-icon">
-                    🛡️
-                </div>
 
-                <div>
+            <!-- =================================================
+                 ALLOCATION TABLE
+            ================================================== -->
 
-                    <strong>
-                        Consider maintaining an emergency fund
-                    </strong>
+            <div
+                class="asset-allocation-table-wrapper"
+                id="allocation-table-wrapper"
+            >
 
-                    <p>
-                        An emergency reserve can help cover unexpected expenses
-                        or temporary income disruption without requiring you to
-                        sell long-term investments. You can still continue with
-                        asset allocation without reserving an emergency fund.
-                    </p>
+                <table class="asset-allocation-table">
 
-                </div>
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Asset
+                            </th>
+
+                            <th>
+                                Allocation
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="allocation-table-body">
+
+                        <!-- Populated by JavaScript -->
+
+                    </tbody>
+
+                </table>
 
             </div>
 
 
-            <!-- RISK PROFILE -->
-            <div class="asset-allocation-form-group">
+            <!-- =================================================
+                 PORTFOLIO EXPLANATION
+            ================================================== -->
 
-                <label for="risk-profile">
-                    Risk Profile
-                </label>
+            <div class="asset-allocation-explanation">
 
-                <select id="risk-profile">
+                <h3 id="allocation-explanation-title">
+                    Moderate Portfolio
+                </h3>
 
-                    <option value="conservative">
-                        Conservative
-                    </option>
-
-                    <option
-                        value="moderate"
-                        selected
-                    >
-                        Moderate
-                    </option>
-
-                    <option value="aggressive">
-                        Aggressive
-                    </option>
-
-                </select>
-
-                <p class="asset-allocation-field-note">
-                    Your selected risk profile determines how the investable
-                    capital is distributed across asset classes.
+                <p id="allocation-explanation-text">
                 </p>
 
             </div>
 
 
-            <!-- ACTION BUTTONS -->
-            <div class="asset-allocation-actions">
+            <!-- =================================================
+                 DISCLAIMER
+            ================================================== -->
 
-                <button
-                    type="button"
-                    class="asset-allocation-primary-btn"
-                    id="calculate-allocation"
-                >
-                    Calculate Allocation
-                </button>
-
-                <button
-                    type="button"
-                    class="asset-allocation-reset-btn"
-                    id="reset-allocation"
-                >
-                    Reset
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         RESULT CARD
-         ===================================================== -->
-    <div
-        class="asset-allocation-card asset-allocation-results"
-        id="allocation-results"
-        hidden
-    >
-
-        <!-- RESULT HEADING -->
-        <div class="asset-allocation-result-header">
-
-            <p class="asset-allocation-result-label">
-                YOUR ALLOCATION
+            <p class="asset-allocation-disclaimer">
+                Illustrative allocation only. Appropriate asset allocation
+                can vary based on investment horizon, financial goals,
+                liabilities, income stability and personal circumstances.
             </p>
 
-            <h2 id="result-profile">
-                Moderate Portfolio
-            </h2>
-
-        </div>
+        </section>
 
 
-        <!-- =================================================
-             KPI CARDS
-             ================================================= -->
-        <div class="asset-allocation-kpi-grid">
+        <!-- =====================================================
+             SIMPLE ALLOCATION GUIDE
+        ====================================================== -->
 
-            <!-- TOTAL CAPITAL -->
-            <div class="asset-allocation-kpi-card">
+        <section class="asset-allocation-example-card">
 
-                <span>
-                    Total Capital
-                </span>
+            <div class="asset-allocation-example-heading">
 
-                <strong id="result-total-capital">
-                    ₹0
-                </strong>
+                <p class="asset-allocation-eyebrow">
+                    ALLOCATION GUIDE
+                </p>
 
-            </div>
+                <h2>
+                    How the Risk Profiles Differ
+                </h2>
 
-
-            <!-- EMERGENCY RESERVE -->
-            <div
-                class="asset-allocation-kpi-card"
-                id="result-emergency-card"
-            >
-
-                <span>
-                    Emergency Reserve
-                </span>
-
-                <strong id="result-emergency-reserve">
-                    ₹0
-                </strong>
+                <p>
+                    Your selected risk profile changes how much of your
+                    investable capital is assigned to growth and
+                    stability-oriented assets.
+                </p>
 
             </div>
 
 
-            <!-- INVESTABLE CAPITAL -->
-            <div class="asset-allocation-kpi-card">
+            <div class="asset-allocation-table-wrapper">
 
-                <span>
-                    Investable Capital
-                </span>
+                <table class="asset-allocation-guide-table">
 
-                <strong id="result-investable-capital">
-                    ₹0
-                </strong>
+                    <thead>
+
+                        <tr>
+                            <th>Asset</th>
+                            <th>Conservative</th>
+                            <th>Moderate</th>
+                            <th>Aggressive</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>📈 Equity</td>
+                            <td>25%</td>
+                            <td>50%</td>
+                            <td>70%</td>
+                        </tr>
+
+                        <tr>
+                            <td>🏦 Debt Funds</td>
+                            <td>25%</td>
+                            <td>20%</td>
+                            <td>10%</td>
+                        </tr>
+
+                        <tr>
+                            <td>🏛️ Fixed Deposit</td>
+                            <td>30%</td>
+                            <td>15%</td>
+                            <td>5%</td>
+                        </tr>
+
+                        <tr>
+                            <td>🥇 Gold</td>
+                            <td>10%</td>
+                            <td>10%</td>
+                            <td>10%</td>
+                        </tr>
+
+                        <tr>
+                            <td>💵 Cash / Liquid</td>
+                            <td>10%</td>
+                            <td>5%</td>
+                            <td>5%</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
-        </div>
 
+            <div class="asset-allocation-example-callout">
 
-        <!-- =================================================
-             EMERGENCY FUND MESSAGE
-             ================================================= -->
-        <div
-            class="asset-allocation-warning"
-            id="emergency-result-message"
-            hidden
-        >
-        </div>
+                <strong>
+                    What happens when you include an emergency fund?
+                </strong>
 
+                <p>
+                    The calculator first checks your emergency fund requirement.
+                    Any required emergency reserve is separated from your capital,
+                    and the selected risk allocation is applied only to the
+                    remaining investable amount.
+                </p>
 
-        <!-- =================================================
-             ASSET ALLOCATION TABLE
-             ================================================= -->
-        <div
-            class="asset-allocation-table-wrapper"
-            id="allocation-table-wrapper"
-        >
+            </div>
 
-            <table class="asset-allocation-table">
+        </section>
 
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Asset
-                        </th>
-
-                        <th>
-                            Allocation
-                        </th>
-
-                        <th>
-                            Amount
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="allocation-table-body">
-
-                    <!-- Populated by JavaScript -->
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <!-- =================================================
-             PROFILE EXPLANATION
-             ================================================= -->
-        <div class="asset-allocation-explanation">
-
-            <h3 id="allocation-explanation-title">
-                Moderate Portfolio
-            </h3>
-
-            <p id="allocation-explanation-text">
-            </p>
-
-        </div>
-
-
-        <!-- DISCLAIMER -->
-        <p class="asset-allocation-disclaimer">
-            Illustrative allocation only. Appropriate asset allocation can
-            vary based on investment horizon, financial goals, liabilities,
-            income stability and personal circumstances.
-        </p>
 
     </div>
 
 </section>
 
 
-{% block extra_js %}
 <script
-    src="{{ url_for('static', filename='js/portfolio/asset_allocation.js') }}"
-></script>
-{% endblock %}
+    src="{{ url_for('static', filename='js/portfolio/asset_allocation.js') }}">
+</script>
 
 {% endblock %}

@@ -1,417 +1,394 @@
 /* =========================================================
    ASSET ALLOCATION CALCULATOR
-   ========================================================= */
+========================================================= */
 
 
 /* =========================================================
    PAGE
-   ========================================================= */
+========================================================= */
 
 .asset-allocation-page {
-    width: 100%;
-    max-width: 1240px;
+    background: #ffffff;
+    min-height: 100vh;
+    padding: 64px 24px 80px;
+}
+
+.asset-allocation-shell {
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 8px 32px 60px;
-    box-sizing: border-box;
-    color: #10233f;
 }
 
 
 /* =========================================================
-   PAGE HEADER
-   ========================================================= */
+   HEADER
+========================================================= */
 
-.asset-allocation-page-header {
-    margin-bottom: 34px;
+.asset-allocation-header {
+    margin-bottom: 32px;
 }
 
 .asset-allocation-eyebrow {
-    margin: 0 0 7px;
-    color: #58708f;
-    font-size: 15px;
+    margin: 0 0 6px;
+    font-size: 0.92rem;
     font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #60728e;
 }
 
-.asset-allocation-page-header h1 {
+.asset-allocation-header h1 {
     margin: 0;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.05;
     color: #10233f;
-    font-size: 52px;
-    font-weight: 500;
-    line-height: 1.12;
-    letter-spacing: -1px;
 }
 
-.asset-allocation-description {
-    max-width: 900px;
-    margin: 14px 0 0;
-    color: #58708f;
-    font-size: 16px;
-    line-height: 1.65;
+.asset-allocation-header-description {
+    max-width: 760px;
+    margin: 12px 0 0;
+    line-height: 1.7;
+    color: #60728e;
 }
 
 
 /* =========================================================
-   MAIN CARD
-   ========================================================= */
+   CARDS
+========================================================= */
 
-.asset-allocation-card {
-    width: 100%;
-    max-width: 1080px;
-    margin-bottom: 26px;
-    padding: 28px;
-    border: 1px solid #d5e0ed;
+.asset-allocation-calculator-card,
+.asset-allocation-result-card,
+.asset-allocation-example-card {
+    border: 1px solid #dbe3ee;
     border-radius: 20px;
     background: #ffffff;
-    box-sizing: border-box;
+}
+
+.asset-allocation-calculator-card {
+    padding: 28px;
 }
 
 
 /* =========================================================
-   MODE TOGGLE
-   ========================================================= */
+   MODE SWITCH
+========================================================= */
 
-.asset-allocation-mode-toggle {
+.asset-allocation-mode-switch {
     display: inline-flex;
-    gap: 4px;
-    margin-bottom: 30px;
+    gap: 6px;
     padding: 5px;
-    border: 1px solid #d5dfec;
+    margin-bottom: 30px;
+    border: 1px solid #dbe3ee;
     border-radius: 12px;
-    background: #f3f6fa;
+    background: #f5f8fc;
 }
 
-.asset-allocation-page .calculator-mode-btn {
-    min-height: 44px;
-    padding: 10px 18px;
-    border: none;
+.calculator-mode-btn {
+    border: 0;
     border-radius: 9px;
     background: transparent;
-    color: #58708f;
+    padding: 10px 18px;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 0.95rem;
     font-weight: 700;
+    color: #60728e;
     cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
 }
 
-.asset-allocation-page .calculator-mode-btn:hover {
+.calculator-mode-btn:hover {
     color: #10233f;
 }
 
-.asset-allocation-page .calculator-mode-btn.active {
+.calculator-mode-btn.active {
     background: #10233f;
     color: #ffffff;
 }
 
 
 /* =========================================================
-   FORM SECTION
-   ========================================================= */
-
-.asset-allocation-form-section {
-    max-width: 760px;
-}
+   SECTION HEADING
+========================================================= */
 
 .asset-allocation-section-heading {
-    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
 }
 
 .asset-allocation-section-heading h2 {
-    margin: 0 0 6px;
+    margin: 0;
     color: #10233f;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 1.45rem;
 }
 
 .asset-allocation-section-heading p {
-    margin: 0;
-    color: #58708f;
-    font-size: 15px;
+    margin: 7px 0 0;
+    color: #60728e;
     line-height: 1.6;
 }
 
 
 /* =========================================================
-   FORM GROUP
-   ========================================================= */
+   FORM
+========================================================= */
+
+.asset-allocation-form {
+    max-width: 720px;
+}
 
 .asset-allocation-form-group {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .asset-allocation-form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #203a63;
-    font-size: 14px;
+    margin-bottom: 7px;
+    color: #10233f;
+    font-size: 0.9rem;
     font-weight: 700;
 }
 
 .asset-allocation-form-group input,
 .asset-allocation-form-group select {
     width: 100%;
-    min-height: 46px;
-    padding: 11px 14px;
-    border: 1px solid #cbd8e8;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #ccd7e5;
     border-radius: 9px;
     background: #ffffff;
     color: #10233f;
     font-family: inherit;
-    font-size: 15px;
-    box-sizing: border-box;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.asset-allocation-form-group input::placeholder {
-    color: #8797ab;
+    font-size: 0.95rem;
 }
 
 .asset-allocation-form-group input:focus,
 .asset-allocation-form-group select:focus {
     outline: none;
-    border-color: #5879a7;
-    box-shadow: 0 0 0 3px rgba(88, 121, 167, 0.12);
+    border-color: #0f7a5a;
+}
+
+.asset-allocation-form-group input::placeholder {
+    color: #9aa8ba;
 }
 
 
 /* =========================================================
-   CURRENCY INPUT
-   ========================================================= */
+   AMOUNT FIELD
+========================================================= */
 
-.asset-allocation-currency-input {
+.asset-allocation-amount-wrapper {
     position: relative;
 }
 
-.asset-allocation-currency-input .currency-symbol {
+.asset-allocation-amount-wrapper span {
     position: absolute;
     top: 50%;
-    left: 14px;
-    z-index: 2;
+    left: 12px;
     transform: translateY(-50%);
-    color: #607590;
-    font-size: 15px;
-    pointer-events: none;
+    color: #60728e;
+    z-index: 1;
 }
 
-.asset-allocation-currency-input input {
-    padding-left: 35px;
+.asset-allocation-amount-wrapper input {
+    padding-left: 28px;
 }
 
 
 /* =========================================================
    FIELD NOTE
-   ========================================================= */
+========================================================= */
 
 .asset-allocation-field-note {
     margin: 7px 0 0;
-    color: #74859b;
-    font-size: 12.5px;
+    color: #718198;
+    font-size: 0.82rem;
     line-height: 1.5;
 }
 
 
 /* =========================================================
-   ASSET ALLOCATION ONLY INFO BOX
-   ========================================================= */
+   EMERGENCY FUND INFO BOX
+========================================================= */
 
 .asset-allocation-info-box {
     display: flex;
-    gap: 13px;
     align-items: flex-start;
-    margin: 4px 0 24px;
-    padding: 17px 18px;
-    border: 1px solid #d7e2ee;
-    border-radius: 11px;
-    background: #f7f9fc;
+    gap: 12px;
+    margin: 4px 0 22px;
+    padding: 16px 18px;
+    border: 1px solid #dbe3ee;
+    border-radius: 12px;
+    background: #f5f8fc;
 }
 
 .asset-allocation-info-icon {
     flex-shrink: 0;
-    margin-top: 1px;
-    font-size: 21px;
+    font-size: 1.4rem;
 }
 
 .asset-allocation-info-box strong {
     display: block;
     margin-bottom: 5px;
-    color: #203a63;
-    font-size: 14px;
+    color: #10233f;
 }
 
 .asset-allocation-info-box p {
     margin: 0;
-    color: #60738d;
-    font-size: 13.5px;
+    color: #60728e;
+    font-size: 0.9rem;
     line-height: 1.6;
 }
 
 
 /* =========================================================
-   ACTION BUTTONS
-   ========================================================= */
+   MAIN ACTION BUTTONS
+========================================================= */
 
-.asset-allocation-actions {
+.asset-allocation-main-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    align-items: center;
-    margin-top: 31px;
+    margin-top: 26px;
 }
 
-.asset-allocation-primary-btn,
-.asset-allocation-reset-btn {
-    min-height: 48px;
-    padding: 11px 18px;
+.asset-allocation-calculate-button,
+.asset-allocation-reset-button {
     border-radius: 9px;
+    padding: 11px 18px;
     font-family: inherit;
-    font-size: 15px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
 }
 
-.asset-allocation-primary-btn {
-    border: 1px solid #07845f;
-    background: #07845f;
+.asset-allocation-calculate-button {
+    border: 1px solid #0f7a5a;
+    background: #0f7a5a;
     color: #ffffff;
 }
 
-.asset-allocation-primary-btn:hover {
-    border-color: #066e50;
-    background: #066e50;
+.asset-allocation-calculate-button:hover {
+    opacity: 0.92;
 }
 
-.asset-allocation-reset-btn {
-    border: 1px solid #cbd8e8;
+.asset-allocation-reset-button {
+    border: 1px solid #ccd7e5;
     background: #ffffff;
     color: #10233f;
 }
 
-.asset-allocation-reset-btn:hover {
-    background: #f5f7fa;
+.asset-allocation-reset-button:hover {
+    background: #f5f8fc;
 }
 
 
 /* =========================================================
-   RESULTS
-   ========================================================= */
+   RESULT CARD
+========================================================= */
 
-.asset-allocation-results {
-    margin-top: 24px;
+.asset-allocation-result-card {
+    margin-top: 26px;
+    padding: 28px;
 }
 
-.asset-allocation-result-header {
-    margin-bottom: 23px;
+.asset-allocation-result-heading {
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e3e9f1;
 }
 
 .asset-allocation-result-label {
-    margin: 0 0 5px;
-    color: #58708f;
-    font-size: 12px;
+    margin: 0 0 4px;
+    color: #60728e;
+    font-size: 0.85rem;
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.1em;
 }
 
-.asset-allocation-result-header h2 {
+.asset-allocation-result-heading h2 {
     margin: 0;
     color: #10233f;
-    font-size: 27px;
-    font-weight: 500;
+    font-size: 1.65rem;
 }
 
 
 /* =========================================================
-   RESULT KPI CARDS
-   ========================================================= */
+   RESULT KPI GRID
+========================================================= */
 
-.asset-allocation-kpi-grid {
+.asset-allocation-result-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-bottom: 25px;
+    margin-top: 22px;
 }
 
-.asset-allocation-kpi-card {
-    min-width: 0;
-    padding: 18px;
-    border: 1px solid #d7e1ed;
-    border-radius: 11px;
-    background: #ffffff;
-    box-sizing: border-box;
+.asset-allocation-result-item {
+    padding: 16px;
+    border: 1px solid #e0e6ee;
+    border-radius: 12px;
+    background: #f8fafc;
 }
 
-.asset-allocation-kpi-card span {
+.asset-allocation-result-item span {
     display: block;
-    margin-bottom: 7px;
-    color: #687d97;
-    font-size: 12.5px;
-    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    color: #60728e;
 }
 
-.asset-allocation-kpi-card strong {
-    display: block;
+.asset-allocation-result-item strong {
     color: #10233f;
-    font-size: 22px;
-    font-weight: 700;
-    word-break: break-word;
+    font-size: 1.05rem;
 }
 
 
 /* =========================================================
-   EMERGENCY FUND RESULT MESSAGE
-   ========================================================= */
+   EMERGENCY FUND WARNING
+========================================================= */
 
 .asset-allocation-warning {
-    margin-bottom: 23px;
-    padding: 15px 17px;
-    border: 1px solid #ead7a9;
+    margin-top: 20px;
+    padding: 16px 18px;
+    border: 1px solid #ead6a3;
+    border-left: 4px solid #c58b18;
     border-radius: 10px;
     background: #fffaf0;
-    color: #6d5520;
-    font-size: 13.5px;
+    color: #6d5b38;
+    font-size: 0.92rem;
     line-height: 1.6;
 }
 
 
 /* =========================================================
    ALLOCATION TABLE
-   ========================================================= */
+========================================================= */
 
 .asset-allocation-table-wrapper {
     width: 100%;
     overflow-x: auto;
+    margin-top: 22px;
 }
 
-.asset-allocation-table {
+.asset-allocation-table,
+.asset-allocation-guide-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto;
 }
 
 .asset-allocation-table th,
-.asset-allocation-table td {
-    padding: 15px 14px;
-    border-bottom: 1px solid #e0e7f0;
-    vertical-align: middle;
-}
-
-.asset-allocation-table th {
-    color: #58708f;
-    font-size: 13px;
-    font-weight: 700;
+.asset-allocation-guide-table th {
+    padding: 12px;
     text-align: left;
+    font-size: 0.84rem;
+    color: #60728e;
+    border-bottom: 1px solid #dbe3ee;
 }
 
-.asset-allocation-table td {
-    color: #203a63;
-    font-size: 14px;
+.asset-allocation-table td,
+.asset-allocation-guide-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf1f6;
+    color: #10233f;
 }
 
 .asset-allocation-table th:nth-child(2),
@@ -422,57 +399,107 @@
 }
 
 .asset-allocation-table td:nth-child(2) {
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .asset-allocation-table td:nth-child(3) {
-    color: #10233f;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 
 /* =========================================================
-   PROFILE EXPLANATION
-   ========================================================= */
+   PORTFOLIO EXPLANATION
+========================================================= */
 
 .asset-allocation-explanation {
-    margin-top: 24px;
+    margin-top: 22px;
     padding: 18px;
-    border: 1px solid #d7e1ed;
-    border-radius: 11px;
-    background: #f7f9fc;
+    border-radius: 12px;
+    background: #f5f8fc;
 }
 
 .asset-allocation-explanation h3 {
     margin: 0 0 7px;
     color: #10233f;
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 1rem;
 }
 
 .asset-allocation-explanation p {
     margin: 0;
-    color: #5d708a;
-    font-size: 13.5px;
-    line-height: 1.65;
-}
-
-
-/* =========================================================
-   DISCLAIMER
-   ========================================================= */
-
-.asset-allocation-disclaimer {
-    margin: 21px 0 0;
-    color: #7b899b;
-    font-size: 11.5px;
+    color: #60728e;
+    font-size: 0.9rem;
     line-height: 1.6;
 }
 
 
 /* =========================================================
-   HIDDEN ELEMENTS
-   ========================================================= */
+   DISCLAIMER
+========================================================= */
+
+.asset-allocation-disclaimer {
+    margin: 20px 0 0;
+    color: #7b899c;
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   EXAMPLE / GUIDE CARD
+========================================================= */
+
+.asset-allocation-example-card {
+    margin-top: 26px;
+    padding: 28px;
+}
+
+.asset-allocation-example-heading h2 {
+    margin: 0;
+    color: #10233f;
+}
+
+.asset-allocation-example-heading > p:last-child {
+    margin: 8px 0 22px;
+    color: #60728e;
+    line-height: 1.6;
+}
+
+.asset-allocation-guide-table th:not(:first-child),
+.asset-allocation-guide-table td:not(:first-child) {
+    text-align: center;
+}
+
+.asset-allocation-guide-table td:not(:first-child) {
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EXAMPLE CALLOUT
+========================================================= */
+
+.asset-allocation-example-callout {
+    margin-top: 20px;
+    padding: 18px;
+    border-left: 4px solid #0f7a5a;
+    border-radius: 8px;
+    background: #f0faf7;
+}
+
+.asset-allocation-example-callout strong {
+    color: #10233f;
+}
+
+.asset-allocation-example-callout p {
+    margin: 6px 0 0;
+    color: #50627d;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
 
 .asset-allocation-page [hidden] {
     display: none !important;
@@ -480,140 +507,73 @@
 
 
 /* =========================================================
-   TABLET
-   ========================================================= */
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 900px) {
 
-    .asset-allocation-page {
-        padding-left: 24px;
-        padding-right: 24px;
-    }
-
-    .asset-allocation-page-header h1 {
-        font-size: 44px;
+    .asset-allocation-result-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
 
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
+@media (max-width: 650px) {
 
     .asset-allocation-page {
-        padding: 6px 16px 45px;
+        padding: 40px 14px 60px;
     }
 
-    .asset-allocation-page-header {
-        margin-bottom: 26px;
-    }
-
-    .asset-allocation-eyebrow {
-        font-size: 12px;
-        letter-spacing: 1.7px;
-    }
-
-    .asset-allocation-page-header h1 {
-        font-size: 35px;
-        line-height: 1.15;
-        letter-spacing: -0.5px;
-    }
-
-    .asset-allocation-description {
-        margin-top: 11px;
-        font-size: 14px;
-    }
-
-    .asset-allocation-card {
-        padding: 20px 16px;
-        border-radius: 16px;
+    .asset-allocation-calculator-card,
+    .asset-allocation-result-card,
+    .asset-allocation-example-card {
+        padding: 18px;
     }
 
 
-    /* TOGGLE */
+    /* MODE SWITCH */
 
-    .asset-allocation-mode-toggle {
+    .asset-allocation-mode-switch {
         display: flex;
         width: 100%;
         box-sizing: border-box;
     }
 
-    .asset-allocation-page .calculator-mode-btn {
+    .calculator-mode-btn {
         flex: 1;
         padding: 10px 8px;
-        font-size: 12.5px;
-        line-height: 1.3;
+        font-size: 0.82rem;
     }
 
 
-    /* FORM */
+    /* RESULT GRID */
 
-    .asset-allocation-section-heading h2 {
-        font-size: 21px;
-    }
-
-    .asset-allocation-form-group input,
-    .asset-allocation-form-group select {
-        font-size: 16px;
+    .asset-allocation-result-grid {
+        grid-template-columns: 1fr;
     }
 
 
-    /* BUTTONS */
+    /* ACTION BUTTONS */
 
-    .asset-allocation-actions {
+    .asset-allocation-main-actions {
         flex-direction: column;
-        align-items: stretch;
     }
 
-    .asset-allocation-primary-btn,
-    .asset-allocation-reset-btn {
+    .asset-allocation-calculate-button,
+    .asset-allocation-reset-button {
         width: 100%;
     }
 
 
-    /* KPI */
+    /* TABLES */
 
-    .asset-allocation-kpi-grid {
-        grid-template-columns: 1fr;
+    .asset-allocation-table {
+        min-width: 520px;
     }
 
-    .asset-allocation-kpi-card strong {
-        font-size: 21px;
-    }
-
-
-    /* TABLE */
-
-    .asset-allocation-table th,
-    .asset-allocation-table td {
-        padding: 13px 9px;
-        font-size: 12.5px;
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL SCREENS
-   ========================================================= */
-
-@media (max-width: 420px) {
-
-    .asset-allocation-page-header h1 {
-        font-size: 31px;
-    }
-
-    .asset-allocation-page .calculator-mode-btn {
-        font-size: 11.5px;
-    }
-
-    .asset-allocation-table th,
-    .asset-allocation-table td {
-        padding-left: 7px;
-        padding-right: 7px;
+    .asset-allocation-guide-table {
+        min-width: 620px;
     }
 
 }
