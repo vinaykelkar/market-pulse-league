@@ -1,73 +1,150 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const instrument = document.getElementById("avgInstrument");
-    const lotSizeField = document.querySelector(".avg-fno-field");
-    const lotSizeInput = document.getElementById("avgLotSize");
+    const instrument =
+        document.getElementById("avgInstrument");
 
-    const rowsContainer = document.getElementById("averageEntryRows");
-    const quantityHeading = document.getElementById("avgQuantityHeading");
+    const lotSizeField =
+        document.getElementById("avgLotSizeField");
 
-    const addButton = document.getElementById("avgAddEntry");
-    const calculateButton = document.getElementById("avgCalculate");
-    const resetButton = document.getElementById("avgReset");
+    const lotSizeInput =
+        document.getElementById("avgLotSize");
 
-    const averagePriceResult = document.getElementById("avgPrice");
-    const messageResult = document.getElementById("avgMessage");
-    const totalQtyResult = document.getElementById("avgTotalQty");
-    const totalLotsResult = document.getElementById("avgTotalLots");
-    const totalValueResult = document.getElementById("avgTotalValue");
-    const entriesUsedResult = document.getElementById("avgEntriesUsed");
+    const quantityHeading =
+        document.getElementById("avgQuantityHeading");
 
+    const rowsContainer =
+        document.getElementById("averageEntryRows");
+
+    const addButton =
+        document.getElementById("avgAddEntry");
+
+    const calculateButton =
+        document.getElementById("avgCalculate");
+
+    const resetButton =
+        document.getElementById("avgReset");
+
+
+    const averagePriceResult =
+        document.getElementById("avgPrice");
+
+    const messageResult =
+        document.getElementById("avgMessage");
+
+    const totalQtyResult =
+        document.getElementById("avgTotalQty");
+
+    const totalLotsResult =
+        document.getElementById("avgTotalLots");
+
+    const totalValueResult =
+        document.getElementById("avgTotalValue");
+
+    const entriesUsedResult =
+        document.getElementById("avgEntriesUsed");
+
+    const lotsResultLabel =
+        document.getElementById("avgLotsResultLabel");
+
+
+    /* =====================================================
+       FORMATTERS
+    ===================================================== */
 
     function formatMoney(value) {
+
         return "₹" + Number(value).toLocaleString("en-IN", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
+
     }
 
 
     function formatInteger(value) {
+
         return Number(value).toLocaleString("en-IN", {
             maximumFractionDigits: 0
         });
+
     }
 
 
-    function updateInstrumentFields() {
+    /* =====================================================
+       INSTRUMENT SWITCHING
+    ===================================================== */
 
-        const isStock = instrument.value === "stocks";
+    function updateInstrumentUI() {
 
-        lotSizeField.style.display =
-            isStock ? "none" : "";
+        const isStock =
+            instrument.value === "stocks";
 
-        quantityHeading.textContent =
-            isStock ? "Shares" : "Lots";
+
+        if (isStock) {
+
+            lotSizeField.style.display = "none";
+
+            quantityHeading.textContent =
+                "Shares";
+
+            lotsResultLabel.textContent =
+                "Quantity Type";
+
+            totalLotsResult.textContent =
+                "Shares";
+
+        }
+
+        else {
+
+            lotSizeField.style.display = "";
+
+            quantityHeading.textContent =
+                "Lots";
+
+            lotsResultLabel.textContent =
+                "Total Lots";
+
+            totalLotsResult.textContent =
+                "—";
+
+        }
 
 
         document
             .querySelectorAll(".avg-quantity")
-            .forEach(input => {
+            .forEach(function (input) {
 
                 input.placeholder =
-                    isStock ? "Shares" : "Lots";
+                    isStock
+                        ? "Shares"
+                        : "Lots";
+
             });
+
     }
 
 
     instrument.addEventListener(
         "change",
-        updateInstrumentFields
+        function () {
+
+            updateInstrumentUI();
+
+        }
     );
 
-    updateInstrumentFields();
 
+    /* Run immediately on page load */
+
+    updateInstrumentUI();
+
+
+    /* =====================================================
+       CREATE ENTRY ROW
+    ===================================================== */
 
     function createRow() {
-
-        const row = document.createElement("div");
-
-        row.className = "average-entry-row";
 
         const quantityPlaceholder =
             instrument.value === "stocks"
@@ -75,11 +152,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "Lots";
 
 
+        const row =
+            document.createElement("div");
+
+
+        row.className =
+            "average-entry-row";
+
+
         row.innerHTML = `
             <input
                 type="number"
                 class="avg-price"
-                min="0"
+                min="0.01"
                 step="0.01"
                 placeholder="Price"
             >
@@ -101,186 +186,297 @@ document.addEventListener("DOMContentLoaded", function () {
             </button>
         `;
 
+
         rowsContainer.appendChild(row);
+
     }
 
 
-    addButton.addEventListener("click", createRow);
+    addButton.addEventListener(
+        "click",
+        createRow
+    );
 
 
-    rowsContainer.addEventListener("click", function (event) {
+    /* =====================================================
+       REMOVE ENTRY ROW
+    ===================================================== */
 
-        if (
-            !event.target.classList.contains(
-                "average-remove-row"
-            )
-        ) {
-            return;
-        }
-
-
-        const rows =
-            rowsContainer.querySelectorAll(
-                ".average-entry-row"
-            );
-
-
-        if (rows.length <= 2) {
-            alert("Keep at least two entry rows.");
-            return;
-        }
-
-
-        event.target
-            .closest(".average-entry-row")
-            .remove();
-    });
-
-
-    calculateButton.addEventListener("click", function () {
-
-        const isStock =
-            instrument.value === "stocks";
-
-
-        let lotSize = 1;
-
-
-        if (!isStock) {
-
-            lotSize =
-                parseInt(lotSizeInput.value, 10);
+    rowsContainer.addEventListener(
+        "click",
+        function (event) {
 
             if (
-                !Number.isFinite(lotSize) ||
-                lotSize <= 0
+                !event.target.classList.contains(
+                    "average-remove-row"
+                )
             ) {
-                alert("Please enter a valid lot size.");
                 return;
             }
+
+
+            const rows =
+                rowsContainer.querySelectorAll(
+                    ".average-entry-row"
+                );
+
+
+            if (rows.length <= 2) {
+
+                alert(
+                    "Keep at least two entry rows."
+                );
+
+                return;
+
+            }
+
+
+            event.target
+                .closest(".average-entry-row")
+                .remove();
+
         }
+    );
 
 
-        const rows =
-            rowsContainer.querySelectorAll(
-                ".average-entry-row"
-            );
+    /* =====================================================
+       CALCULATE
+    ===================================================== */
+
+    calculateButton.addEventListener(
+        "click",
+        function () {
+
+            const isStock =
+                instrument.value === "stocks";
 
 
-        let totalPositionValue = 0;
-        let totalQuantity = 0;
-        let totalLots = 0;
-        let entriesUsed = 0;
+            let lotSize = 1;
 
 
-        rows.forEach(row => {
+            if (!isStock) {
 
-            const price =
-                parseFloat(
-                    row.querySelector(
-                        ".avg-price"
-                    ).value
-                );
-
-
-            const enteredQuantity =
-                parseInt(
-                    row.querySelector(
-                        ".avg-quantity"
-                    ).value
-                );
+                lotSize =
+                    parseInt(
+                        lotSizeInput.value,
+                        10
+                    );
 
 
-            if (
-                Number.isFinite(price) &&
-                Number.isFinite(enteredQuantity) &&
-                price > 0 &&
-                enteredQuantity > 0
-            ) {
+                if (
+                    !Number.isFinite(lotSize) ||
+                    lotSize <= 0
+                ) {
 
-                let actualQuantity =
-                    enteredQuantity;
+                    alert(
+                        "Please enter a valid lot size."
+                    );
 
+                    return;
 
-                if (!isStock) {
-
-                    totalLots += enteredQuantity;
-
-                    actualQuantity =
-                        enteredQuantity * lotSize;
                 }
 
-
-                totalPositionValue +=
-                    price * actualQuantity;
-
-                totalQuantity +=
-                    actualQuantity;
-
-                entriesUsed += 1;
             }
-        });
 
 
-        if (entriesUsed < 2) {
-            alert("Please enter at least two valid entries.");
-            return;
+            const rows =
+                rowsContainer.querySelectorAll(
+                    ".average-entry-row"
+                );
+
+
+            let totalPositionValue = 0;
+
+            let totalQuantity = 0;
+
+            let totalLots = 0;
+
+            let entriesUsed = 0;
+
+
+            rows.forEach(function (row) {
+
+                const price =
+                    parseFloat(
+                        row.querySelector(
+                            ".avg-price"
+                        ).value
+                    );
+
+
+                const enteredQuantity =
+                    parseInt(
+                        row.querySelector(
+                            ".avg-quantity"
+                        ).value,
+                        10
+                    );
+
+
+                if (
+                    Number.isFinite(price) &&
+                    Number.isFinite(enteredQuantity) &&
+                    price > 0 &&
+                    enteredQuantity > 0
+                ) {
+
+                    let actualQuantity =
+                        enteredQuantity;
+
+
+                    if (!isStock) {
+
+                        totalLots +=
+                            enteredQuantity;
+
+
+                        actualQuantity =
+                            enteredQuantity *
+                            lotSize;
+
+                    }
+
+
+                    totalPositionValue +=
+                        price *
+                        actualQuantity;
+
+
+                    totalQuantity +=
+                        actualQuantity;
+
+
+                    entriesUsed += 1;
+
+                }
+
+            });
+
+
+            if (entriesUsed < 2) {
+
+                alert(
+                    "Please enter at least two valid entries."
+                );
+
+                return;
+
+            }
+
+
+            const averagePrice =
+                totalPositionValue /
+                totalQuantity;
+
+
+            averagePriceResult.textContent =
+                formatMoney(
+                    averagePrice
+                );
+
+
+            messageResult.textContent =
+                "Weighted average entry price";
+
+
+            totalQtyResult.textContent =
+                formatInteger(
+                    totalQuantity
+                );
+
+
+            if (isStock) {
+
+                lotsResultLabel.textContent =
+                    "Quantity Type";
+
+                totalLotsResult.textContent =
+                    "Shares";
+
+            }
+
+            else {
+
+                lotsResultLabel.textContent =
+                    "Total Lots";
+
+                totalLotsResult.textContent =
+                    formatInteger(
+                        totalLots
+                    );
+
+            }
+
+
+            totalValueResult.textContent =
+                formatMoney(
+                    totalPositionValue
+                );
+
+
+            entriesUsedResult.textContent =
+                entriesUsed;
+
         }
+    );
 
 
-        const averagePrice =
-            totalPositionValue /
-            totalQuantity;
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    resetButton.addEventListener(
+        "click",
+        function () {
+
+            instrument.value =
+                "stocks";
 
 
-        averagePriceResult.textContent =
-            formatMoney(averagePrice);
-
-        messageResult.textContent =
-            "Weighted average entry price";
+            lotSizeInput.value =
+                "";
 
 
-        totalQtyResult.textContent =
-            formatInteger(totalQuantity);
+            rowsContainer.innerHTML =
+                "";
 
 
-        totalLotsResult.textContent =
-            isStock
-                ? "N/A"
-                : formatInteger(totalLots);
+            createRow();
+            createRow();
 
 
-        totalValueResult.textContent =
-            formatMoney(totalPositionValue);
+            updateInstrumentUI();
 
 
-        entriesUsedResult.textContent =
-            entriesUsed;
-    });
+            averagePriceResult.textContent =
+                "—";
 
 
-    resetButton.addEventListener("click", function () {
+            messageResult.textContent =
+                "Enter at least two position entries.";
 
-        instrument.selectedIndex = 0;
 
-        lotSizeInput.value = "";
+            totalQtyResult.textContent =
+                "—";
 
-        rowsContainer.innerHTML = "";
 
-        createRow();
-        createRow();
+            lotsResultLabel.textContent =
+                "Quantity Type";
 
-        updateInstrumentFields();
 
-        averagePriceResult.textContent = "—";
+            totalLotsResult.textContent =
+                "Shares";
 
-        messageResult.textContent =
-            "Enter at least two position entries.";
 
-        totalQtyResult.textContent = "—";
-        totalLotsResult.textContent = "—";
-        totalValueResult.textContent = "—";
-        entriesUsedResult.textContent = "—";
-    });
+            totalValueResult.textContent =
+                "—";
+
+
+            entriesUsedResult.textContent =
+                "—";
+
+        }
+    );
 
 });
